@@ -1,0 +1,70 @@
+package com.android.bravo4u;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class C_Main_BravoLogin extends Activity implements View.OnClickListener
+{
+	EditText phone_num_loginEdit,password_loginEdit;
+	Button loginBtn;
+	String phone_numStr, passwordStr;
+	
+    public void onCreate(Bundle savedInstanceState)
+	{
+		setTheme(android.R.style.Theme_NoTitleBar);
+
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.c_main_bravologin);
+		
+		phone_num_loginEdit =(EditText)findViewById(R.id.phone_num_loginEdit);
+		password_loginEdit =(EditText)findViewById(R.id.password_loginEdit);
+		loginBtn =(Button)findViewById(R.id.loginBtn);
+		
+		loginBtn.setOnClickListener(this);
+		
+	}
+    
+    public void onClick(View v)
+    {
+		phone_numStr = phone_num_loginEdit.getText().toString().trim();
+		passwordStr = password_loginEdit.getText().toString().trim();
+		
+    	if(!phone_numStr.equals("")&& !passwordStr.equals(""))
+    	{	
+    		//서버로 가입할 회원 정보 보낸다.
+    		X_BravoWebserver loginDataSend =new X_BravoWebserver(this);
+    		//폰번호로 회원검색
+    		String returnLoginData =loginDataSend.sendLoginData(phone_numStr).trim();
+    		
+    		if(returnLoginData.equals(""))
+    		{
+    			Toast.makeText(getApplicationContext(), "회원이 아니십니다.", Toast.LENGTH_SHORT).show();
+    		}else
+    		{
+    			String dataArr[] = returnLoginData.split(","); // 비밀번호가 일치하는지 알아보기 위해
+    			
+    			if(passwordStr.equals(dataArr[1]))
+    			{
+    				//회원이고 비번 일치하면 메인 화면으로 간다.
+    				Intent intent=new Intent(this, D_Main_BravoMain.class);
+    				intent.putExtra("phone_num", phone_numStr);
+    				startActivity(intent);
+    				finish();
+    				
+    			}else
+    			{
+    				Toast.makeText(getApplicationContext(), "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+    			}	
+    		}
+    		    		  			
+    	}else 
+    	{
+    		Toast.makeText(getApplicationContext(), "빈칸을 입력해주세요.", Toast.LENGTH_SHORT).show();
+    	}
+    }
+}

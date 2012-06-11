@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    
+     <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="폰번호" />
+
+            <EditText
+                android:id="@+id/phone_num_loginEdit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="12"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="비밀번호" />
+
+            <EditText
+                android:id="@+id/password_loginEdit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="30"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+
+
+        <Button
+            android:id="@+id/loginBtn"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="180dp"
+            android:text="로그인" />
+    </LinearLayout>
+    
+
+</LinearLayout>
