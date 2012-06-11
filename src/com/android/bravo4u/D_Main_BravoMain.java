@@ -129,28 +129,14 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 	
     public void onItemClick(AdapterView<?> listview, View v, int position, long id) 
     {
-//    	if(listview == list_familyTab)
-//    	{
-//    		if(editFamily.getVisibility() == editFamily.VISIBLE)
-//    		{
-//        		if(((TextView)v.findViewById(R.id.text1)).getText().toString().equals("나"))
-//        		{
-//        			Intent intent =new Intent(this,Giftme.class);
-//        			intent.putExtra("name",((TextView)v.findViewById(R.id.text1)).getText().toString());
-//        			startActivity(intent);
-//        			
-//        		}else if(((TextView)v.findViewById(R.id.text1)).getText().toString().equals("나"))
-//        		{
-//        			Intent intent = new Intent(this,Giftother.class);
-//        			intent.putExtra("name",((TextView)v.findViewById(R.id.text1)).getText().toString());
-//        			startActivity(intent);
-//        		}
-//    		}
-//
-//    	}
+
     	if(firstTabEditBtn.getVisibility() == firstTabEditBtn.VISIBLE)
     	{
-    		Toast.makeText(getApplicationContext(), "클릭", Toast.LENGTH_SHORT).show();
+    		String phone_num = phone_numArray.get(position);
+    		
+    		Intent intent =new Intent(this, D_sub02_BravoAboutGift.class);
+    		intent.putExtra("phone_num",phone_num);
+    		startActivity(intent);
     	}
     	
     }
@@ -164,8 +150,6 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 		{
 			int position =(int)checklist[i];
 			dbhandler.deleteRecord(phone_numArray.get(position));
-			firstTablistArray.remove(position);
-			phone_numArray.remove(position); 
 		}
 
 		dbhandler.close();

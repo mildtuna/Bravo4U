@@ -17,7 +17,8 @@ import org.apache.http.message.BasicNameValuePair;
 import android.content.Context;
 import android.util.Log;
 
-public class X_BravoWebserver {
+public class X_BravoWebserver 
+{
 	Context mContext;
 
 	public X_BravoWebserver(Context context) {
@@ -178,6 +179,60 @@ public class X_BravoWebserver {
 
 	}
 	
+	//--------------------------------------------------------------------
+	//
+	//					칭찬 개수 받아올때
+	//
+	//--------------------------------------------------------------------
+	
+	
+	public String getComplimentNumData(String phone_num, String sendingpz) 
+	{
+		String returnStr= null;
+		try {
+			// 데이터를 웹서버에 보내고 받아온 결과를 출력
+			 returnStr = sendData04(phone_num, sendingpz);
+			
+
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return returnStr;
+	}
+
+	
+	private String sendData04(String phone_num,String sendingpz)
+			throws ClientProtocolException, IOException 
+	{
+		HttpPost request = makeHttpPost04(phone_num,sendingpz,"http://210.115.58.140/test5.php");
+
+		HttpClient client = new DefaultHttpClient();
+
+		ResponseHandler<String> reshandler = new BasicResponseHandler();
+		String result = client.execute(request, reshandler);
+		
+		Log.e("sendData04", result);
+		
+		return result;
+	}
+	
+	private HttpPost makeHttpPost04(String $phone_num, String $sendingpz ,String $url) 
+	{
+		HttpPost request = new HttpPost($url);
+		Vector<NameValuePair> nameValue = new Vector<NameValuePair>();
+		nameValue.add(new BasicNameValuePair("phone_num", $phone_num));
+		nameValue.add(new BasicNameValuePair("sendingpz", $sendingpz));
+		request.setEntity(makeEntity(nameValue));
+
+		Log.e("makeHttpPost04", "메서드 호출");
+		return request;
+
+	}
+	
+
 
 	private HttpEntity makeEntity(Vector<NameValuePair> $nameValue) {
 		HttpEntity result = null;
