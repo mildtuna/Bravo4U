@@ -133,9 +133,11 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
     	if(firstTabEditBtn.getVisibility() == firstTabEditBtn.VISIBLE)
     	{
     		String phone_num = phone_numArray.get(position);
+    		String name = firstTablistArray.get(position);
     		
     		Intent intent =new Intent(this, D_sub02_BravoAboutGift.class);
     		intent.putExtra("phone_num",phone_num);
+    		intent.putExtra("name", name);
     		startActivity(intent);
     	}
     	

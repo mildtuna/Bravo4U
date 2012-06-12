@@ -37,7 +37,7 @@ public class B_sub01_BravoJoinus extends Activity implements View.OnClickListene
 		phone_numStr = phone_num_EditText.getText().toString().trim();
 		passwordStr = password_EditText.getText().toString().trim();
 		
-		int first_bravo_num =0;
+		int first_bravo_num =9;
 		String bravo_numStr=Integer.toString(first_bravo_num);
 		String img_url =null;
 		

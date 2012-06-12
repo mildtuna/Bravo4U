@@ -35,13 +35,13 @@ public class X_BravoMyView extends View
 	        paint.setFilterBitmap(true);
 			
 			Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(), R.drawable.bbororo);
-			Bitmap bbororo =Bitmap.createScaledBitmap(bitmap1, 480, 480, false);
+			Bitmap bbororo =Bitmap.createScaledBitmap(bitmap1, 300, 300, false);
 			//paint.setAlpha(80);
 			canvas.drawBitmap(bbororo, 0,0, paint);
 			
 			
 			Bitmap bitmap2 = BitmapFactory.decodeResource(getResources(), R.drawable.nemo);
-			Bitmap nemo1 =Bitmap.createScaledBitmap(bitmap2, 160, 160, false);
+			Bitmap nemo1 =Bitmap.createScaledBitmap(bitmap2, 100, 100, false);
 			
 			paint.setAlpha(0);
 			if(puzleNum>=9)paint.setAlpha(80);
@@ -49,35 +49,35 @@ public class X_BravoMyView extends View
 			
 			paint.setAlpha(0);
 			if(puzleNum>=8)paint.setAlpha(80);
-			canvas.drawBitmap(nemo1, 160,0, paint);
+			canvas.drawBitmap(nemo1, 100,0, paint);
 			
 			paint.setAlpha(0);
 			if(puzleNum>=7)paint.setAlpha(80);
-			canvas.drawBitmap(nemo1, 320,0, paint);
+			canvas.drawBitmap(nemo1, 200,0, paint);
 			
 			paint.setAlpha(0);
 			if(puzleNum>=6)paint.setAlpha(80);
-			canvas.drawBitmap(nemo1, 0,160, paint);
+			canvas.drawBitmap(nemo1, 0,100, paint);
 			
 			paint.setAlpha(0);
 			if(puzleNum>=5)paint.setAlpha(80);
-			canvas.drawBitmap(nemo1, 160,160, paint);
+			canvas.drawBitmap(nemo1, 100,100, paint);
 			
 			paint.setAlpha(0);
 			if(puzleNum>=4)paint.setAlpha(80);
-			canvas.drawBitmap(nemo1, 320,160, paint);
+			canvas.drawBitmap(nemo1, 200,100, paint);
 
 			paint.setAlpha(0);
 			if(puzleNum>=3)paint.setAlpha(80);
-			canvas.drawBitmap(nemo1, 0,320, paint);
+			canvas.drawBitmap(nemo1, 0,200, paint);
 
 			paint.setAlpha(0);
 			if(puzleNum>=2)paint.setAlpha(80);
-			canvas.drawBitmap(nemo1, 160,320, paint);
+			canvas.drawBitmap(nemo1, 100,200, paint);
 			
 			paint.setAlpha(0);
 			if(puzleNum>=1)paint.setAlpha(80);
-			canvas.drawBitmap(nemo1, 320,320, paint);
+			canvas.drawBitmap(nemo1, 200,200, paint);
 			
 
 			bitmap1.recycle();

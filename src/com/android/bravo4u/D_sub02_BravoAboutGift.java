@@ -5,13 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
 
 public class D_sub02_BravoAboutGift extends Activity implements View.OnClickListener
 {
 
 	X_BravoMyView myview;
 	Button sendbtn;
+	TextView whoseGiftText;
 	X_BravoWebserver getcomplimentNum;
 	
     public void onCreate(Bundle savedInstanceState)
@@ -21,6 +22,14 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.d_sub02_bravoaboutgift);
 
+		
+		Intent intent =getIntent();
+		String name= intent.getExtras().get("name").toString();
+		whoseGiftText=(TextView)findViewById(R.id.whoseGiftText);
+		whoseGiftText.setText(name+"´ÔÀÇ ÄªÂùÆÛÁñ»óÅÂ");
+		
+		
+		
         myview=(X_BravoMyView)findViewById(R.id.Myviewxml);
         sendbtn =(Button)findViewById(R.id.sendBtn);
         sendbtn.setOnClickListener(this);
