@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-
+    
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="40dp"
@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:text="칭찬스티커"
+            android:text="현재 목표 기프트"
             android:textColor="#000000"
             android:textSize="17sp" />
     </LinearLayout>
@@ -30,7 +30,7 @@
         android:orientation="vertical" >
 
         <ImageView
-            android:id="@+id/img"
+            android:id="@+id/giftImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
@@ -39,14 +39,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="50dp"
             android:orientation="vertical" >
 
             <Button
-                android:id="@+id/sendBtn"
+                android:id="@+id/changePhotoBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="칭찬보내기" />
+                android:text="선물바꾸기" />
         </LinearLayout>
     </LinearLayout>
 

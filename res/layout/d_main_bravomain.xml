@@ -89,21 +89,21 @@
                     android:orientation="vertical" >
 
                     <Button
-                        android:id="@+id/fourTab_profile"
+                        android:id="@+id/secondTabSelectPhotoBtn"
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dp"
                         android:text="목표사진선택" />
 
                     <Button
-                        android:id="@+id/fourTab_version"
+                        android:id="@+id/secondTabInfoBtn"
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dp"
                         android:text="정보" />
 
                     <Button
-                        android:id="@+id/fourTab_notifyTofriend"
+                        android:id="@+id/secondTabMemberCancellationBtn"
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dp"

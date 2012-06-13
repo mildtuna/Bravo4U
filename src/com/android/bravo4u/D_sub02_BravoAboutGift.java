@@ -10,7 +10,9 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Bitmap.Config;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,13 +21,21 @@ import android.widget.Toast;
 public class D_sub02_BravoAboutGift extends Activity implements View.OnClickListener
 {
 
-	TextView whoseGiftText;
-	X_BravoWebserver server;
+	private TextView whoseGiftText;
+	private X_BravoWebserver server;
 	private ArrayList<Point> puzzleCellPoints;
 	private Bitmap giftBitmap;
 	private Bitmap puzzleCellBitmap;
 	private Canvas canvas;
 	private Bitmap background;
+	
+	private int deviceWidth;
+	private int deviceHeight;
+	private int giftWidth;
+	private int giftHeight;
+	private int puzzleWidth;
+	private int puzzleHeight;
+	
 	
     public void onCreate(Bundle savedInstanceState)
 	{
@@ -33,9 +43,19 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.d_sub02_bravoaboutgift);
 
+		
+	    Display localDisplay = ((WindowManager)getSystemService("window")).getDefaultDisplay();
+	    deviceWidth = localDisplay.getWidth();
+	    deviceHeight = localDisplay.getHeight();
+	    
+	    giftWidth = (deviceWidth/10) *8;
+	    giftHeight = deviceHeight/2;
+	    
+	    puzzleWidth= giftWidth/3;
+	    puzzleHeight= giftHeight/3;
+		
         
         server =new X_BravoWebserver(this);
-        
 		Button sendbtn = (Button)findViewById(R.id.sendBtn);
 		sendbtn.setOnClickListener(this);
         
@@ -63,22 +83,22 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
     	//TODO 별로 좋아 보이지는 않네 - 선물 사진의 크기가 변경되면 어떻게 해야되나?
 		puzzleCellPoints = new ArrayList<Point>();
     	puzzleCellPoints.add(new Point(0, 0));
-    	puzzleCellPoints.add(new Point(100, 0));
-    	puzzleCellPoints.add(new Point(200, 0));
-    	puzzleCellPoints.add(new Point(0, 100));
-    	puzzleCellPoints.add(new Point(100, 100));
-    	puzzleCellPoints.add(new Point(200, 100));
-    	puzzleCellPoints.add(new Point(0, 200));
-    	puzzleCellPoints.add(new Point(100, 200));
-    	puzzleCellPoints.add(new Point(200, 200));
+    	puzzleCellPoints.add(new Point(puzzleWidth, 0));
+    	puzzleCellPoints.add(new Point(puzzleWidth*2, 0));
+    	puzzleCellPoints.add(new Point(0, puzzleHeight));
+    	puzzleCellPoints.add(new Point(puzzleWidth, puzzleHeight));
+    	puzzleCellPoints.add(new Point(puzzleWidth*2, puzzleHeight));
+    	puzzleCellPoints.add(new Point(0, puzzleHeight*2));
+    	puzzleCellPoints.add(new Point(puzzleWidth, puzzleHeight*2));
+    	puzzleCellPoints.add(new Point(puzzleWidth*2, puzzleHeight*2));
 	}
     
 	private void initBitmaps() 
 	{
 		// TODO 선물 사진의 크기가 제각기 일텐데 별로 좋은 해결책이 아닌거 같음
 		// TODO 300*300 으로 줄이면 정사각형이 아닌 사진은 많이 틀어져서 보임
-		giftBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bbororo), 300, 300, false);
-        puzzleCellBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.nemo), 100, 100, false);
+		giftBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bbororo), giftWidth, giftHeight, false);
+        puzzleCellBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.nemo), puzzleWidth, puzzleHeight, false);
         
         background = Bitmap.createBitmap(giftBitmap.getWidth(), giftBitmap.getHeight(), Config.ARGB_8888);
         canvas = new Canvas(background);
@@ -129,7 +149,6 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
     public void onClick(View v)
     {
     	sendData(1);		
-    	
     	
     }
 }

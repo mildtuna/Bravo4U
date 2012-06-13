@@ -24,6 +24,7 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 	ArrayList<String> phone_numArray;
 	
 	Button firstTabEditBtn, firstTabCompleteBtn, firstTabAddGroupBtn, firstTabDeleteBtn; 
+	Button secondTabSelectPhotoBtn,secondTabInfoBtn,secondTabMemberCancellationBtn;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -83,10 +84,16 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 	    firstTablistArray = new ArrayList<String>(); 
 	    phone_numArray = new ArrayList<String>();
 		groupTabList =(ListView)findViewById(R.id.groupTabList);
-		//firstTab();
 		
 		//------------------------- µÎ¹øÂ° ÅÇ --------------------------------
+	
+		secondTabSelectPhotoBtn =(Button)findViewById(R.id.secondTabSelectPhotoBtn);
+		secondTabInfoBtn =(Button)findViewById(R.id.secondTabInfoBtn);
+		secondTabMemberCancellationBtn =(Button)findViewById(R.id.secondTabMemberCancellationBtn);
 		
+		secondTabSelectPhotoBtn.setOnClickListener(this);
+		secondTabInfoBtn.setOnClickListener(this);
+		secondTabMemberCancellationBtn.setOnClickListener(this);
 		
 	}
     public void onResume()
@@ -117,12 +124,20 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 				break;
 			case R.id.firstTabAddGroupBtn:
 				
-				Intent intent =new Intent(this,D_sub01_BravoAddressbook.class);
+				Intent intent =new Intent(D_Main_BravoMain.this,D_sub01_BravoAddressbook.class);
 				startActivity(intent);
 				break;
 			case R.id.firstTabDeleteBtn:
 				
 				deleteListCheckItem();
+				break;
+		}
+		
+		switch(v.getId())
+		{
+			case R.id.secondTabSelectPhotoBtn:
+				Intent intent =new Intent(D_Main_BravoMain.this,D_sub03_BravoSelectPhoto.class);
+				startActivity(intent);
 				break;
 		}
 	}
