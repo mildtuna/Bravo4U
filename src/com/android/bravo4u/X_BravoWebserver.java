@@ -232,7 +232,59 @@ public class X_BravoWebserver
 
 	}
 	
+	//--------------------------------------------------------------------
+	//
+	//					데이터베이스에서 회원삭제
+	//
+	//--------------------------------------------------------------------
+	
+	
+	public String deleteDataonServer(String phone_num) 
+	{
+		String returnStr= null;
+		try {
+			// 데이터를 웹서버에 보내고 받아온 결과를 출력
+			 returnStr = sendData04(phone_num);
+			
 
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return returnStr;
+	}
+
+	
+	private String sendData04(String phone_num)
+			throws ClientProtocolException, IOException 
+	{
+		HttpPost request = makeHttpPost05(phone_num,"http://210.115.58.140/test6.php");
+
+		HttpClient client = new DefaultHttpClient();
+
+		ResponseHandler<String> reshandler = new BasicResponseHandler();
+		String result = client.execute(request, reshandler);
+		
+		Log.e("sendData04", result);
+		
+		return result;
+	}
+	
+	private HttpPost makeHttpPost05(String $phone_num,String $url) 
+	{
+		HttpPost request = new HttpPost($url);
+		Vector<NameValuePair> nameValue = new Vector<NameValuePair>();
+		nameValue.add(new BasicNameValuePair("phone_num", $phone_num));
+		request.setEntity(makeEntity(nameValue));
+
+		Log.e("makeHttpPost04", "메서드 호출");
+		return request;
+
+	}
+	
+	
 
 	private HttpEntity makeEntity(Vector<NameValuePair> $nameValue) {
 		HttpEntity result = null;

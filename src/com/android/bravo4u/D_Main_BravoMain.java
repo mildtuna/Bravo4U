@@ -139,6 +139,29 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 				Intent intent =new Intent(D_Main_BravoMain.this,D_sub03_BravoSelectPhoto.class);
 				startActivity(intent);
 				break;
+			case R.id.secondTabMemberCancellationBtn:
+				
+		    	X_BravoDBHandler dbhandler = X_BravoDBHandler.open(this);
+		    	intent =getIntent();
+		    	String phone_num = intent.getExtras().get("phone_num").toString();
+		        int cursorCount = dbhandler.select(phone_num);
+		        if(cursorCount!= 0)
+		        {
+		        	dbhandler.deleteRecord(phone_num);
+		        	Toast.makeText(this, "회원님의 데이터가 db에서 삭제 되었습니다.", Toast.LENGTH_LONG).show();
+		        	
+		        }else 	Toast.makeText(this, "회원님은 db에없는 회원이십니다.", Toast.LENGTH_LONG).show();
+		        dbhandler.close();
+		        
+		        phone_num = phone_num.substring(1);
+		        
+		        X_BravoWebserver server = new X_BravoWebserver(this);
+		        String str =server.deleteDataonServer(phone_num);
+		        
+		        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+		        
+				
+				break;
 		}
 	}
 	
