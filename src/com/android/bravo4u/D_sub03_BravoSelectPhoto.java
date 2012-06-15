@@ -60,6 +60,12 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 		
 		giftImg =(ImageView)findViewById(R.id.giftImg);
 		
+//	       String urr = "http://210.115.58.140/upload/2012-06-16 01.38.47.jpg";
+//	       String kk = urr.replace(" ", "%20");
+//	       
+//	        ImageDownloader imageDownloader = new ImageDownloader();
+//	        imageDownloader.download(kk,imgView);
+		
 		
 		changePhotoBtn =(Button)findViewById(R.id.changePhotoBtn);
 		changePhotoBtn.setOnClickListener(this);
