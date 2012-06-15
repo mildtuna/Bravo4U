@@ -174,7 +174,7 @@ public class X_BravoWebserver
 	private HttpPost makeHttpPost03(String $url) 
 	{
 		HttpPost request = new HttpPost($url);
-		Log.e("makeHttpPost02", "메서드 호출");
+		Log.e("makeHttpPost03", "메서드 호출");
 		return request;
 
 	}
@@ -244,7 +244,7 @@ public class X_BravoWebserver
 		String returnStr= null;
 		try {
 			// 데이터를 웹서버에 보내고 받아온 결과를 출력
-			 returnStr = sendData04(phone_num);
+			 returnStr = sendData05(phone_num);
 			
 
 		} catch (ClientProtocolException e) {
@@ -257,7 +257,7 @@ public class X_BravoWebserver
 	}
 
 	
-	private String sendData04(String phone_num)
+	private String sendData05(String phone_num)
 			throws ClientProtocolException, IOException 
 	{
 		HttpPost request = makeHttpPost05(phone_num,"http://210.115.58.140/test6.php");
@@ -267,7 +267,7 @@ public class X_BravoWebserver
 		ResponseHandler<String> reshandler = new BasicResponseHandler();
 		String result = client.execute(request, reshandler);
 		
-		Log.e("sendData04", result);
+		Log.e("sendData05", result);
 		
 		return result;
 	}
@@ -279,12 +279,63 @@ public class X_BravoWebserver
 		nameValue.add(new BasicNameValuePair("phone_num", $phone_num));
 		request.setEntity(makeEntity(nameValue));
 
-		Log.e("makeHttpPost04", "메서드 호출");
+		Log.e("makeHttpPost05", "메서드 호출");
 		return request;
 
 	}
 	
+	//--------------------------------------------------------------------
+	//
+	//					이미지 Url 업데이트
+	//
+	//--------------------------------------------------------------------
 	
+	
+	public String ImgUpdateOnServer(String phone_num, String update_url) 
+	{
+		String returnStr= null;
+		try {
+			// 데이터를 웹서버에 보내고 받아온 결과를 출력
+			 returnStr = sendData06(phone_num, update_url);
+			
+
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return returnStr;
+	}
+
+	
+	private String sendData06(String phone_num, String update_url)
+			throws ClientProtocolException, IOException 
+	{
+		HttpPost request = makeHttpPost06(phone_num,update_url,"http://210.115.58.140/test8.php");
+
+		HttpClient client = new DefaultHttpClient();
+
+		ResponseHandler<String> reshandler = new BasicResponseHandler();
+		String result = client.execute(request, reshandler);
+		
+		Log.e("sendData06", result);
+		
+		return result;
+	}
+	
+	private HttpPost makeHttpPost06(String $phone_num,String $update_url,String $url) 
+	{
+		HttpPost request = new HttpPost($url);
+		Vector<NameValuePair> nameValue = new Vector<NameValuePair>();
+		nameValue.add(new BasicNameValuePair("phone_num", $phone_num));
+		nameValue.add(new BasicNameValuePair("update_url", $update_url));
+		request.setEntity(makeEntity(nameValue));
+
+		Log.e("makeHttpPost06", "메서드 호출");
+		return request;
+
+	}
 
 	private HttpEntity makeEntity(Vector<NameValuePair> $nameValue) {
 		HttpEntity result = null;

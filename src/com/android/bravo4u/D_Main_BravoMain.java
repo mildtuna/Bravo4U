@@ -136,14 +136,21 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 		switch(v.getId())
 		{
 			case R.id.secondTabSelectPhotoBtn:
+		    	
+				Intent get_intent01 =getIntent();
+		    	String phone_numstr = get_intent01.getExtras().get("phone_num").toString();
+		    	
 				Intent intent =new Intent(D_Main_BravoMain.this,D_sub03_BravoSelectPhoto.class);
+				intent.putExtra("phone_num", phone_numstr);
 				startActivity(intent);
+				
 				break;
 			case R.id.secondTabMemberCancellationBtn:
 				
 		    	X_BravoDBHandler dbhandler = X_BravoDBHandler.open(this);
-		    	intent =getIntent();
-		    	String phone_num = intent.getExtras().get("phone_num").toString();
+
+				Intent get_intent02 =getIntent();
+		    	String phone_num = get_intent02.getExtras().get("phone_num").toString();
 		        int cursorCount = dbhandler.select(phone_num);
 		        if(cursorCount!= 0)
 		        {

@@ -21,7 +21,6 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -93,13 +92,12 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 	 {
 			try{
 				//인텐트에 데이터가 담겨 왔다면
-				if(!intent.getData().equals(null)){
-
+				if(!intent.getData().equals(null))
+				{
 				    //해당경로의 이미지를 intent에 담긴 이미지 uri를 이용해서 Bitmap형태로 읽어온다.
     				image_bitmap = Images.Media.getBitmap(getContentResolver(),intent.getData());
     				image_bitmap = Bitmap.createScaledBitmap(image_bitmap, giftWidth, giftHeight, false);
-    				giftImg.setImageBitmap(image_bitmap);
-				   
+    				giftImg.setImageBitmap(image_bitmap);   
 				}
 			}catch(FileNotFoundException e) {
 			    e.printStackTrace();
@@ -180,15 +178,22 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 				int ch;
 				InputStream is = conn.getInputStream();
 				StringBuffer b =new StringBuffer();
-				while( ( ch = is.read() ) != -1 ){
+				while( ( ch = is.read() ) != -1 )
+				{
 					b.append( (char)ch );
 				}
 				String s=b.toString().trim(); 
-				
+				String img_url = "http://210.115.58.140" +s;
 
-				Log.e("Test", "result = " + s);
-				Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
-				//mEdityEntry.setText(s);
+				//Log.e("Test", "result = " + img_url);
+				
+				Intent get_intent01 =getIntent();
+		    	String phone_num = get_intent01.getExtras().get("phone_num").toString().substring(1);
+				
+				X_BravoWebserver server = new X_BravoWebserver(this);
+				String result = server.ImgUpdateOnServer(phone_num,img_url);
+				
+		    	Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
 				dos.close();			
 				
 			} catch (Exception e) {
