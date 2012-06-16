@@ -336,6 +336,58 @@ public class X_BravoWebserver
 		return request;
 
 	}
+	
+	//--------------------------------------------------------------------
+	//
+	//					ImageUrl받아오기
+	//
+	//--------------------------------------------------------------------
+	
+	
+	public String getUrlOnServer(String phone_num) 
+	{
+		String returnStr= null;
+		try {
+			// 데이터를 웹서버에 보내고 받아온 결과를 출력
+			 returnStr = sendData07(phone_num);
+			
+
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return returnStr;
+	}
+
+	
+	private String sendData07(String phone_num)
+			throws ClientProtocolException, IOException 
+	{
+		HttpPost request = makeHttpPost07(phone_num,"http://210.115.58.140/test9.php");
+
+		HttpClient client = new DefaultHttpClient();
+
+		ResponseHandler<String> reshandler = new BasicResponseHandler();
+		String result = client.execute(request, reshandler);
+		
+		Log.e("sendData07", result);
+		
+		return result;
+	}
+	
+	private HttpPost makeHttpPost07(String $phone_num,String $url) 
+	{
+		HttpPost request = new HttpPost($url);
+		Vector<NameValuePair> nameValue = new Vector<NameValuePair>();
+		nameValue.add(new BasicNameValuePair("phone_num", $phone_num));
+		request.setEntity(makeEntity(nameValue));
+
+		Log.e("makeHttpPost07", "메서드 호출");
+		return request;
+
+	}
 
 	private HttpEntity makeEntity(Vector<NameValuePair> $nameValue) {
 		HttpEntity result = null;

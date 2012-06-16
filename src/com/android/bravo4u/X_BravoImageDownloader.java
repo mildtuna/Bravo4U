@@ -54,9 +54,13 @@ public class X_BravoImageDownloader {
 
         if (bitmap == null) {
             forceDownload(url, imageView);
+            Log.d("포스다운로드",""+url);
         } else {
             cancelPotentialDownload(url, imageView);
             imageView.setImageBitmap(bitmap);
+            
+            
+            
         }
     }
 
@@ -76,21 +80,27 @@ public class X_BravoImageDownloader {
         // State sanity: url is guaranteed to never be null in DownloadedDrawable and cache keys.
         if (url == null) {
             imageView.setImageDrawable(null);
+            
+            Log.d("url널일때","된다");
             return;
+            
         }
 
-        if (cancelPotentialDownload(url, imageView)) {
+        if (cancelPotentialDownload(url, imageView)) 
+        {
             switch (mode) {
                 case NO_ASYNC_TASK:
                     Bitmap bitmap = downloadBitmap(url);
                     addBitmapToCache(url, bitmap);
                     imageView.setImageBitmap(bitmap);
+                    Log.d("스위치01",""+bitmap); // 비트맵 Null 나온다
                     break;
 
                 case NO_DOWNLOADED_DRAWABLE:
                     imageView.setMinimumHeight(156);
                     BitmapDownloaderTask task = new BitmapDownloaderTask(imageView);
                     task.execute(url);
+                    Log.d("스위치02","된다");
                     break;
 
                 case CORRECT:
@@ -98,6 +108,7 @@ public class X_BravoImageDownloader {
                     DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task);
                     imageView.setImageDrawable(downloadedDrawable);
                     imageView.setMinimumHeight(156);
+                    Log.d("스위치03","된다");
                     task.execute(url);
                     break;
             }

@@ -60,15 +60,29 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 		
 		giftImg =(ImageView)findViewById(R.id.giftImg);
 		
-//	       String urr = "http://210.115.58.140/upload/2012-06-16 01.38.47.jpg";
-//	       String kk = urr.replace(" ", "%20");
-//	       
-//	        ImageDownloader imageDownloader = new ImageDownloader();
-//	        imageDownloader.download(kk,imgView);
-		
-		
 		changePhotoBtn =(Button)findViewById(R.id.changePhotoBtn);
 		changePhotoBtn.setOnClickListener(this);
+
+		//목표사진 다운로드
+		
+		Intent getintent = getIntent();
+		String phone_num = getintent.getExtras().get("phone_num").toString();
+
+		X_BravoWebserver server = new X_BravoWebserver(this);
+		String imgurl = server.getUrlOnServer(phone_num);
+		imgurl = imgurl.replace(" ", "%20");
+		
+		if(imgurl.contains(",")) imgurl = imgurl.replace(",", "");
+		
+		Toast.makeText(getApplicationContext(), imgurl, Toast.LENGTH_SHORT).show();
+		
+		X_BravoImageDownloader imageDownloader = new X_BravoImageDownloader();
+		
+		imageDownloader.download(imgurl, giftImg);
+		
+		
+		
+
 	}
     
     public void onClick(View v)
