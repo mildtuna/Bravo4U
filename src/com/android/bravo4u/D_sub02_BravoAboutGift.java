@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.graphics.Bitmap.Config;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -97,11 +98,30 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 	{
 		// TODO 선물 사진의 크기가 제각기 일텐데 별로 좋은 해결책이 아닌거 같음
 		// TODO 300*300 으로 줄이면 정사각형이 아닌 사진은 많이 틀어져서 보임
-		giftBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bbororo), giftWidth, giftHeight, false);
+		
+		//-------------------- 목표사진 다운로드 ----------------------------------
+		
+		Intent getintent = getIntent();
+		String phone_num = getintent.getExtras().get("phone_num").toString();
+
+		X_BravoWebserver server = new X_BravoWebserver(this);
+		String imgurl = server.getUrlOnServer(phone_num);
+		imgurl = imgurl.replace(" ", "%20");
+		
+		if(imgurl.contains(",")) imgurl = imgurl.replace(",", "");
+		
+		Toast.makeText(getApplicationContext(), imgurl, Toast.LENGTH_SHORT).show();
+		
+		X_BravoImageDownloader imageDownloader = new X_BravoImageDownloader();
+		
+		giftBitmap= imageDownloader.download(imgurl, null);
+		//--------------------------------------------------------------------------
+		//giftBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bbororo), giftWidth, giftHeight, false);
         puzzleCellBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.nemo), puzzleWidth, puzzleHeight, false);
         
-        background = Bitmap.createBitmap(giftBitmap.getWidth(), giftBitmap.getHeight(), Config.ARGB_8888);
+        background = Bitmap.createBitmap(giftWidth, giftHeight, Config.ARGB_8888);
         canvas = new Canvas(background);
+          
 	}
 	
 	private void updateComplimentPuzzle(int ComplimentCount)
@@ -110,7 +130,7 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
         canvas.drawBitmap(giftBitmap, 0, 0, null);
         
         for (int i = 0; i < ComplimentCount; i++) 
-        {
+        {	
         	Point point = (Point)puzzleCellPoints.get(puzzleCellPoints.size()-i-1);
         	canvas.drawBitmap(puzzleCellBitmap, point.x, point.y, null);
         }

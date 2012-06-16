@@ -18,6 +18,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -48,20 +49,22 @@ public class X_BravoImageDownloader {
      * @param url The URL of the image to download.
      * @param imageView The ImageView to bind the downloaded image to.
      */
-    public void download(String url, ImageView imageView) {
+    public Bitmap download(String url, ImageView imageView) {
         resetPurgeTimer();
         Bitmap bitmap = getBitmapFromCache(url);
 
         if (bitmap == null) {
-            forceDownload(url, imageView);
+            Bitmap getbitmap = forceDownload(url, imageView);
             Log.d("포스다운로드",""+url);
+            
+            return getbitmap;
+            
         } else {
             cancelPotentialDownload(url, imageView);
-            imageView.setImageBitmap(bitmap);
-            
-            
-            
+            imageView.setImageBitmap(bitmap); 
         }
+        
+        return null;
     }
 
     /*
@@ -76,13 +79,13 @@ public class X_BravoImageDownloader {
      * Same as download but the image is always downloaded and the cache is not used.
      * Kept private at the moment as its interest is not clear.
      */
-    private void forceDownload(String url, ImageView imageView) {
+    private Bitmap forceDownload(String url, ImageView imageView) {
         // State sanity: url is guaranteed to never be null in DownloadedDrawable and cache keys.
         if (url == null) {
             imageView.setImageDrawable(null);
             
             Log.d("url널일때","된다");
-            return;
+            return null;
             
         }
 
@@ -92,9 +95,12 @@ public class X_BravoImageDownloader {
                 case NO_ASYNC_TASK:
                     Bitmap bitmap = downloadBitmap(url);
                     addBitmapToCache(url, bitmap);
-                    imageView.setImageBitmap(bitmap);
-                    Log.d("스위치01",""+bitmap); // 비트맵 Null 나온다
-                    break;
+                    if(imageView != null)
+                    {
+                    	imageView.setImageBitmap(bitmap);
+                    }
+                    return bitmap;
+                    //break;
 
                 case NO_DOWNLOADED_DRAWABLE:
                     imageView.setMinimumHeight(156);
@@ -112,7 +118,11 @@ public class X_BravoImageDownloader {
                     task.execute(url);
                     break;
             }
+            
+            
         }
+        
+        return null;
     }
 
     /**
@@ -121,7 +131,8 @@ public class X_BravoImageDownloader {
      * Returns false if the download in progress deals with the same url. The download is not
      * stopped in that case.
      */
-    private static boolean cancelPotentialDownload(String url, ImageView imageView) {
+    private static boolean cancelPotentialDownload(String url, ImageView imageView) 
+    {
         BitmapDownloaderTask bitmapDownloaderTask = getBitmapDownloaderTask(imageView);
 
         if (bitmapDownloaderTask != null) {
