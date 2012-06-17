@@ -73,20 +73,27 @@ public class X_BravoDBHandler
                                 new String[] {"_id", "name","phone_num" },
                                 null, 
                                 null,null, null, null, null);
-        if (cursor != null) { cursor.moveToFirst(); }
-        
         String result="";
-
-        cursor.moveToFirst();
-        result += cursor.getString(cursor.getColumnIndex("name"))+",";
-        result += cursor.getString(cursor.getColumnIndex("phone_num"))+"\n";
-
-        while(cursor.moveToNext())
+        
+        if ( cursor != null && cursor.getCount() > 0 ) 
         {
-        	result += cursor.getString(cursor.getColumnIndex("name"))+",";
-       	 	result += cursor.getString(cursor.getColumnIndex("phone_num"))+"\n";
+            if (cursor.moveToFirst()) 
+            {
+            	
+    	        result += cursor.getString(cursor.getColumnIndex("name"))+",";
+    	        result += cursor.getString(cursor.getColumnIndex("phone_num"))+"\n";
+    	
+    	        while(cursor.moveToNext())
+    	        {
+
+        	        	result += cursor.getString(cursor.getColumnIndex("name"))+",";
+        	       	 	result += cursor.getString(cursor.getColumnIndex("phone_num"))+"\n";
+
+    	        }
+            } 
         }
-        return result;
+  
+        return result ;
 
     }
 
@@ -96,6 +103,13 @@ public class X_BravoDBHandler
     { 
     	db.execSQL("DELETE FROM bravo_table WHERE phone_num = '" +phone_num+ "';"); 
     } 
+    
+    public void deleteAll()
+    {
+
+        db.delete("bravo_table", null, null);
+    }
+    
     
     
     

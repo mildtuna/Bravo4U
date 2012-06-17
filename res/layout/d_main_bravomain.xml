@@ -31,6 +31,7 @@
                     android:orientation="vertical" >
 
                     <LinearLayout
+                        android:id="@+id/firstTabLayout"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="#C7C5C8"
@@ -79,6 +80,16 @@
                         android:id="@+id/groupTabList"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent" />
+
+                    <TextView
+                        android:id="@+id/cannotUseServiceTxt"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="100dp"
+                        android:layout_marginLeft="20dp"
+                        android:text="서비스를 이용하실 수 없습니다. "
+                        android:textColor="#ffffff"
+                        android:textSize="20sp" />
                 </LinearLayout>
 
                 <LinearLayout

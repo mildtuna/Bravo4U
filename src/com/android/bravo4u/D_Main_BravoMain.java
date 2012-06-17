@@ -5,18 +5,17 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TabHost;
-import android.widget.TextView;
 import android.widget.TabHost.TabSpec;
 import android.widget.Toast;
 
-public class D_Main_BravoMain extends Activity implements View.OnClickListener, AdapterView.OnItemClickListener
+public class D_Main_BravoMain extends Activity implements View.OnClickListener, AdapterView.OnItemClickListener, TabHost.OnTabChangeListener
 {
 	TabHost tabHost;
 	ListView groupTabList;
@@ -50,6 +49,8 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 		tabHost.addTab(tabSpec2);
 
 		tabHost.setCurrentTab(0);
+		
+		tabHost.setOnTabChangedListener(this);
 		
 		
 		//--------------------------db에 내정보 넣기------------------------
@@ -154,7 +155,8 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 		        int cursorCount = dbhandler.select(phone_num);
 		        if(cursorCount!= 0)
 		        {
-		        	dbhandler.deleteRecord(phone_num);
+		        	dbhandler.deleteAll();
+
 		        	Toast.makeText(this, "회원님의 데이터가 db에서 삭제 되었습니다.", Toast.LENGTH_LONG).show();
 		        	
 		        }else 	Toast.makeText(this, "회원님은 db에없는 회원이십니다.", Toast.LENGTH_LONG).show();
@@ -185,6 +187,8 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
     		intent.putExtra("name", name);
     		startActivity(intent);
     	}
+ 
+
     	
     }
     
@@ -196,7 +200,7 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 		for(int i=0;i<checklist.length;i++)
 		{
 			int position =(int)checklist[i];
-			dbhandler.deleteRecord(phone_numArray.get(position));
+			if(position != 0) dbhandler.deleteRecord(phone_numArray.get(position));
 		}
 
 		dbhandler.close();
@@ -209,20 +213,33 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 		X_BravoDBHandler dbhandler= X_BravoDBHandler.open(this);
 
 		   String dbdataAll = dbhandler.selectAll();
-		   String[] splbyRecode= dbdataAll.split("\n");
-		   firstTablistArray = new ArrayList<String>(); 
-		   phone_numArray = new ArrayList<String>();
-		   
-		   for(int i=0; i<splbyRecode.length; i++)
+
+		   if(dbdataAll.contains("\n"))
 		   {
-			   String[] splbyColum = splbyRecode[i].split(",");
-			   String name = splbyColum[0];
-			   String phone_num = splbyColum[1];
+			   String[] splbyRecode= dbdataAll.split("\n");
+			   firstTablistArray = new ArrayList<String>(); 
+			   phone_numArray = new ArrayList<String>();
 			   
-			   firstTablistArray.add(name);
-			   phone_numArray.add(phone_num);  
+			   for(int i=0; i<splbyRecode.length; i++)
+			   {
+				   String[] splbyColum = splbyRecode[i].split(",");
+				   String name = splbyColum[0];
+				   String phone_num = splbyColum[1];
+				   
+				   firstTablistArray.add(name);
+				   phone_numArray.add(phone_num);  
+			   }
+		   }else
+		   { 
+			   
+			   firstTablistArray.removeAll(firstTablistArray);
+			   phone_numArray.removeAll(phone_numArray);
+			   
+			   LinearLayout layout =(LinearLayout)findViewById(R.id.firstTabLayout);
+			   layout.setVisibility(layout.GONE);
+			   groupTabList.setVisibility(groupTabList.GONE);
+
 		   }
-		   
 		   
 		   
 		   if(firstTabEditBtn.getVisibility() == firstTabEditBtn.VISIBLE)
@@ -248,5 +265,15 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 		   dbhandler.close();
 	       
 	}
+	
+    public void onTabChanged(String tabId)
+    {
+    	
+    	if(tabId.equals("Tab1"))
+    	{
+    		firstTab();
+    	}
+    	
+    }
 
 }
