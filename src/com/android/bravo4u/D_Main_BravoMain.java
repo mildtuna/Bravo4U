@@ -138,34 +138,47 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 		{
 			case R.id.secondTabSelectPhotoBtn:
 		    	
-				Intent get_intent01 =getIntent();
-		    	String phone_numstr = get_intent01.getExtras().get("phone_num").toString();
-		    	
-				Intent intent =new Intent(D_Main_BravoMain.this,D_sub03_BravoSelectPhoto.class);
-				intent.putExtra("phone_num", phone_numstr);
-				startActivity(intent);
+				
+		    	X_BravoDBHandler dbhandler = X_BravoDBHandler.open(this);
+
+				Intent get_intent =getIntent();
+		    	String phone_num = get_intent.getExtras().get("phone_num").toString();
+		        int cursorCount = dbhandler.select(phone_num);
+		        if(cursorCount!= 0)
+		        {
+					Intent get_intent01 =getIntent();
+			    	String phone_numstr = get_intent01.getExtras().get("phone_num").toString();
+			    	
+					Intent intent =new Intent(D_Main_BravoMain.this,D_sub03_BravoSelectPhoto.class);
+					intent.putExtra("phone_num", phone_numstr);
+					startActivity(intent);
+		        }else
+		        {
+		        	Toast.makeText(this, "회원이 아니셔서 선물을 선택할 수 없습니다.", Toast.LENGTH_LONG).show();
+		        }
+		        dbhandler.close();
 				
 				break;
 			case R.id.secondTabMemberCancellationBtn:
 				
-		    	X_BravoDBHandler dbhandler = X_BravoDBHandler.open(this);
+		    	X_BravoDBHandler dbhandler02 = X_BravoDBHandler.open(this);
 
 				Intent get_intent02 =getIntent();
-		    	String phone_num = get_intent02.getExtras().get("phone_num").toString();
-		        int cursorCount = dbhandler.select(phone_num);
-		        if(cursorCount!= 0)
+		    	String phone_num02 = get_intent02.getExtras().get("phone_num").toString();
+		        int cursorCount02 = dbhandler02.select(phone_num02);
+		        if(cursorCount02!= 0)
 		        {
-		        	dbhandler.deleteAll();
+		        	dbhandler02.deleteAll();
 
 		        	Toast.makeText(this, "회원님의 데이터가 db에서 삭제 되었습니다.", Toast.LENGTH_LONG).show();
 		        	
 		        }else 	Toast.makeText(this, "회원님은 db에없는 회원이십니다.", Toast.LENGTH_LONG).show();
-		        dbhandler.close();
+		        dbhandler02.close();
 		        
-		        phone_num = phone_num.substring(1);
+		        phone_num02 = phone_num02.substring(1);
 		        
 		        X_BravoWebserver server = new X_BravoWebserver(this);
-		        String str =server.deleteDataonServer(phone_num);
+		        String str =server.deleteDataonServer(phone_num02);
 		        
 		        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
 		        
