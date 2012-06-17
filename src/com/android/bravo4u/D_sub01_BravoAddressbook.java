@@ -86,13 +86,15 @@ public class D_sub01_BravoAddressbook extends Activity implements AdapterView.On
         {
         	for(int j=0; j<serverDbPhoneArr.length; j++)
         	{
-        		if(groupArray[i].contains(serverDbPhoneArr[j]))
+        		String[] array = groupArray[i].split("\n");
+        		String phone_num = array[1].substring(1);
+        		
+        		if(phone_num.equals(serverDbPhoneArr[j]))
         		{
         			//서버에있는 폰번호와 현재폰 주소록에있는 번호와 일치한것만 linkedList에 넣는다.
         			listArray.add(groupArray[i]);
         		}
         	}
-        	
         }
         
     }

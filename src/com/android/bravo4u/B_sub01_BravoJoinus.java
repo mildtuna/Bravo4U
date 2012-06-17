@@ -39,7 +39,7 @@ public class B_sub01_BravoJoinus extends Activity implements View.OnClickListene
 		
 		int first_bravo_num =9;
 		String bravo_numStr=Integer.toString(first_bravo_num);
-		String img_url =null;
+		String img_url ="http://210.115.58.140/upload/defaultimg.jpg";
 		
     	if(!nameStr.equals("")&& !phone_numStr.equals("")&& !passwordStr.equals(""))
     	{	

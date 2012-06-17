@@ -7,11 +7,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Point;
+import android.graphics.Bitmap.Config;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -22,6 +27,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickListener
@@ -43,6 +49,15 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 	private int deviceHeight;
 	private int giftWidth;
 	private int giftHeight;
+	
+	
+	private TextView whoseGiftText;
+	private X_BravoWebserver server;
+	private ArrayList<Point> puzzleCellPoints;
+	private Bitmap giftBitmap;
+	private Bitmap puzzleCellBitmap;
+	private Canvas canvas;
+	private Bitmap background;
 	
     public void onCreate(Bundle savedInstanceState)
 	{
@@ -78,13 +93,16 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 		
 		X_BravoImageDownloader imageDownloader = new X_BravoImageDownloader();
 		
-		imageDownloader.download(imgurl, giftImg);
-		
-		
-		
-
+		giftBitmap =imageDownloader.download(imgurl, giftImg);
+		giftBitmap = Bitmap.createScaledBitmap(giftBitmap, giftWidth, giftHeight, false);
+        background = Bitmap.createBitmap(giftWidth, giftHeight, Config.ARGB_8888);
+        canvas = new Canvas(background);
+        canvas.drawBitmap(giftBitmap, 0, 0, null);
+        
+        giftImg.setImageBitmap(background);
 	}
     
+
     public void onClick(View v)
     {
 	      

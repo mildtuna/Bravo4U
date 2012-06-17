@@ -115,8 +115,7 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 		X_BravoImageDownloader imageDownloader = new X_BravoImageDownloader();
 		
 		giftBitmap= imageDownloader.download(imgurl, null);
-		//--------------------------------------------------------------------------
-		//giftBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bbororo), giftWidth, giftHeight, false);
+		giftBitmap = Bitmap.createScaledBitmap(giftBitmap, giftWidth, giftHeight, false);
         puzzleCellBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.nemo), puzzleWidth, puzzleHeight, false);
         
         background = Bitmap.createBitmap(giftWidth, giftHeight, Config.ARGB_8888);
