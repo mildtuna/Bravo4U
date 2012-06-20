@@ -4,6 +4,8 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -38,6 +40,8 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 	private int puzzleWidth;
 	private int puzzleHeight;
 	
+	private int CountState =0;
+	
 	
     public void onCreate(Bundle savedInstanceState)
 	{
@@ -53,8 +57,8 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 	    giftWidth = (deviceWidth/10) *8;
 	    giftHeight = deviceHeight/2;
 	    
-	    puzzleWidth= giftWidth/3;
-	    puzzleHeight= giftHeight/3;
+	    puzzleWidth= giftWidth/5;
+	    puzzleHeight= giftHeight/5;
 		
         
         server =new X_BravoWebserver(this);
@@ -77,7 +81,8 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 		Intent intent =getIntent();
 		String name= intent.getExtras().get("name").toString();
 		whoseGiftText=(TextView)findViewById(R.id.whoseGiftText);
-		whoseGiftText.setText(name+"님의 칭찬퍼즐상태");
+		if(name.equals("나")) whoseGiftText.setText(name+"의 칭찬퍼즐상태");
+		else whoseGiftText.setText(name+"님의 칭찬퍼즐상태");
     }
     
     private void initPuzzleCellPoints() 
@@ -87,12 +92,34 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
     	puzzleCellPoints.add(new Point(0, 0));
     	puzzleCellPoints.add(new Point(puzzleWidth, 0));
     	puzzleCellPoints.add(new Point(puzzleWidth*2, 0));
+    	puzzleCellPoints.add(new Point(puzzleWidth*3, 0));
+    	puzzleCellPoints.add(new Point(puzzleWidth*4, 0));
+    	
     	puzzleCellPoints.add(new Point(0, puzzleHeight));
     	puzzleCellPoints.add(new Point(puzzleWidth, puzzleHeight));
     	puzzleCellPoints.add(new Point(puzzleWidth*2, puzzleHeight));
+    	puzzleCellPoints.add(new Point(puzzleWidth*3, puzzleHeight));
+    	puzzleCellPoints.add(new Point(puzzleWidth*4, puzzleHeight));
+    	
     	puzzleCellPoints.add(new Point(0, puzzleHeight*2));
     	puzzleCellPoints.add(new Point(puzzleWidth, puzzleHeight*2));
     	puzzleCellPoints.add(new Point(puzzleWidth*2, puzzleHeight*2));
+    	puzzleCellPoints.add(new Point(puzzleWidth*3, puzzleHeight*2));
+    	puzzleCellPoints.add(new Point(puzzleWidth*4, puzzleHeight*2));
+    	
+    	puzzleCellPoints.add(new Point(0, puzzleHeight*3));
+    	puzzleCellPoints.add(new Point(puzzleWidth, puzzleHeight*3));
+    	puzzleCellPoints.add(new Point(puzzleWidth*2, puzzleHeight*3));
+    	puzzleCellPoints.add(new Point(puzzleWidth*3, puzzleHeight*3));
+    	puzzleCellPoints.add(new Point(puzzleWidth*4, puzzleHeight*3));
+    	
+    	puzzleCellPoints.add(new Point(0, puzzleHeight*4));
+    	puzzleCellPoints.add(new Point(puzzleWidth, puzzleHeight*4));
+    	puzzleCellPoints.add(new Point(puzzleWidth*2, puzzleHeight*4));
+    	puzzleCellPoints.add(new Point(puzzleWidth*3, puzzleHeight*4));
+    	puzzleCellPoints.add(new Point(puzzleWidth*4, puzzleHeight*4));
+    	
+    	
 	}
     
 	private void initBitmaps() 
@@ -150,14 +177,25 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 			
 			Intent intent =getIntent();
 			String str1= intent.getExtras().get("phone_num").toString();
-			String phone_num = str1.substring(1);
+			String phone_num =str1;
+			
+			if(str1.substring(0,1).equals("0"))
+			{
+				phone_num = str1.substring(1);
+			}
 			
 			String sendingpz = Integer.toString(sendingnum);
 			
-			
         	String str = server.getComplimentNumData(phone_num, sendingpz);
-        	int complimentCount =Integer.parseInt(str);
+        	int complimentCount = Integer.parseInt(str);
+        	CountState= complimentCount;
         	updateComplimentPuzzle(complimentCount);
+        	
+        	if(CountState==0)
+        	{
+        		setNewImage(); // 새로운 이미지를 지정해준다.
+
+        	}
         	
         	
         }catch (Exception e) 
@@ -167,10 +205,46 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
     	
 
     }
+    
+    public void setNewImage()
+    {
+    	AlertDialog.Builder alertDlg = new AlertDialog.Builder(this);
+		alertDlg.setTitle("칭찬목표를 달성하셨습니다!");
+		alertDlg.setMessage("새로운 목표선물을 지정하시겠습니까?");
+		alertDlg.setPositiveButton("네",new DialogInterface.OnClickListener() {
+
+			public void onClick(DialogInterface dialog, int which) 
+			{
+				
+				Intent get_intent01 =getIntent();
+		    	String phone_numstr = get_intent01.getExtras().get("phone_num").toString();
+		    	
+				Intent intent =new Intent(D_sub02_BravoAboutGift.this,D_sub03_BravoSelectPhoto.class);
+				intent.putExtra("phone_num", phone_numstr);
+				startActivity(intent);
+				
+        		sendData(25);
+				
+				dialog.dismiss();
+				
+				
+			}
+		});
+		alertDlg.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {dialog.dismiss();}
+		});
+		alertDlg.show();
+    }
 
     public void onClick(View v)
     {
-    	sendData(1);		
-    	
+    	if(CountState >0) sendData(1);	
+    	else if(CountState==0)
+    	{
+    		Toast.makeText(D_sub02_BravoAboutGift.this, "칭찬목표를 달성했습니다!", Toast.LENGTH_LONG).show();
+    	}
     }
+    
+    
+    
 }
