@@ -208,6 +208,10 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 	        	edit.putInt("LoginState", 0);
 	        	edit.commit();
 	        	Toast.makeText(this, "·Î±×¾Æ¿ôµÇ¼Ì½À´Ï´Ù.", Toast.LENGTH_LONG).show();
+	        	
+	        	Intent intent = new Intent(D_Main_BravoMain.this,B_Main_BravoIntro.class);
+	        	startActivity(intent);
+	        	
 	        	finish();
 				break;
 		}

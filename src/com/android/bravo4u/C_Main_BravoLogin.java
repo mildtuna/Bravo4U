@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,9 +58,10 @@ public class C_Main_BravoLogin extends Activity implements View.OnClickListener
 		        	edit.commit();
     				
     				//회원이고 비번 일치하면 메인 화면으로 간다.
-    				Intent intent=new Intent(this, D_Main_BravoMain.class);
+    				Intent intent=new Intent(C_Main_BravoLogin.this, D_Main_BravoMain.class);
     				intent.putExtra("phone_num", phone_numStr);
     				startActivity(intent);
+    				
     				finish();
     				
     			}else
@@ -73,4 +75,17 @@ public class C_Main_BravoLogin extends Activity implements View.OnClickListener
     		Toast.makeText(getApplicationContext(), "빈칸을 입력해주세요.", Toast.LENGTH_SHORT).show();
     	}
     }
+    
+    @Override   
+    public boolean onKeyDown(int keyCode, KeyEvent event) 
+    {    
+        if(keyCode == KeyEvent.KEYCODE_BACK) 
+        {
+        	finish();
+        	Intent intent = new Intent(C_Main_BravoLogin.this,B_Main_BravoIntro.class);
+        	startActivity(intent);    
+        }
+        return false;    
+    }
+
 }

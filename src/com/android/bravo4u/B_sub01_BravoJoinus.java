@@ -1,7 +1,9 @@
 package com.android.bravo4u;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,6 +57,18 @@ public class B_sub01_BravoJoinus extends Activity implements View.OnClickListene
     		Toast.makeText(getApplicationContext(), "ºóÄ­À» ÀÔ·ÂÇØÁÖ¼¼¿ä.", Toast.LENGTH_SHORT).show();
     	}
     	
+    }
+    
+    @Override   
+    public boolean onKeyDown(int keyCode, KeyEvent event) 
+    {    
+        if(keyCode == KeyEvent.KEYCODE_BACK) 
+        {
+        	finish();
+        	Intent intent = new Intent(B_sub01_BravoJoinus.this,B_Main_BravoIntro.class);
+        	startActivity(intent);    
+        }
+        return false;    
     }
 }
 
