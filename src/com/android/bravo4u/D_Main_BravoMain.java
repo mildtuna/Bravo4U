@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,7 +24,7 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 	ArrayList<String> phone_numArray;
 	
 	Button firstTabEditBtn, firstTabCompleteBtn, firstTabAddGroupBtn, firstTabDeleteBtn; 
-	Button secondTabSelectPhotoBtn,secondTabInfoBtn,secondTabMemberCancellationBtn;
+	Button secondTabSelectPhotoBtn,secondTabInfoBtn,secondTabLogoutBtn,secondTabMemberCancellationBtn;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -67,6 +68,18 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
  
 
         dbhandler.close();
+        
+        //-------------- 로그인 자동으로 해줄때 phonnum 값 intent 대신 pref로 넘겨주기 위해 pref에 값 넣는다 ----------
+        
+		Intent get_intent01 =getIntent();
+    	String phone_numstr = get_intent01.getExtras().get("phone_num").toString();
+    	
+    	SharedPreferences pref = getSharedPreferences("PhoneNumber",0);
+    	SharedPreferences.Editor edit = pref.edit();
+    	edit.putString("phone_num", phone_numstr);
+    	edit.commit();
+        
+        
 		//--------------------------- 첫번째탭 ----------------------------
 		
 		firstTabEditBtn =(Button)findViewById(R.id.firstTabEditBtn);
@@ -90,10 +103,12 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 	
 		secondTabSelectPhotoBtn =(Button)findViewById(R.id.secondTabSelectPhotoBtn);
 		secondTabInfoBtn =(Button)findViewById(R.id.secondTabInfoBtn);
+		secondTabLogoutBtn =(Button)findViewById(R.id.secondTabLogoutBtn);
 		secondTabMemberCancellationBtn =(Button)findViewById(R.id.secondTabMemberCancellationBtn);
 		
 		secondTabSelectPhotoBtn.setOnClickListener(this);
 		secondTabInfoBtn.setOnClickListener(this);
+		secondTabLogoutBtn.setOnClickListener(this);
 		secondTabMemberCancellationBtn.setOnClickListener(this);
 		
 	}
@@ -105,6 +120,7 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 	
 	public void onClick(View v)
 	{
+		// 첫번째탭에 있는 버튼들
 		switch(v.getId())
 		{
 			case R.id.firstTabEditBtn:
@@ -134,6 +150,8 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 				break;
 		}
 		
+		
+		// 두번째 탭에 있는 버튼들
 		switch(v.getId())
 		{
 			case R.id.secondTabSelectPhotoBtn:
@@ -182,7 +200,15 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 		        
 		        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
 		        
+				break;
 				
+			case R.id.secondTabLogoutBtn:
+				SharedPreferences pref = getSharedPreferences("LogIn",0);
+	        	SharedPreferences.Editor edit = pref.edit();
+	        	edit.putInt("LoginState", 0);
+	        	edit.commit();
+	        	Toast.makeText(this, "로그아웃되셨습니다.", Toast.LENGTH_LONG).show();
+	        	finish();
 				break;
 		}
 	}

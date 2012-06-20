@@ -372,7 +372,7 @@ public class X_BravoWebserver
 		ResponseHandler<String> reshandler = new BasicResponseHandler();
 		String result = client.execute(request, reshandler);
 		
-		Log.e("sendData07", result);
+		Log.e("sendData09", result);
 		
 		return result;
 	}
@@ -384,7 +384,7 @@ public class X_BravoWebserver
 		nameValue.add(new BasicNameValuePair("phone_num", $phone_num));
 		request.setEntity(makeEntity(nameValue));
 
-		Log.e("makeHttpPost07", "메서드 호출");
+		Log.e("makeHttpPost09", "메서드 호출");
 		return request;
 
 	}

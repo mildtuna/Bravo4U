@@ -1,5 +1,6 @@
 package com.android.bravo4u;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -112,6 +113,7 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 		
 		Toast.makeText(getApplicationContext(), imgurl, Toast.LENGTH_SHORT).show();
 		
+
 		X_BravoImageDownloader imageDownloader = new X_BravoImageDownloader();
 		
 		giftBitmap= imageDownloader.download(imgurl, null);
@@ -120,6 +122,7 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
         
         background = Bitmap.createBitmap(giftWidth, giftHeight, Config.ARGB_8888);
         canvas = new Canvas(background);
+
           
 	}
 	

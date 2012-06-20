@@ -2,6 +2,7 @@ package com.android.bravo4u;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -50,6 +51,11 @@ public class C_Main_BravoLogin extends Activity implements View.OnClickListener
     			
     			if(passwordStr.equals(dataArr[1]))
     			{
+    				SharedPreferences pref = getSharedPreferences("LogIn",0);
+		        	SharedPreferences.Editor edit = pref.edit();
+		        	edit.putInt("LoginState", 1);
+		        	edit.commit();
+    				
     				//회원이고 비번 일치하면 메인 화면으로 간다.
     				Intent intent=new Intent(this, D_Main_BravoMain.class);
     				intent.putExtra("phone_num", phone_numStr);

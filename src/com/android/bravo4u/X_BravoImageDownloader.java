@@ -165,6 +165,7 @@ public class X_BravoImageDownloader {
 
     Bitmap downloadBitmap(String url) {
         final int IO_BUFFER_SIZE = 4 * 1024;
+        url = url.trim();
 
         // AndroidHttpClient is not allowed to be used from the main thread
         final HttpClient client = (mode == Mode.NO_ASYNC_TASK) ? new DefaultHttpClient() :
