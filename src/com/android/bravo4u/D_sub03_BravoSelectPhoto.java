@@ -129,7 +129,8 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 	 protected void onActivityResult(int requestCode, int resultCode, Intent intent) 
 	 {		 
 
-			try{
+			try
+			{
 				//인텐트에 데이터가 담겨 왔다면
 				 if(!intent.getData().equals(null))
 				 {
@@ -137,29 +138,40 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
     				image_bitmap = Images.Media.getBitmap(getContentResolver(),intent.getData());
     				image_bitmap = Bitmap.createScaledBitmap(image_bitmap, giftWidth, giftHeight, false);
     				giftImg.setImageBitmap(image_bitmap);   
+    				
+    				
+    				//선택한 이미지의 uri를 읽어온다.   
+    				Uri selPhotoUri = intent.getData();
+    			
+    				//업로드할 서버의 url 주소
+    			    String urlString = "http://210.115.58.140/test7.php";
+    			    //절대경로를 획득한다!!! 중요~
+    			    Cursor c = getContentResolver().query(Uri.parse(selPhotoUri.toString()), null,null,null,null);
+    			    c.moveToNext();
+    			    //업로드할 파일의 절대경로 얻어오기("_data") 로 해도 된다.
+    			    String absolutePath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
+    			    Log.e("###파일의 절대 경로###", absolutePath);
+    			    
+    			   //파일 업로드 시작!
+    			   HttpFileUpload(urlString ,"", absolutePath);
 				 }
-			}catch(FileNotFoundException e) {
+				 
+			}catch(FileNotFoundException e) 
+			{
+				Toast.makeText(getApplicationContext(),"FileNotFoundException" , Toast.LENGTH_SHORT).show();
 			    e.printStackTrace();
-			}catch(IOException e) {
+			    
+			}catch(IOException e) 
+			{
+				Toast.makeText(getApplicationContext(),"IOException" , Toast.LENGTH_SHORT).show();
 			    e.printStackTrace();
+			    
 			}catch(Exception e)
 			{
+				Toast.makeText(getApplicationContext(),"선물을 선택하시지 않으셨습니다." , Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
 			}
-			//선택한 이미지의 uri를 읽어온다.   
-			Uri selPhotoUri = intent.getData();
-		
-			//업로드할 서버의 url 주소
-		    String urlString = "http://210.115.58.140/test7.php";
-		    //절대경로를 획득한다!!! 중요~
-		    Cursor c = getContentResolver().query(Uri.parse(selPhotoUri.toString()), null,null,null,null);
-		    c.moveToNext();
-		    //업로드할 파일의 절대경로 얻어오기("_data") 로 해도 된다.
-		    String absolutePath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
-		    Log.e("###파일의 절대 경로###", absolutePath);
-		    
-		   //파일 업로드 시작!
-		   HttpFileUpload(urlString ,"", absolutePath);
+
 		
 		  
 	}

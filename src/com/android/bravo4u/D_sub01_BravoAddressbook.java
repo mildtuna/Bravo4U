@@ -1,12 +1,17 @@
 package com.android.bravo4u;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,7 +23,7 @@ import android.widget.Toast;
 public class D_sub01_BravoAddressbook extends Activity implements AdapterView.OnItemClickListener, View.OnClickListener
 {
 	private String phonelist ;
-	private String[] groupArray ;
+	private ArrayList<String> groupArray ;
 	private ListView list_addFamily;
 	private Button BackBtn;
 	private ArrayList<String> listArray;
@@ -31,8 +36,42 @@ public class D_sub01_BravoAddressbook extends Activity implements AdapterView.On
 
         //주소록 리스트로 옮기기
         phonelist =  getContacts();
-        groupArray = phonelist.split("q");
+        String[] phone_array =phonelist.split("q");
+        groupArray =new ArrayList<String>();
+        groupArray.addAll(Arrays.asList(phone_array));
+        //String str ="";
         
+        for(int i=0; i<groupArray.size(); i++)
+        {
+        	for(int j=0; j<groupArray.size(); j++)
+        	{
+        		if(i!=j)
+        		{
+        			if(groupArray.get(i).equals(groupArray.get(j))||groupArray.get(i).contains(groupArray.get(j)))
+        			{
+            			if((j+1) != groupArray.size())
+            			{
+            				groupArray.remove(j);
+            			}	
+        			}
+        		}
+        		
+        	}
+        }
+        
+        for(int i=0; i<groupArray.size();i++)
+        {
+        	if(!groupArray.get(i).contains("#"))
+        	{
+        		groupArray.remove(i);
+        	}
+        }
+        
+//        for(int i=0; i<groupArray.size(); i++)
+//        {
+//        	str += ""+ i + groupArray.get(i)+"\n\n";
+//        }
+          
         listArray =new ArrayList<String>();
         serverDbhasAddress();
          
@@ -46,6 +85,14 @@ public class D_sub01_BravoAddressbook extends Activity implements AdapterView.On
         //뒤로가기 버튼
         BackBtn=(Button)findViewById(R.id.addFamilyBackBtn);
         BackBtn.setOnClickListener(this);
+       
+//        AlertDialog.Builder alertDlg = new AlertDialog.Builder(this);
+//		alertDlg.setTitle("폰리스트");
+//		alertDlg.setMessage(str);
+//		alertDlg.setNegativeButton("확인", new DialogInterface.OnClickListener() {
+//			public void onClick(DialogInterface dialog, int which) {dialog.dismiss();}
+//		});
+//		alertDlg.show();
      
     }
     
@@ -82,17 +129,22 @@ public class D_sub01_BravoAddressbook extends Activity implements AdapterView.On
         String  allPhonenumStr=getphonenum.getPhonenumData();
         String[]serverDbPhoneArr =allPhonenumStr.split(",");
         
-        for(int i=0; i<groupArray.length; i++)
+        for(int i=0; i<groupArray.size(); i++)
         {
         	for(int j=0; j<serverDbPhoneArr.length; j++)
         	{
-        		String[] array = groupArray[i].split("\n");
-        		String phone_num = array[1].substring(1);
+        		String[] array = groupArray.get(i).split("#");
+        		//Log.e("주소록 잘못됐어", ""+groupArray.get(i));
+        		//Log.e("주소록 잘못됐어", ""+array[array.length-1]);
+        		
+        		String phone_num = array[array.length-1].substring(1);
         		
         		if(phone_num.equals(serverDbPhoneArr[j]))
         		{
         			//서버에있는 폰번호와 현재폰 주소록에있는 번호와 일치한것만 linkedList에 넣는다.
-        			listArray.add(groupArray[i]);
+        			String name = array[array.length-2];
+        			String phoneNum = array[array.length-1];
+        			listArray.add(name+"\n"+phoneNum);
         		}
         	}
         }
@@ -116,7 +168,8 @@ public class D_sub01_BravoAddressbook extends Activity implements AdapterView.On
             //저장된 이름과 성을 구한다.
             String displayName = contacts.getString(contacts
                     .getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-            sb.append("" + displayName).append("\n");
+                        
+            sb.append("" + displayName).append("#");
 
             //주소록 아이디를 구한다.
             //이 아이디는 전화번호 목록과 이메일 목록을 찾을 때 사용한다.
