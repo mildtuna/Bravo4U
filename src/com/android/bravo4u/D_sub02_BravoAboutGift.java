@@ -1,6 +1,5 @@
 package com.android.bravo4u;
 
-import java.net.URLDecoder;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -13,7 +12,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;

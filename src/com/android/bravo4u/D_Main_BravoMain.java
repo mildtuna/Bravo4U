@@ -3,8 +3,11 @@ package com.android.bravo4u;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,6 +28,11 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 	
 	Button firstTabEditBtn, firstTabCompleteBtn, firstTabAddGroupBtn, firstTabDeleteBtn; 
 	Button secondTabSelectPhotoBtn,secondTabInfoBtn,secondTabLogoutBtn,secondTabMemberCancellationBtn;
+	
+	ConnectivityManager connectManger;
+	NetworkInfo networkinfo;
+	boolean isMobieConn;
+	boolean isWifiConn;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -78,7 +86,10 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
     	SharedPreferences.Editor edit = pref.edit();
     	edit.putString("phone_num", phone_numstr);
     	edit.commit();
-        
+    	
+    	//---------------------와이파이 및 3g 상태 점검 ----------------------------
+    	
+    	networkState();
         
 		//--------------------------- 첫번째탭 ----------------------------
 		
@@ -141,8 +152,16 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 				break;
 			case R.id.firstTabAddGroupBtn:
 				
-				Intent intent =new Intent(D_Main_BravoMain.this,D_sub01_BravoAddressbook.class);
-				startActivity(intent);
+				networkState();
+				
+				if (isMobieConn || isWifiConn) 
+				{
+					Intent intent =new Intent(D_Main_BravoMain.this,D_sub01_BravoAddressbook.class);
+					startActivity(intent);
+				}else
+				{
+					Toast.makeText(getApplicationContext(), "네트워크를 연결해주세요",Toast.LENGTH_SHORT).show();
+				}
 				break;
 			case R.id.firstTabDeleteBtn:
 				
@@ -155,50 +174,66 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 		switch(v.getId())
 		{
 			case R.id.secondTabSelectPhotoBtn:
-		    	
 				
-		    	X_BravoDBHandler dbhandler = X_BravoDBHandler.open(this);
-
-				Intent get_intent =getIntent();
-		    	String phone_num = get_intent.getExtras().get("phone_num").toString();
-		        int cursorCount = dbhandler.select(phone_num);
-		        if(cursorCount!= 0)
-		        {
-					Intent get_intent01 =getIntent();
-			    	String phone_numstr = get_intent01.getExtras().get("phone_num").toString();
-			    	
-					Intent intent =new Intent(D_Main_BravoMain.this,D_sub03_BravoSelectPhoto.class);
-					intent.putExtra("phone_num", phone_numstr);
-					startActivity(intent);
-		        }else
-		        {
-		        	Toast.makeText(this, "회원이 아니셔서 선물을 선택할 수 없습니다.", Toast.LENGTH_LONG).show();
-		        }
-		        dbhandler.close();
+				networkState();
 				
+				if (isMobieConn || isWifiConn) 
+				{
+			    	X_BravoDBHandler dbhandler = X_BravoDBHandler.open(this);
+	
+					Intent get_intent =getIntent();
+			    	String phone_num = get_intent.getExtras().get("phone_num").toString();
+			        int cursorCount = dbhandler.select(phone_num);
+			        if(cursorCount!= 0)
+			        {
+						Intent get_intent01 =getIntent();
+				    	String phone_numstr = get_intent01.getExtras().get("phone_num").toString();
+				    	
+						Intent intent =new Intent(D_Main_BravoMain.this,D_sub03_BravoSelectPhoto.class);
+						intent.putExtra("phone_num", phone_numstr);
+						startActivity(intent);
+			        }else
+			        {
+			        	Toast.makeText(this, "회원이 아니셔서 선물을 선택할 수 없습니다.", Toast.LENGTH_LONG).show();
+			        }
+			        dbhandler.close();
+				}else
+				{
+					Toast.makeText(getApplicationContext(), "네트워크를 연결해주세요",Toast.LENGTH_SHORT).show();
+				}
 				break;
 			case R.id.secondTabMemberCancellationBtn:
 				
-		    	X_BravoDBHandler dbhandler02 = X_BravoDBHandler.open(this);
+				networkState();
 
-				Intent get_intent02 =getIntent();
-		    	String phone_num02 = get_intent02.getExtras().get("phone_num").toString();
-		        int cursorCount02 = dbhandler02.select(phone_num02);
-		        if(cursorCount02!= 0)
-		        {
-		        	dbhandler02.deleteAll();
-
-		        	Toast.makeText(this, "회원님의 데이터가 db에서 삭제 되었습니다.", Toast.LENGTH_LONG).show();
-		        	
-		        }else 	Toast.makeText(this, "회원님은 db에없는 회원이십니다.", Toast.LENGTH_LONG).show();
-		        dbhandler02.close();
+				if (isMobieConn || isWifiConn) 
+				{
+				
+			    	X_BravoDBHandler dbhandler02 = X_BravoDBHandler.open(this);
+	
+					Intent get_intent02 =getIntent();
+			    	String phone_num02 = get_intent02.getExtras().get("phone_num").toString();
+			        int cursorCount02 = dbhandler02.select(phone_num02);
+			        if(cursorCount02!= 0)
+			        {
+			        	dbhandler02.deleteAll();
+	
+			        	Toast.makeText(this, "회원님의 데이터가 db에서 삭제 되었습니다.", Toast.LENGTH_LONG).show();
+			        	
+			        }else 	Toast.makeText(this, "회원님은 db에없는 회원이십니다.", Toast.LENGTH_LONG).show();
+			        dbhandler02.close();
+			        
+			        phone_num02 = phone_num02.substring(1);
+			        
+			        X_BravoWebserver server = new X_BravoWebserver(this);
+			        String str =server.deleteDataonServer(phone_num02);
+			        
+			        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
 		        
-		        phone_num02 = phone_num02.substring(1);
-		        
-		        X_BravoWebserver server = new X_BravoWebserver(this);
-		        String str =server.deleteDataonServer(phone_num02);
-		        
-		        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+				}else
+				{
+					Toast.makeText(getApplicationContext(), "네트워크를 연결해주세요",Toast.LENGTH_SHORT).show();
+				}
 		        
 				break;
 				
@@ -219,19 +254,24 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 	
     public void onItemClick(AdapterView<?> listview, View v, int position, long id) 
     {
-
-    	if(firstTabEditBtn.getVisibility() == firstTabEditBtn.VISIBLE)
-    	{
-    		String phone_num = phone_numArray.get(position);
-    		String name = firstTablistArray.get(position);
-    		
-    		Intent intent =new Intent(this, D_sub02_BravoAboutGift.class);
-    		intent.putExtra("phone_num",phone_num);
-    		intent.putExtra("name", name);
-    		startActivity(intent);
-    	}
- 
-
+    	networkState();
+    	
+		if (isMobieConn || isWifiConn) 
+		{
+	    	if(firstTabEditBtn.getVisibility() == firstTabEditBtn.VISIBLE)
+	    	{
+	    		String phone_num = phone_numArray.get(position);
+	    		String name = firstTablistArray.get(position);
+	    		
+	    		Intent intent =new Intent(this, D_sub02_BravoAboutGift.class);
+	    		intent.putExtra("phone_num",phone_num);
+	    		intent.putExtra("name", name);
+	    		startActivity(intent);
+	    	}
+		}else
+		{
+			Toast.makeText(getApplicationContext(), "네트워크를 연결해주세요",Toast.LENGTH_SHORT).show();
+		}
     	
     }
     
@@ -307,6 +347,15 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 		   //Log.i("퍼스트탭", firstTablistArray.get(0)+firstTablistArray.get(1)+firstTablistArray.get(2));
 		   dbhandler.close();
 	       
+	}
+	
+	public void networkState()
+	{
+		connectManger = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		networkinfo = connectManger.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		isMobieConn = networkinfo.isConnected();
+		networkinfo = connectManger.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		isWifiConn = networkinfo.isConnected();
 	}
 	
     public void onTabChanged(String tabId)

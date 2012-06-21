@@ -40,6 +40,8 @@ public class C_Main_BravoLogin extends Activity implements View.OnClickListener
     
     public void onClick(View v)
     {
+
+    	
     	
     	// 네트워크 연결 관리자의 핸들을 얻는다.
 		connectManger = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

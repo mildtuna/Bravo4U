@@ -127,20 +127,24 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
     
     
 	 protected void onActivityResult(int requestCode, int resultCode, Intent intent) 
-	 {
+	 {		 
+
 			try{
 				//인텐트에 데이터가 담겨 왔다면
-				if(!intent.getData().equals(null))
-				{
+				 if(!intent.getData().equals(null))
+				 {
 				    //해당경로의 이미지를 intent에 담긴 이미지 uri를 이용해서 Bitmap형태로 읽어온다.
     				image_bitmap = Images.Media.getBitmap(getContentResolver(),intent.getData());
     				image_bitmap = Bitmap.createScaledBitmap(image_bitmap, giftWidth, giftHeight, false);
     				giftImg.setImageBitmap(image_bitmap);   
-				}
+				 }
 			}catch(FileNotFoundException e) {
 			    e.printStackTrace();
 			}catch(IOException e) {
 			    e.printStackTrace();
+			}catch(Exception e)
+			{
+				e.printStackTrace();
 			}
 			//선택한 이미지의 uri를 읽어온다.   
 			Uri selPhotoUri = intent.getData();
@@ -156,8 +160,9 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 		    
 		   //파일 업로드 시작!
 		   HttpFileUpload(urlString ,"", absolutePath);
+		
 		  
-	    }
+	}
 	 
 		private void HttpFileUpload(String urlString, String params, String fileName) 
 		{
