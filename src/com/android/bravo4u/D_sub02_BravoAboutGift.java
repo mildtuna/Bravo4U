@@ -194,8 +194,7 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
         		setNewImage(); // 새로운 이미지를 지정해준다.
 
         	}
-        	
-        	
+        		
         }catch (Exception e) 
         {
         	Toast.makeText(D_sub02_BravoAboutGift.this, "네트워크 오류 입니다.", Toast.LENGTH_LONG).show();
