@@ -49,18 +49,20 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 		
 		tabHost.setup();
 
-		TabSpec tabSpec1 = tabHost.newTabSpec("Tab1").setIndicator("그룹");		
+		TabSpec tabSpec1 = tabHost.newTabSpec("Tab1").setIndicator("");
 		tabSpec1.setContent(R.id.tab1);
 		tabHost.addTab(tabSpec1);
 
-		TabSpec tabSpec2 = tabHost.newTabSpec("Tab2").setIndicator("설정");
+		TabSpec tabSpec2 = tabHost.newTabSpec("Tab2").setIndicator("");
 		tabSpec2.setContent(R.id.tab2);
 		tabHost.addTab(tabSpec2);
 
 		tabHost.setCurrentTab(0);
-		
 		tabHost.setOnTabChangedListener(this);
 		
+        tabHost.getTabWidget().getChildAt(0).setBackgroundResource(R.drawable.tab_01_a);
+        tabHost.getTabWidget().getChildAt(1).setBackgroundResource(R.drawable.tab_02_a);
+
 		
 		//--------------------------db에 내정보 넣기------------------------
 		
@@ -360,12 +362,17 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 	
     public void onTabChanged(String tabId)
     {
-    	
+
     	if(tabId.equals("Tab1"))
     	{
     		firstTab();
+    		tabHost.getTabWidget().getChildAt(0).setBackgroundResource(R.drawable.tab_01_a);
+            tabHost.getTabWidget().getChildAt(1).setBackgroundResource(R.drawable.tab_02_a);
+    	}else if(tabId.equals("Tab2"))
+    	{
+    		tabHost.getTabWidget().getChildAt(0).setBackgroundResource(R.drawable.tab_01_b);
+            tabHost.getTabWidget().getChildAt(1).setBackgroundResource(R.drawable.tab_02_b);
     	}
-    	
     }
 
 }

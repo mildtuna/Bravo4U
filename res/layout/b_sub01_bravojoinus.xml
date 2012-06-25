@@ -4,12 +4,20 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/login_join_titlebar" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/join_titlebelt" />
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:background="@drawable/login_join_bg"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -21,15 +29,21 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:layout_weight="3"
-                android:text="이름" />
+                android:background="@drawable/name_txt" />
 
             <EditText
                 android:id="@+id/name_EditText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="10"
-                android:layout_weight="1" />
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/custom_edit_text"
+                android:singleLine="true"                
+                android:hint=" 영문자로 입력"
+                android:layout_weight="1"
+                android:maxLength="10" />
         </LinearLayout>
 
         <LinearLayout
@@ -41,16 +55,21 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:layout_weight="3"
-                android:text="폰번호" />
+                android:background="@drawable/phonenum_txt" />
 
             <EditText
                 android:id="@+id/phone_num_EditText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="-없이  적어주세요."
-                android:maxLength="12"
-                android:layout_weight="1" />
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/custom_edit_text"
+                android:singleLine="true"
+                android:layout_weight="1"
+                android:hint=" -없이  적어주세요."
+                android:maxLength="12" />
         </LinearLayout>
 
         <LinearLayout
@@ -62,25 +81,35 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:layout_weight="3"
-                android:text="비밀번호" />
+                android:background="@drawable/password_txt"/>
 
             <EditText
                 android:id="@+id/password_EditText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="영문자 및 숫자로  "
-                android:maxLength="20"
-                android:layout_weight="1" />
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/custom_edit_text"
+                android:singleLine="true"
+                android:layout_weight="1"
+                android:hint=" 영문자 및 숫자로  "
+                android:maxLength="20" />
         </LinearLayout>
 
         <Button
             android:id="@+id/joinUsBtn"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="180dp"
+            android:layout_marginTop="20dp"
             android:text="회원가입" />
     </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/login_join_underbar" />
 
 </LinearLayout>

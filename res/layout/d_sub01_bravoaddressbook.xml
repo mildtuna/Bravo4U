@@ -2,33 +2,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/tabcontent_bg"
     android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="25dp"
-        android:background="#4F5350"
+        android:background="@drawable/first_tab_title"
         android:orientation="horizontal" >
 
         <Button
             android:id="@+id/addFamilyBackBtn"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="뒤로" />
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/addressbook_back_button"
+            android:layout_weight="3"/>
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="추가하고 싶은 사람을 클릭하세요 "
-            android:textSize="15sp" />
+            android:layout_weight="1" />
     </LinearLayout>
 
     <ListView
         android:id="@+id/addressbookList"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent"
+        android:cacheColorHint="#00000000" />
 
 </LinearLayout>

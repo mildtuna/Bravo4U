@@ -31,6 +31,8 @@ public class D_sub01_BravoAddressbook extends Activity implements AdapterView.On
     @Override
     public void onCreate(Bundle savedInstanceState) 
     {
+		setTheme(android.R.style.Theme_NoTitleBar);
+		
         super.onCreate(savedInstanceState);
         setContentView(R.layout.d_sub01_bravoaddressbook);
 

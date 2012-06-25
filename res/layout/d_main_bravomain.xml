@@ -17,7 +17,8 @@
             <TabWidget
                 android:id="@android:id/tabs"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content" 
+                android:tabStripEnabled="false"/>
 
             <FrameLayout
                 android:id="@android:id/tabcontent"
@@ -28,58 +29,64 @@
                     android:id="@+id/tab1"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
+                    android:background="@drawable/tabcontent_bg"
                     android:orientation="vertical" >
 
                     <LinearLayout
                         android:id="@+id/firstTabLayout"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:background="#C7C5C8"
+                        android:background="@drawable/first_tab_title"
                         android:orientation="horizontal" >
 
                         <Button
                             android:id="@+id/firstTabEditBtn"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:text="편집" />
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/first_tab_edit_button"
+                            android:layout_weight="2"/>
 
                         <Button
                             android:id="@+id/firstTabCompleteBtn"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:text="완료" />
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="10dp"                            
+                            android:background="@drawable/first_tab_complete_button"
+                            android:layout_weight="2"/>
 
                         <TextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="그룹 "
-                            android:textColor="#000000"
-                            android:textSize="20sp" />
+                            android:gravity="center"/>
 
                         <Button
                             android:id="@+id/firstTabAddGroupBtn"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:text="추가" />
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/first_tab_add_button"
+                            android:layout_weight="2" />
 
                         <Button
                             android:id="@+id/firstTabDeleteBtn"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:text="삭제" />
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/first_tab_delete_button"
+                            android:layout_weight="2"/>
                     </LinearLayout>
 
                     <ListView
                         android:id="@+id/groupTabList"
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent" />
+                        android:layout_height="fill_parent" 
+                        android:cacheColorHint="#00000000"/>
 
                     <TextView
                         android:id="@+id/cannotUseServiceTxt"
@@ -96,6 +103,7 @@
                     android:id="@+id/tab2"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
+                    android:background="@drawable/tabcontent_bg"                    
                     android:gravity="center"
                     android:orientation="vertical" >
 
