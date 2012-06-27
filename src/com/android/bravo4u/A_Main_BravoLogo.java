@@ -37,7 +37,5 @@ public class A_Main_BravoLogo extends Activity {
 			}catch(InterruptedException e){}
 
 		}
-
-
 	});
 }

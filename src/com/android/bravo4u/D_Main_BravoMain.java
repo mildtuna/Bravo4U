@@ -3,6 +3,8 @@ package com.android.bravo4u;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,6 +35,9 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 	NetworkInfo networkinfo;
 	boolean isMobieConn;
 	boolean isWifiConn;
+	
+	BasicProgressThread bpThread = null;
+	ProgressDialog bpDialog = null;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -129,6 +134,11 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
     {
     	super.onResume();
     	firstTab();
+    	
+    	if(bpDialog != null &&bpDialog.isShowing())
+    	{
+    		bpDialog.dismiss();
+    	}
     }
 	
 	public void onClick(View v)
@@ -158,6 +168,7 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 				
 				if (isMobieConn || isWifiConn) 
 				{
+					showDialog(1);
 					Intent intent =new Intent(D_Main_BravoMain.this,D_sub01_BravoAddressbook.class);
 					startActivity(intent);
 				}else
@@ -181,6 +192,7 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 				
 				if (isMobieConn || isWifiConn) 
 				{
+					showDialog(1);
 			    	X_BravoDBHandler dbhandler = X_BravoDBHandler.open(this);
 	
 					Intent get_intent =getIntent();
@@ -266,6 +278,8 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 		{
 	    	if(firstTabEditBtn.getVisibility() == firstTabEditBtn.VISIBLE)
 	    	{
+	    		showDialog(1);
+	    		
 	    		String phone_num = phone_numArray.get(position);
 	    		String name = firstTablistArray.get(position);
 	    		
@@ -273,6 +287,8 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 	    		intent.putExtra("phone_num",phone_num);
 	    		intent.putExtra("name", name);
 	    		startActivity(intent);
+	    		
+	    		
 	    	}
 		}else
 		{
@@ -378,5 +394,41 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
             tabHost.getTabWidget().getChildAt(1).setBackgroundResource(R.drawable.tab_02_b);
     	}
     }
+    
+	public Dialog onCreateDialog(int diagId)
+	{
+		//AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		
+		switch(diagId)
+		{
+			case 1:
+				bpDialog =ProgressDialog.show(D_Main_BravoMain.this,"",
+										"Loading. Please wait...", true, true);
+				bpThread = new BasicProgressThread(bpDialog);
+				bpThread.start();
+				return(Dialog)(bpDialog);
+			default:
+				return null;
+		}
+	}
 
 }
+
+class BasicProgressThread extends Thread
+{
+	ProgressDialog mDialog = null;
+	public BasicProgressThread(ProgressDialog diag){mDialog = diag;}
+	
+	public void run()
+	{
+		try
+		{ 
+			Thread.sleep(2000);	
+	
+		}catch(InterruptedException e){}
+		mDialog.dismiss();
+	}
+	
+}
+
+

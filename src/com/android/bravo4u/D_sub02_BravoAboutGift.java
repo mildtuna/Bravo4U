@@ -1,9 +1,13 @@
 package com.android.bravo4u;
 
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,7 +15,9 @@ import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -40,6 +46,9 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 	
 	private int CountState =0;
 	
+	//sendPuzzleProgressThread bpThread = null;
+	ProgressDialog bpDialog = null;
+	boolean flag = false;
 	
     public void onCreate(Bundle savedInstanceState)
 	{
@@ -164,10 +173,27 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
         
         ImageView img = (ImageView)findViewById(R.id.img);
         img.setImageBitmap(background);
+        flag =true;
 	}
-	
+	  
+
+    public void onClick(View v)
+    {
+    	if(CountState >0)
+		{
+    		//showDialog(1);
+    		//sendData(1);	
+    		SendingPuzzle sendpuzzle = new SendingPuzzle(this);
+    		sendpuzzle.execute();
+		
+		}
+    	else if(CountState==0)
+    	{
+    		Toast.makeText(D_sub02_BravoAboutGift.this, "칭찬목표를 달성했습니다!", Toast.LENGTH_LONG).show();
+    	}
+    }	
     
-    public void sendData(int sendingnum)
+    public Boolean sendData(int sendingnum)
     {
       
     	try {
@@ -194,14 +220,19 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
         		setNewImage(); // 새로운 이미지를 지정해준다.
 
         	}
-        		
+        	
+        	return true;
+  	
         }catch (Exception e) 
         {
         	Toast.makeText(D_sub02_BravoAboutGift.this, "네트워크 오류 입니다.", Toast.LENGTH_LONG).show();
+        	return false;
         }
     	
 
     }
+    
+
     
     public void setNewImage()
     {
@@ -232,16 +263,99 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 		});
 		alertDlg.show();
     }
+    
+//	public Dialog onCreateDialog(int diagId)
+//	{
+//		
+//		switch(diagId)
+//		{
+//			case 1:
+//				bpDialog =ProgressDialog.show(D_sub02_BravoAboutGift.this,"",
+//										"Sending puzzle. Please wait...", true, true);
+//				Log.v("여긴되니", "플래그상태:"+flag);
+//				sendPuzzleProgressThread bpThread = new sendPuzzleProgressThread(bpDialog);
+//				Log.v("샌드퍼즐쓰레드 불렸다", "플래그상태:"+flag);
+//				bpThread.start();
+//				
+//
+//				return(Dialog)(bpDialog);
+//			default:
+//				return null;
+//		}
+//	}
 
-    public void onClick(View v)
-    {
-    	if(CountState >0) sendData(1);	
-    	else if(CountState==0)
-    	{
-    		Toast.makeText(D_sub02_BravoAboutGift.this, "칭찬목표를 달성했습니다!", Toast.LENGTH_LONG).show();
-    	}
-    }
-    
-    
-    
+	
+
+//	class sendPuzzleProgressThread extends Thread
+//	{
+//		ProgressDialog myDialog = null;
+//
+//		public sendPuzzleProgressThread(ProgressDialog diag){myDialog = diag; Log.v("플래그상태", ""+flag);}
+//		
+//		public void run()
+//		{
+//			Log.d("플래그상태", ""+flag);
+//			if(flag == true)
+//			{
+//				//handler.sendEmptyMessage(1);
+//				myDialog.dismiss();
+//				flag = false;
+//				Log.i("플래그상태", ""+flag);
+//
+//			}
+//			
+//		}	
+//	 } 
+//	
+//	   final Handler handler = new Handler() {
+//	       public void handleMessage(Message msg) {
+//
+//	               bpDialog.dismiss();
+//	               flag = false;
+//	       }
+//	   };
+	
+	private class SendingPuzzle extends AsyncTask<Void, Void, Boolean> {
+
+		private Context context;
+		private ProgressDialog progressDialog = null;
+
+		public SendingPuzzle(Context context) {
+			this.context = context;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			progressDialog = new ProgressDialog(context);
+			progressDialog.setProgress(ProgressDialog.STYLE_SPINNER);
+			progressDialog.setCancelable(false);
+			progressDialog.setMessage("Sending puzzle. Please wait...");
+			progressDialog.show();
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... unused) {
+			
+			return sendData(1);
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			progressDialog.dismiss();
+			if (result) {
+				setResult(RESULT_OK);
+				finish();
+			} else {
+				Toast.makeText(context, "에러났습니다", Toast.LENGTH_SHORT).show();
+				finish();
+			}
+		}
+	}
 }
+
+
+
+  
+  
+  
+

@@ -9,6 +9,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -55,6 +58,10 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 	
 	
 	boolean complete_Flag = false;
+
+	
+//	X_BasicProgressThread bpThread = null;
+//	ProgressDialog bpDialog = null;
 	
     public void onCreate(Bundle savedInstanceState)
 	{
@@ -104,7 +111,7 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
     {
 	      
     	try {
-			
+
 	    	//사진 읽어오기위한 uri 작성하기.
 	    	 Uri uri = Uri.parse("content://media/external/images/media");
 	    	 //무언가 보여달라는 암시적 인텐트 객체 생성하기.
@@ -126,9 +133,6 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 	 protected void onActivityResult(int requestCode, int resultCode, Intent intent) 
 	 {		 
 
-		 doit();
-		 
-		 
 			try
 			{
 				//인텐트에 데이터가 담겨 왔다면
@@ -175,131 +179,112 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 		
 		  
 	}
+	
+//	public Dialog onCreateDialog(int diagId)
+//	{
+//		//AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//		
+//		switch(diagId)
+//		{
+//			case 1:
+//				bpDialog =ProgressDialog.show(D_sub03_BravoSelectPhoto.this,"",
+//										"Loading. Please wait...", true, true);
+//				bpThread = new X_BasicProgressThread(bpDialog);
+//				bpThread.start();
+//				return(Dialog)(bpDialog);
+//			default:
+//				return null;
+//		}
+//	}
+	 
+
 	 
 	 
-	 private void doit()
-	 {
-		 new Thread()
-		 {
-			public void run()
+	 
+	private void HttpFileUpload(String urlString, String params, String fileName) 
+	{
+		try {
+			
+			
+			mFileInputStream = new FileInputStream(fileName);			
+			connectUrl = new URL(urlString);
+			Log.d("Test", "mFileInputStream  is " + mFileInputStream);
+			
+			// open connection 
+			HttpURLConnection conn = (HttpURLConnection)connectUrl.openConnection();			
+			conn.setDoInput(true);
+			conn.setDoOutput(true);
+			conn.setUseCaches(false);
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Connection", "Keep-Alive");
+			conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+			
+
+			
+			// write data
+			DataOutputStream dos = new DataOutputStream(conn.getOutputStream());		
+			dos.writeBytes(twoHyphens + boundary + lineEnd);
+			dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + fileName+"\"" + lineEnd);
+			dos.writeBytes(lineEnd);
+			
+
+			
+			int bytesAvailable = mFileInputStream.available();
+			int maxBufferSize = 1024;
+
+			int bufferSize = Math.min(bytesAvailable, maxBufferSize);
+			
+			byte[] buffer = new byte[bufferSize];
+			int bytesRead = mFileInputStream.read(buffer, 0, bufferSize);
+			
+			Log.d("Test", "image byte is " + bytesRead);
+			
+			// read image
+			while (bytesRead > 0) {
+				dos.write(buffer, 0, bufferSize);
+				bytesAvailable = mFileInputStream.available();
+				bufferSize = Math.min(bytesAvailable, maxBufferSize);
+				bytesRead = mFileInputStream.read(buffer, 0, bufferSize);
+			}	
+			
+			dos.writeBytes(lineEnd);
+			dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+			
+			// close streams
+			Log.e("Test" , "File is written");
+			mFileInputStream.close();
+			dos.flush(); // finish upload...			
+			
+			// get response
+			int ch;
+			InputStream is = conn.getInputStream();
+			StringBuffer b =new StringBuffer();
+			while( ( ch = is.read() ) != -1 )
 			{
-				loop();
+				b.append( (char)ch );
 			}
-		 }.start();
-	 }
-	 
-	 private void loop()
-	 {
-		 
-		 for(int i=1; i<20; i++)
-		 {
-			 try
-			 {
-				 if(complete_Flag == false)
-				 {
-					 handler.sendEmptyMessage(i);
-					 Thread.sleep(50);
-				 }else if(complete_Flag == true)
-				 {
-					// Thread.interrupted();
-				 }
+			String s=b.toString().trim(); 
+			String img_url = "http://210.115.58.140" +s;
 
-			 }catch(InterruptedException e){
-				 
-			 }
-		 }
-	 }
-	 
-	 Handler handler =new Handler()
-	 {
-		 public void handleMessage(Message msg)
-		 {
-			 Toast.makeText(getApplicationContext(), ""+msg.what, Toast.LENGTH_SHORT).show();
-		 };
-	 };
-	 
-	 
-	 
-		private void HttpFileUpload(String urlString, String params, String fileName) 
-		{
-			try {
-				
-				
-				mFileInputStream = new FileInputStream(fileName);			
-				connectUrl = new URL(urlString);
-				Log.d("Test", "mFileInputStream  is " + mFileInputStream);
-				
-				// open connection 
-				HttpURLConnection conn = (HttpURLConnection)connectUrl.openConnection();			
-				conn.setDoInput(true);
-				conn.setDoOutput(true);
-				conn.setUseCaches(false);
-				conn.setRequestMethod("POST");
-				conn.setRequestProperty("Connection", "Keep-Alive");
-				conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-				
-
-				
-				// write data
-				DataOutputStream dos = new DataOutputStream(conn.getOutputStream());		
-				dos.writeBytes(twoHyphens + boundary + lineEnd);
-				dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + fileName+"\"" + lineEnd);
-				dos.writeBytes(lineEnd);
-				
-
-				
-				int bytesAvailable = mFileInputStream.available();
-				int maxBufferSize = 1024;
-
-				int bufferSize = Math.min(bytesAvailable, maxBufferSize);
-				
-				byte[] buffer = new byte[bufferSize];
-				int bytesRead = mFileInputStream.read(buffer, 0, bufferSize);
-				
-				Log.d("Test", "image byte is " + bytesRead);
-				
-				// read image
-				while (bytesRead > 0) {
-					dos.write(buffer, 0, bufferSize);
-					bytesAvailable = mFileInputStream.available();
-					bufferSize = Math.min(bytesAvailable, maxBufferSize);
-					bytesRead = mFileInputStream.read(buffer, 0, bufferSize);
-				}	
-				
-				dos.writeBytes(lineEnd);
-				dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
-				
-				// close streams
-				Log.e("Test" , "File is written");
-				mFileInputStream.close();
-				dos.flush(); // finish upload...			
-				
-				// get response
-				int ch;
-				InputStream is = conn.getInputStream();
-				StringBuffer b =new StringBuffer();
-				while( ( ch = is.read() ) != -1 )
-				{
-					b.append( (char)ch );
-				}
-				String s=b.toString().trim(); 
-				String img_url = "http://210.115.58.140" +s;
-
-				//Log.e("Test", "result = " + img_url);
-				
-				Intent get_intent01 =getIntent();
-		    	String phone_num = get_intent01.getExtras().get("phone_num").toString().substring(1);
-				
-				X_BravoWebserver server = new X_BravoWebserver(this);
-				String result = server.ImgUpdateOnServer(phone_num,img_url);
-				
-		    	Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-				dos.close();
-				complete_Flag = true;
-				
-			} catch (Exception e) {
-				Log.d("Test", "exception " + e.getMessage());
-				// TODO: handle exception
-			}		
-		}
+			//Log.e("Test", "result = " + img_url);
+			
+			Intent get_intent01 =getIntent();
+	    	String phone_num = get_intent01.getExtras().get("phone_num").toString().substring(1);
+			
+			X_BravoWebserver server = new X_BravoWebserver(this);
+			String result = server.ImgUpdateOnServer(phone_num,img_url);
+			
+	    	Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+			dos.close();
+			complete_Flag = true;
+			
+		} catch (Exception e) {
+			Log.d("Test", "exception " + e.getMessage());
+			// TODO: handle exception
+		}		
+	}
 }
+
+
+
+
