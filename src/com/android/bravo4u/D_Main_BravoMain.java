@@ -219,6 +219,10 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 			        if(cursorCount02!= 0)
 			        {
 			        	dbhandler02.deleteAll();
+						SharedPreferences pref = getSharedPreferences("LogIn",0);
+			        	SharedPreferences.Editor edit = pref.edit();
+			        	edit.putInt("LoginState", 0);
+			        	edit.commit();
 	
 			        	Toast.makeText(this, "회원님의 데이터가 db에서 삭제 되었습니다.", Toast.LENGTH_LONG).show();
 			        	

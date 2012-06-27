@@ -7,18 +7,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Point;
 import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
 import android.util.Log;
@@ -27,7 +26,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickListener
@@ -50,14 +48,13 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 	private int giftWidth;
 	private int giftHeight;
 	
-	
-	private TextView whoseGiftText;
-	private X_BravoWebserver server;
-	private ArrayList<Point> puzzleCellPoints;
+
 	private Bitmap giftBitmap;
-	private Bitmap puzzleCellBitmap;
 	private Canvas canvas;
 	private Bitmap background;
+	
+	
+	boolean complete_Flag = false;
 	
     public void onCreate(Bundle savedInstanceState)
 	{
@@ -129,6 +126,9 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 	 protected void onActivityResult(int requestCode, int resultCode, Intent intent) 
 	 {		 
 
+		 doit();
+		 
+		 
 			try
 			{
 				//인텐트에 데이터가 담겨 왔다면
@@ -176,6 +176,50 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 		  
 	}
 	 
+	 
+	 private void doit()
+	 {
+		 new Thread()
+		 {
+			public void run()
+			{
+				loop();
+			}
+		 }.start();
+	 }
+	 
+	 private void loop()
+	 {
+		 
+		 for(int i=1; i<20; i++)
+		 {
+			 try
+			 {
+				 if(complete_Flag == false)
+				 {
+					 handler.sendEmptyMessage(i);
+					 Thread.sleep(50);
+				 }else if(complete_Flag == true)
+				 {
+					// Thread.interrupted();
+				 }
+
+			 }catch(InterruptedException e){
+				 
+			 }
+		 }
+	 }
+	 
+	 Handler handler =new Handler()
+	 {
+		 public void handleMessage(Message msg)
+		 {
+			 Toast.makeText(getApplicationContext(), ""+msg.what, Toast.LENGTH_SHORT).show();
+		 };
+	 };
+	 
+	 
+	 
 		private void HttpFileUpload(String urlString, String params, String fileName) 
 		{
 			try {
@@ -206,6 +250,7 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 				
 				int bytesAvailable = mFileInputStream.available();
 				int maxBufferSize = 1024;
+
 				int bufferSize = Math.min(bytesAvailable, maxBufferSize);
 				
 				byte[] buffer = new byte[bufferSize];
@@ -249,7 +294,8 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 				String result = server.ImgUpdateOnServer(phone_num,img_url);
 				
 		    	Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-				dos.close();			
+				dos.close();
+				complete_Flag = true;
 				
 			} catch (Exception e) {
 				Log.d("Test", "exception " + e.getMessage());
