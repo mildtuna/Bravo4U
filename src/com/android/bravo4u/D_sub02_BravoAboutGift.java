@@ -228,8 +228,28 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
         	Toast.makeText(D_sub02_BravoAboutGift.this, "네트워크 오류 입니다.", Toast.LENGTH_LONG).show();
         	return false;
         }
-    	
-
+    }
+    
+    public Boolean sendCompliment(int sendingnum)
+    {
+      
+    	try {
+			//TODO 사용자를 기다리게 할 수있는 방법 없뜸..결국..쓰레드를 써야하는가.. ㅠㅠ YEs
+			
+			String phoneNumber = getIntent().getExtras().get("phone_num").toString();
+			
+			if(phoneNumber.substring(0,1).equals("0")) {
+				phoneNumber = phoneNumber.substring(1);
+			}
+			
+			String sendingpz = Integer.toString(sendingnum);
+        	CountState= Integer.parseInt(server.getComplimentNumData(phoneNumber, sendingpz));
+        	
+        	return true;
+  	
+        }catch (Exception e) {
+        	return false;
+        }
     }
     
 
@@ -332,22 +352,24 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 			progressDialog.setMessage("Sending puzzle. Please wait...");
 			progressDialog.show();
 		}
+		
+		// 고고고
 
 		@Override
 		protected Boolean doInBackground(Void... unused) {
-			
-			return sendData(1);
+			return sendCompliment(1);
 		}
 
 		@Override
 		protected void onPostExecute(Boolean result) {
 			progressDialog.dismiss();
 			if (result) {
-				setResult(RESULT_OK);
-				finish();
+				updateComplimentPuzzle(CountState);
+	        	if(CountState==0) {
+	        		setNewImage(); // 새로운 이미지를 지정해준다.
+	        	}
 			} else {
 				Toast.makeText(context, "에러났습니다", Toast.LENGTH_SHORT).show();
-				finish();
 			}
 		}
 	}
