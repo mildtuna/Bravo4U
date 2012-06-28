@@ -12,12 +12,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -58,10 +60,10 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 	
 	
 	boolean complete_Flag = false;
+	Intent getdataIntent;
 
 	
-//	X_BasicProgressThread bpThread = null;
-//	ProgressDialog bpDialog = null;
+
 	
     public void onCreate(Bundle savedInstanceState)
 	{
@@ -133,7 +135,7 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 	 protected void onActivityResult(int requestCode, int resultCode, Intent intent) 
 	 {		 
 
-			try
+		    try
 			{
 				//인텐트에 데이터가 담겨 왔다면
 				 if(!intent.getData().equals(null))
@@ -143,21 +145,25 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
     				image_bitmap = Bitmap.createScaledBitmap(image_bitmap, giftWidth, giftHeight, false);
     				giftImg.setImageBitmap(image_bitmap);   
     				
+    				getdataIntent = intent;
     				
-    				//선택한 이미지의 uri를 읽어온다.   
-    				Uri selPhotoUri = intent.getData();
-    			
-    				//업로드할 서버의 url 주소
-    			    String urlString = "http://210.115.58.140/test7.php";
-    			    //절대경로를 획득한다!!! 중요~
-    			    Cursor c = getContentResolver().query(Uri.parse(selPhotoUri.toString()), null,null,null,null);
-    			    c.moveToNext();
-    			    //업로드할 파일의 절대경로 얻어오기("_data") 로 해도 된다.
-    			    String absolutePath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
-    			    Log.e("###파일의 절대 경로###", absolutePath);
-    			    
-    			   //파일 업로드 시작!
-    			   HttpFileUpload(urlString ,"", absolutePath);
+    				UploadPhoto uploadphoto = new UploadPhoto(this);
+    				uploadphoto.execute();
+    				
+//    				//선택한 이미지의 uri를 읽어온다.   
+//    				Uri selPhotoUri = intent.getData();
+//    			
+//    				//업로드할 서버의 url 주소
+//    			    String urlString = "http://210.115.58.140/test7.php";
+//    			    //절대경로를 획득한다!!! 중요~
+//    			    Cursor c = getContentResolver().query(Uri.parse(selPhotoUri.toString()), null,null,null,null);
+//    			    c.moveToNext();
+//    			    //업로드할 파일의 절대경로 얻어오기("_data") 로 해도 된다.
+//    			    String absolutePath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
+//    			    Log.e("###파일의 절대 경로###", absolutePath);
+//    			    
+//    			   //파일 업로드 시작!
+//    			   HttpFileUpload(urlString ,"", absolutePath);
 				 }
 				 
 			}catch(FileNotFoundException e) 
@@ -180,28 +186,12 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 		  
 	}
 	
-//	public Dialog onCreateDialog(int diagId)
-//	{
-//		//AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//		
-//		switch(diagId)
-//		{
-//			case 1:
-//				bpDialog =ProgressDialog.show(D_sub03_BravoSelectPhoto.this,"",
-//										"Loading. Please wait...", true, true);
-//				bpThread = new X_BasicProgressThread(bpDialog);
-//				bpThread.start();
-//				return(Dialog)(bpDialog);
-//			default:
-//				return null;
-//		}
-//	}
-	 
+
 
 	 
 	 
 	 
-	private void HttpFileUpload(String urlString, String params, String fileName) 
+	private Boolean HttpFileUpload(String urlString, String params, String fileName) 
 	{
 		try {
 			
@@ -278,10 +268,64 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 			dos.close();
 			complete_Flag = true;
 			
+			return true;
+			
 		} catch (Exception e) {
 			Log.d("Test", "exception " + e.getMessage());
+			return false;
 			// TODO: handle exception
 		}		
+	}
+	
+	private class UploadPhoto extends AsyncTask<Void, Void, Boolean> {
+
+		private Context context;
+		private ProgressDialog progressDialog = null;
+
+		public UploadPhoto(Context context) {
+			this.context = context;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			progressDialog = new ProgressDialog(context);
+			progressDialog.setProgress(ProgressDialog.STYLE_SPINNER);
+			progressDialog.setCancelable(false);
+			progressDialog.setMessage("Image Uploading. Please wait...");
+			progressDialog.show();
+		}
+		
+		// 고고고
+
+		@Override
+		protected Boolean doInBackground(Void... unused) {
+			
+			//선택한 이미지의 uri를 읽어온다.   
+			Uri selPhotoUri = getdataIntent.getData();
+		
+			//업로드할 서버의 url 주소
+		    String urlString = "http://210.115.58.140/test7.php";
+		    //절대경로를 획득한다!!! 중요~
+		    Cursor c = getContentResolver().query(Uri.parse(selPhotoUri.toString()), null,null,null,null);
+		    c.moveToNext();
+		    //업로드할 파일의 절대경로 얻어오기("_data") 로 해도 된다.
+		    String absolutePath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
+		    Log.e("###파일의 절대 경로###", absolutePath);
+		    
+		   //파일 업로드 시작!
+			return HttpFileUpload(urlString ,"", absolutePath);
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			progressDialog.dismiss();
+			if (result) {
+				Toast.makeText(context, "이미지 올라갔습니다.", Toast.LENGTH_SHORT).show();
+	        	
+			} else {
+				Toast.makeText(context, "이미지는 잘 올라갔지만 다른곳에서 에러났습니다", Toast.LENGTH_SHORT).show();
+			}
+		}
 	}
 }
 

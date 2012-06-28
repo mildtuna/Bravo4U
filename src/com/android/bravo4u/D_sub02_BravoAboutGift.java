@@ -46,9 +46,7 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 	
 	private int CountState =0;
 	
-	//sendPuzzleProgressThread bpThread = null;
-	ProgressDialog bpDialog = null;
-	boolean flag = false;
+
 	
     public void onCreate(Bundle savedInstanceState)
 	{
@@ -72,8 +70,14 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 		Button sendbtn = (Button)findViewById(R.id.sendBtn);
 		sendbtn.setOnClickListener(this);
         
-		init();
+		
 	}
+    
+    public void onResume()
+    {
+    	super.onResume();
+    	init();
+    }
     
     private void init() 
     {
@@ -173,7 +177,6 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
         
         ImageView img = (ImageView)findViewById(R.id.img);
         img.setImageBitmap(background);
-        flag =true;
 	}
 	  
 
@@ -181,15 +184,15 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
     {
     	if(CountState >0)
 		{
-    		//showDialog(1);
-    		//sendData(1);	
+
     		SendingPuzzle sendpuzzle = new SendingPuzzle(this);
     		sendpuzzle.execute();
 		
 		}
     	else if(CountState==0)
-    	{
-    		Toast.makeText(D_sub02_BravoAboutGift.this, "칭찬목표를 달성했습니다!", Toast.LENGTH_LONG).show();
+    	{	
+    		String name= getIntent().getExtras().get("name").toString();
+    		Toast.makeText(D_sub02_BravoAboutGift.this,name+ "님은 칭찬목표를 달성했습니다!", Toast.LENGTH_LONG).show();
     	}
     }	
     
@@ -217,7 +220,8 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
         	
         	if(CountState==0)
         	{
-        		setNewImage(); // 새로운 이미지를 지정해준다.
+        		String name= getIntent().getExtras().get("name").toString();
+        		if(name.equals("나"))setNewImage(); // 새로운 이미지를 지정해준다.
 
         	}
         	
@@ -284,56 +288,7 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 		alertDlg.show();
     }
     
-//	public Dialog onCreateDialog(int diagId)
-//	{
-//		
-//		switch(diagId)
-//		{
-//			case 1:
-//				bpDialog =ProgressDialog.show(D_sub02_BravoAboutGift.this,"",
-//										"Sending puzzle. Please wait...", true, true);
-//				Log.v("여긴되니", "플래그상태:"+flag);
-//				sendPuzzleProgressThread bpThread = new sendPuzzleProgressThread(bpDialog);
-//				Log.v("샌드퍼즐쓰레드 불렸다", "플래그상태:"+flag);
-//				bpThread.start();
-//				
-//
-//				return(Dialog)(bpDialog);
-//			default:
-//				return null;
-//		}
-//	}
 
-	
-
-//	class sendPuzzleProgressThread extends Thread
-//	{
-//		ProgressDialog myDialog = null;
-//
-//		public sendPuzzleProgressThread(ProgressDialog diag){myDialog = diag; Log.v("플래그상태", ""+flag);}
-//		
-//		public void run()
-//		{
-//			Log.d("플래그상태", ""+flag);
-//			if(flag == true)
-//			{
-//				//handler.sendEmptyMessage(1);
-//				myDialog.dismiss();
-//				flag = false;
-//				Log.i("플래그상태", ""+flag);
-//
-//			}
-//			
-//		}	
-//	 } 
-//	
-//	   final Handler handler = new Handler() {
-//	       public void handleMessage(Message msg) {
-//
-//	               bpDialog.dismiss();
-//	               flag = false;
-//	       }
-//	   };
 	
 	private class SendingPuzzle extends AsyncTask<Void, Void, Boolean> {
 
