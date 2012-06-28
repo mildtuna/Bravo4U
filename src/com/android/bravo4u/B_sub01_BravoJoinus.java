@@ -60,13 +60,15 @@ public class B_sub01_BravoJoinus extends Activity implements View.OnClickListene
 			int first_bravo_num = 25;
 			String bravo_numStr = Integer.toString(first_bravo_num);
 			String img_url = "http://210.115.58.140/upload/defaultimg.jpg";
+			String promise_person = "nobody";
 
 			if (!nameStr.equals("") && !phone_numStr.equals("")&& !passwordStr.equals("")) 
 			{
 				// 서버로 가입할 회원 정보 보낸다.
 				X_BravoWebserver clientDataSend = new X_BravoWebserver(this);
+				
 				clientDataSend.sendJoinusData(nameStr, phone_numStr,
-						passwordStr, bravo_numStr, img_url);
+						passwordStr, bravo_numStr, img_url, promise_person);
 
 				Toast.makeText(getApplicationContext(), "축하합니다. 회원가입되셨습니다~!",
 						Toast.LENGTH_SHORT).show();

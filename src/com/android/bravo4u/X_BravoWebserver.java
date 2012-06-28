@@ -32,12 +32,12 @@ public class X_BravoWebserver
 	//
 	//--------------------------------------------------------------------
 	
-	public String sendJoinusData(String name, String phone_num, String password, String bravo_num, String img_url) 
+	public String sendJoinusData(String name, String phone_num, String password, String bravo_num, String img_url, String promise_person) 
 	{
 		String returnStr= null;
 		try {
 			// 데이터를 웹서버에 보내고 받아온 결과 출력
-			 returnStr = sendData01(name, phone_num, password,bravo_num,img_url);
+			 returnStr = sendData01(name, phone_num, password,bravo_num,img_url,promise_person);
 			
 
 		} catch (ClientProtocolException e) {
@@ -50,11 +50,11 @@ public class X_BravoWebserver
 	}
 
 	
-	private String sendData01(String name, String phone_num, String password, String bravo_num, String img_url)
+	private String sendData01(String name, String phone_num, String password, String bravo_num, String img_url,String promise_person)
 			throws ClientProtocolException, IOException 
 	{
 		
-		HttpPost request = makeHttpPost01(name, phone_num, password,bravo_num, img_url,"http://210.115.58.140/test2.php");
+		HttpPost request = makeHttpPost01(name, phone_num, password,bravo_num, img_url,promise_person,"http://210.115.58.140/test2.php");
 
 		HttpClient client = new DefaultHttpClient();
 
@@ -65,7 +65,7 @@ public class X_BravoWebserver
 		return result;
 	}
 	
-	private HttpPost makeHttpPost01(String $name, String $phone_num,String $password,String $bravo_num, String $img_url, String $url) 
+	private HttpPost makeHttpPost01(String $name, String $phone_num,String $password,String $bravo_num, String $img_url,String $promise_person, String $url) 
 	{
 		HttpPost request = new HttpPost($url);
 		Vector<NameValuePair> nameValue = new Vector<NameValuePair>();
@@ -74,6 +74,7 @@ public class X_BravoWebserver
 		nameValue.add(new BasicNameValuePair("password", $password));
 		nameValue.add(new BasicNameValuePair("bravo_num", $bravo_num));
 		nameValue.add(new BasicNameValuePair("img_url", $img_url));
+		nameValue.add(new BasicNameValuePair("promise_person", $promise_person));
 		request.setEntity(makeEntity(nameValue));
 
 		Log.e("makeHttpPost01", "메서드 호출");
@@ -372,7 +373,7 @@ public class X_BravoWebserver
 		ResponseHandler<String> reshandler = new BasicResponseHandler();
 		String result = client.execute(request, reshandler);
 		
-		Log.e("sendData09", result);
+		Log.e("sendData07", result);
 		
 		return result;
 	}
@@ -384,10 +385,115 @@ public class X_BravoWebserver
 		nameValue.add(new BasicNameValuePair("phone_num", $phone_num));
 		request.setEntity(makeEntity(nameValue));
 
+		Log.e("makeHttpPost07", "메서드 호출");
+		return request;
+
+	}
+	
+	//--------------------------------------------------------------------
+	//
+	//					선물사주기로 약속한 사람 번호 업데이트
+	//
+	//--------------------------------------------------------------------
+	
+	
+	public String promisePersonUpdateOnServer(String phone_num, String update_promise_person) 
+	{
+		String returnStr= null;
+		try {
+			// 데이터를 웹서버에 보내고 받아온 결과를 출력
+			 returnStr = sendData08(phone_num, update_promise_person);
+			
+
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return returnStr;
+	}
+
+	
+	private String sendData08(String phone_num, String update_promise_person)
+			throws ClientProtocolException, IOException 
+	{
+		HttpPost request = makeHttpPost08(phone_num,update_promise_person,"http://210.115.58.140/test10.php");
+
+		HttpClient client = new DefaultHttpClient();
+
+		ResponseHandler<String> reshandler = new BasicResponseHandler();
+		String result = client.execute(request, reshandler);
+		
+		Log.e("sendData08", result);
+		
+		return result;
+	}
+	
+	private HttpPost makeHttpPost08(String $phone_num,String $update_promise_person,String $url) 
+	{
+		HttpPost request = new HttpPost($url);
+		Vector<NameValuePair> nameValue = new Vector<NameValuePair>();
+		nameValue.add(new BasicNameValuePair("phone_num", $phone_num));
+		nameValue.add(new BasicNameValuePair("update_promise_person", $update_promise_person));
+		request.setEntity(makeEntity(nameValue));
+
+		Log.e("makeHttpPost08", "메서드 호출");
+		return request;
+
+	}
+	
+	//--------------------------------------------------------------------
+	//
+	//					선물사주기로한사람 누구인지 번호 받아오기
+	//
+	//--------------------------------------------------------------------
+
+	public String getPromisePersonOnServer(String phone_num) 
+	{
+		String returnStr= null;
+		try {
+			// 데이터를 웹서버에 보내고 받아온 결과를 출력
+			 returnStr = sendData09(phone_num);
+			
+
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return returnStr;
+	}
+
+	
+	private String sendData09(String phone_num)
+			throws ClientProtocolException, IOException 
+	{
+		HttpPost request = makeHttpPost09(phone_num,"http://210.115.58.140/test11.php");
+
+		HttpClient client = new DefaultHttpClient();
+
+		ResponseHandler<String> reshandler = new BasicResponseHandler();
+		String result = client.execute(request, reshandler);
+		
+		Log.e("sendData09", result);
+		
+		return result;
+	}
+	
+	private HttpPost makeHttpPost09(String $phone_num,String $url) 
+	{
+		HttpPost request = new HttpPost($url);
+		Vector<NameValuePair> nameValue = new Vector<NameValuePair>();
+		nameValue.add(new BasicNameValuePair("phone_num", $phone_num));
+		request.setEntity(makeEntity(nameValue));
+
 		Log.e("makeHttpPost09", "메서드 호출");
 		return request;
 
 	}
+	
 
 	private HttpEntity makeEntity(Vector<NameValuePair> $nameValue) {
 		HttpEntity result = null;

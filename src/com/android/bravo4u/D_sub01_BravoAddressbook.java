@@ -36,7 +36,55 @@ public class D_sub01_BravoAddressbook extends Activity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.d_sub01_bravoaddressbook);
 
-        //주소록 리스트로 옮기기
+        arrangeAddress();
+          
+        listArray =new ArrayList<String>();
+        serverDbhasAddress();
+         
+        list_addFamily = (ListView)findViewById(R.id.addressbookList);
+	     
+        list_addFamily.setAdapter(new ArrayAdapter<String>(this,
+	             android.R.layout.simple_list_item_1, listArray));
+	
+        list_addFamily.setOnItemClickListener(this); 
+        
+        //뒤로가기 버튼
+        BackBtn=(Button)findViewById(R.id.addFamilyBackBtn);
+        BackBtn.setOnClickListener(this);
+       
+
+     
+    }
+    
+    public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+    {
+    	long cnt =0;
+    	X_BravoDBHandler dbhandler = X_BravoDBHandler.open(this);
+    	
+    	String insertDBdata[] =listArray.get(position).split("\n");
+    	String name = insertDBdata[0];
+    	String phone_num = insertDBdata[1];
+        
+        int cursorCount = dbhandler.select(phone_num);
+        if(cursorCount== 0)
+        {
+        	cnt = dbhandler.insert(name,phone_num);
+        	
+        }else 	Toast.makeText(this, name + "님은 이미 추가 되있습니다.", Toast.LENGTH_LONG).show();
+         
+        if (cnt == -1) Toast.makeText(this, name + "님이 db에 추가되지 않았습니다.", Toast.LENGTH_LONG).show();
+
+        dbhandler.close();
+    }
+    
+    public void onClick(View v)
+    {
+    	finish();
+    }
+    
+    public void arrangeAddress()
+    {
+    	//주소록 리스트로 옮기기
         phonelist =  getContacts();
         String[] phone_array =phonelist.split("q");
         groupArray =new ArrayList<String>();
@@ -73,55 +121,15 @@ public class D_sub01_BravoAddressbook extends Activity implements AdapterView.On
 //        {
 //        	str += ""+ i + groupArray.get(i)+"\n\n";
 //        }
-          
-        listArray =new ArrayList<String>();
-        serverDbhasAddress();
-         
-        list_addFamily = (ListView)findViewById(R.id.addressbookList);
-	     
-        list_addFamily.setAdapter(new ArrayAdapter<String>(this,
-	             android.R.layout.simple_list_item_1, listArray));
-	
-        list_addFamily.setOnItemClickListener(this); 
         
-        //뒤로가기 버튼
-        BackBtn=(Button)findViewById(R.id.addFamilyBackBtn);
-        BackBtn.setOnClickListener(this);
-       
-//        AlertDialog.Builder alertDlg = new AlertDialog.Builder(this);
+        
+//      AlertDialog.Builder alertDlg = new AlertDialog.Builder(this);
 //		alertDlg.setTitle("폰리스트");
 //		alertDlg.setMessage(str);
 //		alertDlg.setNegativeButton("확인", new DialogInterface.OnClickListener() {
 //			public void onClick(DialogInterface dialog, int which) {dialog.dismiss();}
 //		});
 //		alertDlg.show();
-     
-    }
-    
-    public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-    {
-    	long cnt =0;
-    	X_BravoDBHandler dbhandler = X_BravoDBHandler.open(this);
-    	
-    	String insertDBdata[] =listArray.get(position).split("\n");
-    	String name = insertDBdata[0];
-    	String phone_num = insertDBdata[1];
-        
-        int cursorCount = dbhandler.select(phone_num);
-        if(cursorCount== 0)
-        {
-        	cnt = dbhandler.insert(name,phone_num);
-        	
-        }else 	Toast.makeText(this, name + "님은 이미 추가 되있습니다.", Toast.LENGTH_LONG).show();
-         
-        if (cnt == -1) Toast.makeText(this, name + "님이 db에 추가되지 않았습니다.", Toast.LENGTH_LONG).show();
-
-        dbhandler.close();
-    }
-    
-    public void onClick(View v)
-    {
-    	finish();
     }
     
     public void serverDbhasAddress()
@@ -129,6 +137,7 @@ public class D_sub01_BravoAddressbook extends Activity implements AdapterView.On
     	// 서버에 있는 주소록(폰번호) 가져오기
         X_BravoWebserver getphonenum = new X_BravoWebserver(this);
         String  allPhonenumStr=getphonenum.getPhonenumData();
+        //Toast.makeText(getApplicationContext(), allPhonenumStr, Toast.LENGTH_LONG).show();
         String[]serverDbPhoneArr =allPhonenumStr.split(",");
         
         for(int i=0; i<groupArray.size(); i++)
@@ -139,7 +148,8 @@ public class D_sub01_BravoAddressbook extends Activity implements AdapterView.On
         		//Log.e("주소록 잘못됐어", ""+groupArray.get(i));
         		//Log.e("주소록 잘못됐어", ""+array[array.length-1]);
         		
-        		String phone_num = array[array.length-1].substring(1);
+//        		String phone_num = array[array.length-1].substring(1);
+        		String phone_num = array[array.length-1];
         		
         		if(phone_num.equals(serverDbPhoneArr[j]))
         		{

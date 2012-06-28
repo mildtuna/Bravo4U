@@ -41,14 +41,28 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
-            android:orientation="vertical" >
+            android:orientation="horizontal" >
 
             <Button
                 android:id="@+id/sendBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="칭찬보내기" />
+
+            <Button
+                android:id="@+id/promiseBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이선물 내가 사준다!" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/pormiseText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:text="아직 선물을  사주겠다는 사람이 없습니다." />
     </LinearLayout>
 
 </LinearLayout>

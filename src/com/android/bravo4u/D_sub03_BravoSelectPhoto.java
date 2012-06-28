@@ -259,7 +259,8 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 			//Log.e("Test", "result = " + img_url);
 			
 			Intent get_intent01 =getIntent();
-	    	String phone_num = get_intent01.getExtras().get("phone_num").toString().substring(1);
+//	    	String phone_num = get_intent01.getExtras().get("phone_num").toString().substring(1);
+	    	String phone_num = get_intent01.getExtras().get("phone_num").toString();
 			
 			X_BravoWebserver server = new X_BravoWebserver(this);
 			String result = server.ImgUpdateOnServer(phone_num,img_url);

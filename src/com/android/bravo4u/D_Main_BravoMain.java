@@ -241,7 +241,7 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 			        }else 	Toast.makeText(this, "회원님은 db에없는 회원이십니다.", Toast.LENGTH_LONG).show();
 			        dbhandler02.close();
 			        
-			        phone_num02 = phone_num02.substring(1);
+			        //phone_num02 = phone_num02.substring(1);
 			        
 			        X_BravoWebserver server = new X_BravoWebserver(this);
 			        String str =server.deleteDataonServer(phone_num02);
@@ -280,12 +280,14 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 	    	{
 	    		showDialog(1);
 	    		
-	    		String phone_num = phone_numArray.get(position);
+		    	String my_phone_num = getIntent().getExtras().get("phone_num").toString();
+	    		String group_phone_num = phone_numArray.get(position);
 	    		String name = firstTablistArray.get(position);
 	    		
 	    		Intent intent =new Intent(this, D_sub02_BravoAboutGift.class);
-	    		intent.putExtra("phone_num",phone_num);
+	    		intent.putExtra("group_phone_num",group_phone_num);
 	    		intent.putExtra("name", name);
+	    		intent.putExtra("my_phone_num", my_phone_num);
 	    		startActivity(intent);
 	    		
 	    		
