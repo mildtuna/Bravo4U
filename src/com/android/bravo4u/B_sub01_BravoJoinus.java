@@ -59,7 +59,8 @@ public class B_sub01_BravoJoinus extends Activity implements View.OnClickListene
 
 			int first_bravo_num = 25;
 			String bravo_numStr = Integer.toString(first_bravo_num);
-			String img_url = "http://210.115.58.140/upload/defaultimg.jpg";
+			//String img_url = "http://210.115.58.140/upload/defaultimg.jpg";
+			String img_url = "http://14.63.225.38/upload/defaultimg.jpg";
 			String promise_person = "nobody";
 
 			if (!nameStr.equals("") && !phone_numStr.equals("")&& !passwordStr.equals("")) 

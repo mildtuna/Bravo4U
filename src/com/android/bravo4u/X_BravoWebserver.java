@@ -13,6 +13,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 
 import android.content.Context;
 import android.util.Log;
@@ -54,8 +55,8 @@ public class X_BravoWebserver
 			throws ClientProtocolException, IOException 
 	{
 		
-		HttpPost request = makeHttpPost01(name, phone_num, password,bravo_num, img_url,promise_person,"http://210.115.58.140/test2.php");
-
+		//HttpPost request = makeHttpPost01(name, phone_num, password,bravo_num, img_url,promise_person,"http://210.115.58.140/test2.php");
+		HttpPost request = makeHttpPost01(name, phone_num, password,bravo_num, img_url,promise_person,"http://14.63.225.38/test2.php");
 		HttpClient client = new DefaultHttpClient();
 
 		ResponseHandler<String> reshandler = new BasicResponseHandler();
@@ -109,7 +110,8 @@ public class X_BravoWebserver
 	private String sendData02(String phone_num)
 			throws ClientProtocolException, IOException 
 	{
-		HttpPost request = makeHttpPost02(phone_num,"http://210.115.58.140/test3.php");
+		//HttpPost request = makeHttpPost02(phone_num,"http://210.115.58.140/test3.php");
+		HttpPost request = makeHttpPost02(phone_num,"http://14.63.225.38/test3.php");
 
 		HttpClient client = new DefaultHttpClient();
 
@@ -160,7 +162,8 @@ public class X_BravoWebserver
 	private String sendData03()
 			throws ClientProtocolException, IOException 
 	{
-		HttpPost request = makeHttpPost03("http://210.115.58.140/test4.php");
+		//HttpPost request = makeHttpPost03("http://210.115.58.140/test4.php");
+		HttpPost request = makeHttpPost03("http://14.63.225.38/test4.php");
 
 		HttpClient client = new DefaultHttpClient();
 
@@ -208,7 +211,8 @@ public class X_BravoWebserver
 	private String sendData04(String phone_num,String sendingpz)
 			throws ClientProtocolException, IOException 
 	{
-		HttpPost request = makeHttpPost04(phone_num,sendingpz,"http://210.115.58.140/test5.php");
+//		HttpPost request = makeHttpPost04(phone_num,sendingpz,"http://210.115.58.140/test5.php");
+		HttpPost request = makeHttpPost04(phone_num,sendingpz,"http://14.63.225.38/test5.php");
 
 		HttpClient client = new DefaultHttpClient();
 
@@ -261,7 +265,8 @@ public class X_BravoWebserver
 	private String sendData05(String phone_num)
 			throws ClientProtocolException, IOException 
 	{
-		HttpPost request = makeHttpPost05(phone_num,"http://210.115.58.140/test6.php");
+		//HttpPost request = makeHttpPost05(phone_num,"http://210.115.58.140/test6.php");
+		HttpPost request = makeHttpPost05(phone_num,"http://14.63.225.38/test6.php");
 
 		HttpClient client = new DefaultHttpClient();
 
@@ -313,7 +318,8 @@ public class X_BravoWebserver
 	private String sendData06(String phone_num, String update_url)
 			throws ClientProtocolException, IOException 
 	{
-		HttpPost request = makeHttpPost06(phone_num,update_url,"http://210.115.58.140/test8.php");
+		//HttpPost request = makeHttpPost06(phone_num,update_url,"http://210.115.58.140/test8.php");
+		HttpPost request = makeHttpPost06(phone_num,update_url,"http://14.63.225.38/test8.php");
 
 		HttpClient client = new DefaultHttpClient();
 
@@ -366,7 +372,8 @@ public class X_BravoWebserver
 	private String sendData07(String phone_num)
 			throws ClientProtocolException, IOException 
 	{
-		HttpPost request = makeHttpPost07(phone_num,"http://210.115.58.140/test9.php");
+		//HttpPost request = makeHttpPost07(phone_num,"http://210.115.58.140/test9.php");
+		HttpPost request = makeHttpPost07(phone_num,"http://14.63.225.38/test9.php");
 
 		HttpClient client = new DefaultHttpClient();
 
@@ -418,7 +425,8 @@ public class X_BravoWebserver
 	private String sendData08(String phone_num, String update_promise_person)
 			throws ClientProtocolException, IOException 
 	{
-		HttpPost request = makeHttpPost08(phone_num,update_promise_person,"http://210.115.58.140/test10.php");
+//		HttpPost request = makeHttpPost08(phone_num,update_promise_person,"http://210.115.58.140/test10.php");
+		HttpPost request = makeHttpPost08(phone_num,update_promise_person,"http://14.63.225.38/test10.php");
 
 		HttpClient client = new DefaultHttpClient();
 
@@ -470,7 +478,8 @@ public class X_BravoWebserver
 	private String sendData09(String phone_num)
 			throws ClientProtocolException, IOException 
 	{
-		HttpPost request = makeHttpPost09(phone_num,"http://210.115.58.140/test11.php");
+//		HttpPost request = makeHttpPost09(phone_num,"http://210.115.58.140/test11.php");
+		HttpPost request = makeHttpPost09(phone_num,"http://14.63.225.38/test11.php");
 
 		HttpClient client = new DefaultHttpClient();
 
@@ -499,7 +508,7 @@ public class X_BravoWebserver
 		HttpEntity result = null;
 
 		try {
-			result = new UrlEncodedFormEntity($nameValue);
+			result = new UrlEncodedFormEntity($nameValue,HTTP.UTF_8);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

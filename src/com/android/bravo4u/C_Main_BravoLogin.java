@@ -24,10 +24,11 @@ public class C_Main_BravoLogin extends Activity implements View.OnClickListener
 	ConnectivityManager connectManger;
 	NetworkInfo networkinfo;
 	
-	int error_code =0;
+	
+	final int EXCEPTION_ERROR =0;
 	final int NOT_A_MEMBER =1;
 	final int NOT_AGREE_PASSWORD=2;
-	
+	int error_code = EXCEPTION_ERROR;
 	
     public void onCreate(Bundle savedInstanceState)
 	{
@@ -91,8 +92,18 @@ public class C_Main_BravoLogin extends Activity implements View.OnClickListener
     
     public Boolean loginCheck(String phone_num, String passwordStr )
     {
-    	String returnLoginData = checkBrovoMemberServer(phone_num);
-		
+    	String returnLoginData;
+    	try
+    	{
+    		//서버로 가입할 회원 정보 보낸다.
+    		X_BravoWebserver loginDataSend =new X_BravoWebserver(this);
+    		//폰번호로 회원검색
+    		returnLoginData = loginDataSend.sendLoginData(phone_num).trim();
+    	}catch(Exception e)
+    	{
+    		return false;
+    	}
+
 		if(returnLoginData.equals(""))
 		{	
 			error_code = NOT_A_MEMBER;
@@ -125,20 +136,8 @@ public class C_Main_BravoLogin extends Activity implements View.OnClickListener
 			
 		}
     }
-      
-    public String checkBrovoMemberServer(String phone_num)
-    {
-		//서버로 가입할 회원 정보 보낸다.
-		X_BravoWebserver loginDataSend =new X_BravoWebserver(this);
-		//폰번호로 회원검색
-		String returnLoginData =loginDataSend.sendLoginData(phone_num).trim();
-		
-		return returnLoginData;
-    }
-    
-   
-    
-    
+
+       
     @Override   
     public boolean onKeyDown(int keyCode, KeyEvent event) 
     {    
@@ -189,7 +188,8 @@ public class C_Main_BravoLogin extends Activity implements View.OnClickListener
 					Toast.makeText(getApplicationContext(), "회원이 아니십니다.", Toast.LENGTH_SHORT).show();
 				if(error_code == NOT_AGREE_PASSWORD) 
 					Toast.makeText(getApplicationContext(), "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
-				
+				if(error_code == EXCEPTION_ERROR)
+					Toast.makeText(getApplicationContext(), "네트워크 상태가 좋지않아 로그인에 실패했습니다.", Toast.LENGTH_SHORT).show();
 			}
 		}
 	}

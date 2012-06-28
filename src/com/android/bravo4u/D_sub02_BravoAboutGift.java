@@ -107,10 +107,33 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
     {
 		String group_phone_num= getIntent().getExtras().get("group_phone_num").toString();
 		String promisePersonData = server.getPromisePersonOnServer(group_phone_num);
+		String promise_person_name = "";
+   		
+		X_BravoGetAddress getAddress =new X_BravoGetAddress(this);
+		ArrayList<String> groupArray = getAddress.arrangeAddress();
+		String my_phone_num= getIntent().getExtras().get("my_phone_num").toString();
+		groupArray.add("내"+"#"+my_phone_num);
 		
+		//Toast.makeText(getApplicationContext(), promisePersonData+ , duration)
+		for(int i=0; i<groupArray.size(); i++)
+        {
+    		String[] array = groupArray.get(i).split("#");
+
+    		String phone_num = array[array.length-1];
+    		
+    		if(phone_num.equals(promisePersonData))
+    		{
+    			//서버에있는 폰번호와 현재폰 주소록에있는 번호와 일치한것만 linkedList에 넣는다.
+    			promise_person_name = array[array.length-2];
+    			//String phoneNum = array[array.length-1];
+    		}else
+    		{
+    			promise_person_name = "["+promisePersonData+"]의 분";
+    		}
+        }
 	
 		if(promisePersonData.equals("nobody")) pormiseText.setText("아무도 선물 안사줌 ㅠ");
-		else pormiseText.setText("선물 사주겠다는 사람 번호 :"+ promisePersonData);
+		else pormiseText.setText(promise_person_name+"가(이) 선물을 사주기로 약속했습니다.");
 		
     }
     
