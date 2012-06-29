@@ -35,6 +35,13 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 	private ArrayList<Point> puzzleCellPoints;
 	private Bitmap giftBitmap;
 	private Bitmap puzzleCellBitmap;
+	private Bitmap puzzleBitmap0,puzzleBitmap1,puzzleBitmap2,puzzleBitmap3,puzzleBitmap4,
+					puzzleBitmap5,puzzleBitmap6,puzzleBitmap7,puzzleBitmap8,puzzleBitmap9,
+					puzzleBitmap10,puzzleBitmap11,puzzleBitmap12,puzzleBitmap13,puzzleBitmap14,
+					puzzleBitmap15,puzzleBitmap16,puzzleBitmap17,puzzleBitmap18,puzzleBitmap19,
+					puzzleBitmap20,puzzleBitmap21,puzzleBitmap22,puzzleBitmap23,puzzleBitmap24;
+	private Bitmap[] puzzleBitmaps;
+	
 	private Canvas canvas;
 	private Bitmap background;
 	
@@ -210,11 +217,25 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 		giftBitmap= imageDownloader.download(imgurl, null);
 		giftBitmap = Bitmap.createScaledBitmap(giftBitmap, giftWidth, giftHeight, false);
         puzzleCellBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.nemo), puzzleWidth, puzzleHeight, false);
-        
+        puzzleDecodeResource();
         background = Bitmap.createBitmap(giftWidth, giftHeight, Config.ARGB_8888);
         canvas = new Canvas(background);
 
           
+	}
+	
+	public void puzzleDecodeResource()
+	{
+		puzzleBitmaps = new Bitmap[25];
+		
+		for(int i=0; i< puzzleBitmaps.length; i++)
+		{
+			int resID = getResources().getIdentifier("puzzle_"+i, "drawable", "com.android.bravo4u");
+			puzzleBitmaps[i] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), resID),
+					 puzzleWidth+20, puzzleHeight+20, false);
+		}
+
+	 
 	}
 	
 	private void updateComplimentPuzzle(int ComplimentCount)
@@ -222,10 +243,16 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 		//TODO 변수들을 Field 로 만들어 버려서 사용은 쉽지만, 고칠 부분도 있을거 같음.
         canvas.drawBitmap(giftBitmap, 0, 0, null);
         
+//        for (int i = 0; i < ComplimentCount; i++) 
+//        {	
+//        	Point point = (Point)puzzleCellPoints.get(puzzleCellPoints.size()-i-1);
+//        	canvas.drawBitmap(puzzleCellBitmap, point.x, point.y, null);
+//        }
         for (int i = 0; i < ComplimentCount; i++) 
         {	
-        	Point point = (Point)puzzleCellPoints.get(puzzleCellPoints.size()-i-1);
-        	canvas.drawBitmap(puzzleCellBitmap, point.x, point.y, null);
+//        	Point point = (Point)puzzleCellPoints.get(puzzleCellPoints.size()-i-1);
+        	Point point = (Point)puzzleCellPoints.get(i);
+        	canvas.drawBitmap(puzzleBitmaps[i], point.x, point.y, null);
         }
         
         ImageView img = (ImageView)findViewById(R.id.img);

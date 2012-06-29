@@ -28,9 +28,9 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="350dp"
-        android:gravity="center_vertical"
+        android:layout_height="300dp"
         android:background="@drawable/default_bg"
+        android:gravity="center_vertical"
         android:orientation="vertical" >
 
         <ImageView
@@ -38,42 +38,47 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp" 
-            android:layout_marginBottom="30dp" />
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@drawable/login_join_underbar"
+        android:gravity="center_vertical"
         android:orientation="vertical" >
 
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginTop="30dp"
+            android:gravity="center_vertical|center_horizontal"
             android:orientation="horizontal" >
 
             <Button
                 android:id="@+id/sendBtn"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
                 android:background="@drawable/send_bravo_button" />
 
             <Button
                 android:id="@+id/promiseBtn"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/promise_gift_button"
                 android:text="이선물 내가 사준다!" />
         </LinearLayout>
-
+        
+        
         <TextView
             android:id="@+id/pormiseText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
+            android:textColor="#000000"
             android:text="아직 선물을  사주겠다는 사람이 없습니다." />
     </LinearLayout>
 
