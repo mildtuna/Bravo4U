@@ -136,18 +136,18 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
     			
     			promise_person_name = array[array.length-2]; // 폰번호에 해당하는 이름
     			Toast.makeText(getApplicationContext(), promise_person_name, Toast.LENGTH_SHORT).show();
-    			pormiseText.setText(promise_person_name);
+    			pormiseText.setText(promise_person_name+"님께서 선물을 약속하셨습니다.");
     			return;
 
     		}else if(promisePersonData.equals("nobody"))
     		{
-    			promise_person_name ="nobody";
-    			pormiseText.setText(promise_person_name);
+    			//promise_person_name ="nobody";
+    			pormiseText.setText("아무도 선물을 약속하시지 않으셨습니다.");
     			return;
     			
     		}else
     		{
-    			promise_person_name = "["+promisePersonData+"]의 분";
+    			promise_person_name = "["+promisePersonData+"]의 번호를 가지신 분이 선물을 약속하셨습니다.";
     			pormiseText.setText(promise_person_name);
     			
     		}
