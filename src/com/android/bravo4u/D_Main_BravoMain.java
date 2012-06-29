@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -35,10 +36,15 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 	NetworkInfo networkinfo;
 	boolean isMobieConn;
 	boolean isWifiConn;
-	
-	BasicProgressThread bpThread = null;
-	ProgressDialog bpDialog = null;
 
+	ProgressDialog bpDialog = null;
+	
+	final int ADD_BUTTON_CLICK =0;
+	final int LIST_ITEM_CLICK=1;
+	int codestate=2;
+	
+	int listItemPosition;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
@@ -135,10 +141,6 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
     	super.onResume();
     	firstTab();
     	
-    	if(bpDialog != null &&bpDialog.isShowing())
-    	{
-    		bpDialog.dismiss();
-    	}
     }
 	
 	public void onClick(View v)
@@ -167,10 +169,11 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 				networkState();
 				
 				if (isMobieConn || isWifiConn) 
-				{
-					showDialog(1);
-					Intent intent =new Intent(D_Main_BravoMain.this,D_sub01_BravoAddressbook.class);
-					startActivity(intent);
+				{					
+					codestate = ADD_BUTTON_CLICK;
+					MainAsyncTask loading = new MainAsyncTask(this);
+					loading.execute();
+
 				}else
 				{
 					Toast.makeText(getApplicationContext(), "네트워크를 연결해주세요",Toast.LENGTH_SHORT).show();
@@ -270,6 +273,47 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 		}
 	}
 	
+	public Boolean startActivitys()
+	{
+		if(codestate == ADD_BUTTON_CLICK)
+		{
+			try
+			{
+				Intent intent =new Intent(D_Main_BravoMain.this,D_sub01_BravoAddressbook.class);
+				startActivity(intent);
+				
+				return true;
+			}catch(Exception e)
+			{
+				return false;
+			}
+		}
+		
+		if(codestate == LIST_ITEM_CLICK)
+		{
+			try
+			{
+		    	String my_phone_num = getIntent().getExtras().get("phone_num").toString();
+	    		String group_phone_num = phone_numArray.get(listItemPosition);
+	    		String name = firstTablistArray.get(listItemPosition);
+	    		
+	    		Intent intent =new Intent(this, D_sub02_BravoAboutGift.class);
+	    		intent.putExtra("group_phone_num",group_phone_num);
+	    		intent.putExtra("name", name);
+	    		intent.putExtra("my_phone_num", my_phone_num);
+	    		startActivity(intent);
+				
+				return true;
+			}catch(Exception e)
+			{
+				return false;
+			}
+		}
+
+		return false;
+		
+	}
+	
     public void onItemClick(AdapterView<?> listview, View v, int position, long id) 
     {
     	networkState();
@@ -277,20 +321,11 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 		if (isMobieConn || isWifiConn) 
 		{
 	    	if(firstTabEditBtn.getVisibility() == firstTabEditBtn.VISIBLE)
-	    	{
-	    		showDialog(1);
-	    		
-		    	String my_phone_num = getIntent().getExtras().get("phone_num").toString();
-	    		String group_phone_num = phone_numArray.get(position);
-	    		String name = firstTablistArray.get(position);
-	    		
-	    		Intent intent =new Intent(this, D_sub02_BravoAboutGift.class);
-	    		intent.putExtra("group_phone_num",group_phone_num);
-	    		intent.putExtra("name", name);
-	    		intent.putExtra("my_phone_num", my_phone_num);
-	    		startActivity(intent);
-	    		
-	    		
+	    	{	
+	    		listItemPosition =position;
+				codestate = LIST_ITEM_CLICK;
+				MainAsyncTask loading = new MainAsyncTask(this);
+				loading.execute();	
 	    	}
 		}else
 		{
@@ -367,8 +402,6 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 			   groupTabList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		   }
 
-
-		   //Log.i("퍼스트탭", firstTablistArray.get(0)+firstTablistArray.get(1)+firstTablistArray.get(2));
 		   dbhandler.close();
 	       
 	}
@@ -397,40 +430,45 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
     	}
     }
     
-	public Dialog onCreateDialog(int diagId)
-	{
-		//AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		
-		switch(diagId)
-		{
-			case 1:
-				bpDialog =ProgressDialog.show(D_Main_BravoMain.this,"",
-										"Loading. Please wait...", true, true);
-				bpThread = new BasicProgressThread(bpDialog);
-				bpThread.start();
-				return(Dialog)(bpDialog);
-			default:
-				return null;
+
+
+	private class MainAsyncTask extends AsyncTask<Void, Void, Boolean> {
+
+		private Context context;
+		private ProgressDialog progressDialog = null;
+
+		public MainAsyncTask(Context context) {
+			this.context = context;
 		}
-	}
 
+		@Override
+		protected void onPreExecute() {
+			progressDialog = new ProgressDialog(context);
+			progressDialog.setProgress(ProgressDialog.STYLE_SPINNER);
+			progressDialog.setCancelable(false);
+			progressDialog.setMessage("Please wait...");
+			progressDialog.show();
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... unused) {
+			return startActivitys();
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			progressDialog.dismiss();
+			if (result) {
+
+			} else {
+
+					Toast.makeText(getApplicationContext(), "네트워크 상태가 좋지않아  실패했습니다.", Toast.LENGTH_SHORT).show();
+			}
+		}
+	}	
+	
 }
 
-class BasicProgressThread extends Thread
-{
-	ProgressDialog mDialog = null;
-	public BasicProgressThread(ProgressDialog diag){mDialog = diag;}
-	
-	public void run()
-	{
-		try
-		{ 
-			Thread.sleep(2000);	
-	
-		}catch(InterruptedException e){}
-		mDialog.dismiss();
-	}
-	
-}
+
 
 

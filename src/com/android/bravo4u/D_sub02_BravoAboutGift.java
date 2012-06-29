@@ -34,12 +34,12 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 	private X_BravoWebserver server;
 	private ArrayList<Point> puzzleCellPoints;
 	private Bitmap giftBitmap;
-	private Bitmap puzzleCellBitmap;
-	private Bitmap puzzleBitmap0,puzzleBitmap1,puzzleBitmap2,puzzleBitmap3,puzzleBitmap4,
-					puzzleBitmap5,puzzleBitmap6,puzzleBitmap7,puzzleBitmap8,puzzleBitmap9,
-					puzzleBitmap10,puzzleBitmap11,puzzleBitmap12,puzzleBitmap13,puzzleBitmap14,
-					puzzleBitmap15,puzzleBitmap16,puzzleBitmap17,puzzleBitmap18,puzzleBitmap19,
-					puzzleBitmap20,puzzleBitmap21,puzzleBitmap22,puzzleBitmap23,puzzleBitmap24;
+//	private Bitmap puzzleCellBitmap;
+//	private Bitmap puzzleBitmap0,puzzleBitmap1,puzzleBitmap2,puzzleBitmap3,puzzleBitmap4,
+//					puzzleBitmap5,puzzleBitmap6,puzzleBitmap7,puzzleBitmap8,puzzleBitmap9,
+//					puzzleBitmap10,puzzleBitmap11,puzzleBitmap12,puzzleBitmap13,puzzleBitmap14,
+//					puzzleBitmap15,puzzleBitmap16,puzzleBitmap17,puzzleBitmap18,puzzleBitmap19,
+//					puzzleBitmap20,puzzleBitmap21,puzzleBitmap22,puzzleBitmap23,puzzleBitmap24;
 	private Bitmap[] puzzleBitmaps;
 	
 	private Canvas canvas;
@@ -112,35 +112,47 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
     
     private void promisePersonText()
     {
+    	//서버에서 약속한사람의 번호 가져오기
 		String group_phone_num= getIntent().getExtras().get("group_phone_num").toString();
 		String promisePersonData = server.getPromisePersonOnServer(group_phone_num);
 		String promise_person_name = "";
    		
+		
+		//주소록에서 가져오기
 		X_BravoGetAddress getAddress =new X_BravoGetAddress(this);
 		ArrayList<String> groupArray = getAddress.arrangeAddress();
 		String my_phone_num= getIntent().getExtras().get("my_phone_num").toString();
 		groupArray.add("내"+"#"+my_phone_num);
-		
-		//Toast.makeText(getApplicationContext(), promisePersonData+ , duration)
+
+		 
 		for(int i=0; i<groupArray.size(); i++)
         {
-    		String[] array = groupArray.get(i).split("#");
+			String[] array = groupArray.get(i).split("#");
 
-    		String phone_num = array[array.length-1];
-    		
+    		String phone_num = array[array.length-1].trim();
+
     		if(phone_num.equals(promisePersonData))
     		{
+    			
     			promise_person_name = array[array.length-2]; // 폰번호에 해당하는 이름
-    			//String phoneNum = array[array.length-1];
+    			Toast.makeText(getApplicationContext(), promise_person_name, Toast.LENGTH_SHORT).show();
+    			pormiseText.setText(promise_person_name);
+    			return;
+
+    		}else if(promisePersonData.equals("nobody"))
+    		{
+    			promise_person_name ="nobody";
+    			pormiseText.setText(promise_person_name);
+    			return;
+    			
     		}else
     		{
     			promise_person_name = "["+promisePersonData+"]의 분";
+    			pormiseText.setText(promise_person_name);
+    			
     		}
+    		
         }
-	
-		if(promisePersonData.equals("nobody")) pormiseText.setText("아무도 선물 안사줌 ㅠ");
-		else pormiseText.setText(promise_person_name+"가(이) 선물을 사주기로 약속했습니다.");
-		
     }
     
     private void visibleSetting()
@@ -216,7 +228,7 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 		
 		giftBitmap= imageDownloader.download(imgurl, null);
 		giftBitmap = Bitmap.createScaledBitmap(giftBitmap, giftWidth, giftHeight, false);
-        puzzleCellBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.nemo), puzzleWidth, puzzleHeight, false);
+        //puzzleCellBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.nemo), puzzleWidth, puzzleHeight, false);
         puzzleDecodeResource();
         background = Bitmap.createBitmap(giftWidth, giftHeight, Config.ARGB_8888);
         canvas = new Canvas(background);

@@ -24,7 +24,7 @@ public class X_BravoGetAddress
 	        String[] phone_array =phonelist.split("q");
 	        groupArray =new ArrayList<String>();
 	        groupArray.addAll(Arrays.asList(phone_array));
-	        //String str ="";
+
 	        
 	        for(int i=0; i<groupArray.size(); i++)
 	        {
@@ -51,6 +51,21 @@ public class X_BravoGetAddress
 	        		groupArray.remove(i);
 	        	}
 	        }
+	        
+	        //String str ="";
+//	        for(int i=0; i<groupArray.size(); i++)
+//	        {
+//	        	str += ""+ i + groupArray.get(i)+"\n\n";
+//	        }
+	        
+	        
+//	      AlertDialog.Builder alertDlg = new AlertDialog.Builder(this);
+//			alertDlg.setTitle("폰리스트");
+//			alertDlg.setMessage(str);
+//			alertDlg.setNegativeButton("확인", new DialogInterface.OnClickListener() {
+//				public void onClick(DialogInterface dialog, int which) {dialog.dismiss();}
+//			});
+//			alertDlg.show();
 		
 		return groupArray;
 	}

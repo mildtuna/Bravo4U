@@ -59,16 +59,17 @@
 
             <Button
                 android:id="@+id/sendBtn"
-                android:layout_width="100dp"
+                android:layout_width="150px"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/send_bravo_button" />
 
             <Button
                 android:id="@+id/promiseBtn"
-                android:layout_width="100dp"
+                android:layout_width="150px"
                 android:layout_height="wrap_content"
                 android:background="@drawable/promise_gift_button"
+                android:textColor="#00000000"
                 android:text="이선물 내가 사준다!" />
         </LinearLayout>
         
