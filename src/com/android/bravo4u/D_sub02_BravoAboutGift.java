@@ -123,8 +123,7 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
     		
     		if(phone_num.equals(promisePersonData))
     		{
-    			//서버에있는 폰번호와 현재폰 주소록에있는 번호와 일치한것만 linkedList에 넣는다.
-    			promise_person_name = array[array.length-2];
+    			promise_person_name = array[array.length-2]; // 폰번호에 해당하는 이름
     			//String phoneNum = array[array.length-1];
     		}else
     		{
@@ -139,15 +138,15 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
     
     private void visibleSetting()
     {
-		String name= getIntent().getExtras().get("name").toString();
-		if(name.equals("나"))
-		{
-			sendbtn.setVisibility(sendbtn.GONE);
-			promiseBtn.setVisibility(promiseBtn.GONE);
-		}else
-		{
-			//pormiseText.setVisibility(pormiseText.GONE);
-		}
+//		String name= getIntent().getExtras().get("name").toString();
+//		if(name.equals("나"))
+//		{
+//			sendbtn.setVisibility(sendbtn.GONE);
+//			promiseBtn.setVisibility(promiseBtn.GONE);
+//		}else
+//		{
+//			//pormiseText.setVisibility(pormiseText.GONE);
+//		}
     }
     
     private void initPuzzleCellPoints() 
