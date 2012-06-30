@@ -21,6 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:textStyle="bold"
             android:text="칭찬스티커"
             android:textColor="#000000"
             android:textSize="17sp" />
@@ -28,59 +29,67 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="300dp"
-        android:background="@drawable/default_bg"
-        android:gravity="center_vertical"
-        android:orientation="vertical" >
-
-        <ImageView
-            android:id="@+id/img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="30dp"
-            android:layout_marginTop="30dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/login_join_underbar"
-        android:gravity="center_vertical"
         android:orientation="vertical" >
-
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:gravity="center_vertical|center_horizontal"
-            android:orientation="horizontal" >
+            android:layout_height="fill_parent"
+            android:layout_weight="2"
+            android:background="@drawable/default_bg"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/sendBtn"
-                android:layout_width="150px"
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/send_bravo_button" />
-
-            <Button
-                android:id="@+id/promiseBtn"
-                android:layout_width="150px"
-                android:layout_height="wrap_content"
-                android:background="@drawable/promise_gift_button"
-                android:textColor="#00000000"
-                android:text="이선물 내가 사준다!" />
+                android:layout_gravity="center"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="30dp" />
         </LinearLayout>
-        
-        
-        <TextView
-            android:id="@+id/pormiseText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="#000000"
-            android:text="아직 선물을  사주겠다는 사람이 없습니다." />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="5"
+            android:background="@drawable/login_join_underbar"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/sendBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/send_bravo_button" />
+
+                <Button
+                    android:id="@+id/promiseBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:background="@drawable/promise_gift_button"
+                    android:text="이선물 내가 사준다!"
+                    android:textColor="#00000000" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/pormiseText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:text="아직 선물을  사주겠다는 사람이 없습니다."
+                android:textColor="#000000" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

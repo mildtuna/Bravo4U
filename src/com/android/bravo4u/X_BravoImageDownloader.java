@@ -186,7 +186,7 @@ public class X_BravoImageDownloader
    public Bitmap downloadBitmap(String url) 
     {
         //final int IO_BUFFER_SIZE = 4 * 1024;
-	    final int TARGET_SIZE      = 1280;
+	    final int IMAGE_MAX_SIZE = 1280;
         url = url.trim();
 
  
@@ -225,9 +225,15 @@ public class X_BravoImageDownloader
                 	BitmapFactory.Options options = new BitmapFactory.Options();
                 	options.inJustDecodeBounds = true;
                 	
-                	BitmapFactory.decodeStream(inputStream,null,options);
+                	BitmapFactory.decodeStream(new FlushedInputStream(inputStream),null,options);
+                   
+                	if(options.outHeight * options.outWidth >= IMAGE_MAX_SIZE * IMAGE_MAX_SIZE)
+                    {
+                    	options.inSampleSize = (int)Math.pow(2, (int)Math.round(Math.log(IMAGE_MAX_SIZE /(double) Math.max(options.outHeight, options.outWidth)) / Math.log(0.5)));
+
+                    }
                 	
-                	options.inSampleSize =4; // 요요요 요부분!!  이미지 줄여주는 부분이다 2의 배수로 해주면 좋다. 
+                	//options.inSampleSize =2; // 요요요 요부분!!  이미지 줄여주는 부분이다 2의 배수로 해주면 좋다. 
                 							//	숫자가 클수록  큰이미지가  더 작게 줄어든다.
                 	
                 	options.inJustDecodeBounds = false;

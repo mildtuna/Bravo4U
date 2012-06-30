@@ -1,11 +1,9 @@
 package com.android.bravo4u;
 
-import java.lang.reflect.Member;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,7 +15,6 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -135,8 +132,10 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
     		{
     			
     			promise_person_name = array[array.length-2]; // 폰번호에 해당하는 이름
-    			Toast.makeText(getApplicationContext(), promise_person_name, Toast.LENGTH_SHORT).show();
-    			pormiseText.setText(promise_person_name+"님께서 선물을 약속하셨습니다.");
+    			//Toast.makeText(getApplicationContext(), promise_person_name, Toast.LENGTH_SHORT).show();
+    			
+    			if(promise_person_name.equals("내"))pormiseText.setText(promise_person_name+"가 선물을  사주기로 했습니다.");
+    			else pormiseText.setText(promise_person_name+"님께서 선물을 약속하셨습니다.");
     			return;
 
     		}else if(promisePersonData.equals("nobody"))
@@ -147,7 +146,7 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
     			
     		}else
     		{
-    			promise_person_name = "["+promisePersonData+"]의 번호를 가지신 분이 선물을 약속하셨습니다.";
+    			promise_person_name = "["+promisePersonData+"]의 번호를 지니신 분이 선물을 약속하셨습니다.";
     			pormiseText.setText(promise_person_name);
     			
     		}
@@ -162,9 +161,6 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 //		{
 //			sendbtn.setVisibility(sendbtn.GONE);
 //			promiseBtn.setVisibility(promiseBtn.GONE);
-//		}else
-//		{
-//			//pormiseText.setVisibility(pormiseText.GONE);
 //		}
     }
     
@@ -173,30 +169,30 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
     	//TODO 별로 좋아 보이지는 않네 - 선물 사진의 크기가 변경되면 어떻게 해야되나?
 		puzzleCellPoints = new ArrayList<Point>();
     	puzzleCellPoints.add(new Point(0, 0));
-    	puzzleCellPoints.add(new Point(puzzleWidth, 0));
-    	puzzleCellPoints.add(new Point(puzzleWidth*2, 0));
-    	puzzleCellPoints.add(new Point(puzzleWidth*3, 0));
-    	puzzleCellPoints.add(new Point(puzzleWidth*4, 0));
+    	puzzleCellPoints.add(new Point(puzzleWidth-4, 0));
+    	puzzleCellPoints.add(new Point(puzzleWidth*2-6, 0));
+    	puzzleCellPoints.add(new Point(puzzleWidth*3-8, 0));
+    	puzzleCellPoints.add(new Point(puzzleWidth*4-12, 0));
     	
-    	puzzleCellPoints.add(new Point(0, puzzleHeight));
-    	puzzleCellPoints.add(new Point(puzzleWidth, puzzleHeight));
-    	puzzleCellPoints.add(new Point(puzzleWidth*2, puzzleHeight));
-    	puzzleCellPoints.add(new Point(puzzleWidth*3, puzzleHeight));
-    	puzzleCellPoints.add(new Point(puzzleWidth*4, puzzleHeight));
+    	puzzleCellPoints.add(new Point(0, puzzleHeight-6));
+    	puzzleCellPoints.add(new Point(puzzleWidth-4, puzzleHeight));
+    	puzzleCellPoints.add(new Point(puzzleWidth*2-6, puzzleHeight));
+    	puzzleCellPoints.add(new Point(puzzleWidth*3-8, puzzleHeight));
+    	puzzleCellPoints.add(new Point(puzzleWidth*4-12, puzzleHeight));
     	
-    	puzzleCellPoints.add(new Point(0, puzzleHeight*2));
+    	puzzleCellPoints.add(new Point(0, puzzleHeight*2-10));
     	puzzleCellPoints.add(new Point(puzzleWidth, puzzleHeight*2));
     	puzzleCellPoints.add(new Point(puzzleWidth*2, puzzleHeight*2));
     	puzzleCellPoints.add(new Point(puzzleWidth*3, puzzleHeight*2));
     	puzzleCellPoints.add(new Point(puzzleWidth*4, puzzleHeight*2));
     	
-    	puzzleCellPoints.add(new Point(0, puzzleHeight*3));
+    	puzzleCellPoints.add(new Point(0, puzzleHeight*3-14));
     	puzzleCellPoints.add(new Point(puzzleWidth, puzzleHeight*3));
     	puzzleCellPoints.add(new Point(puzzleWidth*2, puzzleHeight*3));
     	puzzleCellPoints.add(new Point(puzzleWidth*3, puzzleHeight*3));
     	puzzleCellPoints.add(new Point(puzzleWidth*4, puzzleHeight*3));
     	
-    	puzzleCellPoints.add(new Point(0, puzzleHeight*4));
+    	puzzleCellPoints.add(new Point(0, puzzleHeight*4-16));
     	puzzleCellPoints.add(new Point(puzzleWidth, puzzleHeight*4));
     	puzzleCellPoints.add(new Point(puzzleWidth*2, puzzleHeight*4));
     	puzzleCellPoints.add(new Point(puzzleWidth*3, puzzleHeight*4));
@@ -221,7 +217,7 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 		
 		if(imgurl.contains(",")) imgurl = imgurl.replace(",", "");
 		
-		Toast.makeText(getApplicationContext(), imgurl, Toast.LENGTH_SHORT).show();
+		//Toast.makeText(getApplicationContext(), imgurl, Toast.LENGTH_SHORT).show();
 		
 
 		X_BravoImageDownloader imageDownloader = new X_BravoImageDownloader();
@@ -240,13 +236,70 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 	{
 		puzzleBitmaps = new Bitmap[25];
 		
-		for(int i=0; i< puzzleBitmaps.length; i++)
-		{
-			int resID = getResources().getIdentifier("puzzle_"+i, "drawable", "com.android.bravo4u");
-			puzzleBitmaps[i] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), resID),
-					 puzzleWidth+20, puzzleHeight+20, false);
-		}
+//		for(int i=0; i< puzzleBitmaps.length; i++)
+//		{
+//			int resID = getResources().getIdentifier("puzzle_"+i, "drawable", "com.android.bravo4u");
+//			puzzleBitmaps[i] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), resID),
+//					 puzzleWidth+20, puzzleHeight+20, false);
+//		}
 
+		puzzleBitmaps[0] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_0),
+				 puzzleWidth+16, puzzleHeight+15, false);
+		puzzleBitmaps[1] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_1),
+				 puzzleWidth+16, puzzleHeight+20, false);
+		puzzleBitmaps[2] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_2),
+				 puzzleWidth+16, puzzleHeight+15, false);
+		puzzleBitmaps[3] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_3),
+				 puzzleWidth+16, puzzleHeight+20, false);
+		puzzleBitmaps[4] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_4),
+				 puzzleWidth+16, puzzleHeight+15, false);
+		
+		puzzleBitmaps[5] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_5),
+				 puzzleWidth+10, puzzleHeight+15, false);
+		puzzleBitmaps[6] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_6),
+				 puzzleWidth+16, puzzleHeight+20, false);
+		puzzleBitmaps[7] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_7),
+				 puzzleWidth+16, puzzleHeight+20, false);
+		puzzleBitmaps[8] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_8),
+				 puzzleWidth+16, puzzleHeight+20, false);
+		puzzleBitmaps[9] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_9),
+				 puzzleWidth+16, puzzleHeight+20, false);
+		
+		puzzleBitmaps[10] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_10),
+				 puzzleWidth+20, puzzleHeight+15, false);
+		puzzleBitmaps[11] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_11),
+				 puzzleWidth+20, puzzleHeight+20, false);
+		puzzleBitmaps[12] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_12),
+				 puzzleWidth+20, puzzleHeight+20, false);
+		puzzleBitmaps[13] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_13),
+				 puzzleWidth+20, puzzleHeight+20, false);
+		puzzleBitmaps[14] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_14),
+				 puzzleWidth+20, puzzleHeight+20, false);
+		
+		puzzleBitmaps[15] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_15),
+				 puzzleWidth+20, puzzleHeight+15, false);
+		puzzleBitmaps[16] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_16),
+				 puzzleWidth+20, puzzleHeight+20, false);
+		puzzleBitmaps[17] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_17),
+				 puzzleWidth+20, puzzleHeight+20, false);
+		puzzleBitmaps[18] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_18),
+				 puzzleWidth+20, puzzleHeight+20, false);
+		puzzleBitmaps[19] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_19),
+				 puzzleWidth+20, puzzleHeight+20, false);
+		
+		puzzleBitmaps[20] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_20),
+				 puzzleWidth+20, puzzleHeight+15, false);
+		puzzleBitmaps[21] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_21),
+				 puzzleWidth+20, puzzleHeight+20, false);
+		puzzleBitmaps[22] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_22),
+				 puzzleWidth+20, puzzleHeight+20, false);
+		puzzleBitmaps[23] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_23),
+				 puzzleWidth+20, puzzleHeight+20, false);
+		puzzleBitmaps[24] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_24),
+				 puzzleWidth+20, puzzleHeight+20, false);
+		
+		
+		
 	 
 	}
 	
@@ -255,18 +308,14 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 		//TODO 변수들을 Field 로 만들어 버려서 사용은 쉽지만, 고칠 부분도 있을거 같음.
         canvas.drawBitmap(giftBitmap, 0, 0, null);
         
-//        for (int i = 0; i < ComplimentCount; i++) 
-//        {	
-//        	Point point = (Point)puzzleCellPoints.get(puzzleCellPoints.size()-i-1);
-//        	canvas.drawBitmap(puzzleCellBitmap, point.x, point.y, null);
-//        }
-        for (int i = 0; i < ComplimentCount; i++) 
+
+        for (int i = 24 ; i >= 25-ComplimentCount; i--) 
         {	
-//        	Point point = (Point)puzzleCellPoints.get(puzzleCellPoints.size()-i-1);
         	Point point = (Point)puzzleCellPoints.get(i);
         	canvas.drawBitmap(puzzleBitmaps[i], point.x, point.y, null);
         }
         
+
         ImageView img = (ImageView)findViewById(R.id.img);
         img.setImageBitmap(background);
 	}
@@ -289,7 +338,7 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
         	else if(CountState==0)
         	{	
         		
-        		Toast.makeText(D_sub02_BravoAboutGift.this, name+ "님은 칭찬목표를 달성했습니다!", Toast.LENGTH_LONG).show();
+        		completeBravo();
         	}
     		break;
     		
@@ -396,6 +445,24 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 		alertDlg.show();
     }
     
+    public void completeBravo()
+    {
+    	String name= getIntent().getExtras().get("name").toString();
+    	
+    	AlertDialog.Builder alertDlg = new AlertDialog.Builder(this);
+		alertDlg.setTitle(name+"님께서 칭찬목표를 달성하셨습니다.");
+		alertDlg.setMessage(name+"님께서 아직 새로운 목표선물을 지정하지 않으셨습니다.\n" +
+							"목표선물이 지정된 뒤 칭찬을 해주세요.");
+		alertDlg.setNegativeButton("확인", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) 
+			{
+				dialog.dismiss();
+			}
+		});
+		alertDlg.show();
+    }
+    
+    
 
 	
 	private class SendingPuzzle extends AsyncTask<Void, Void, Boolean> {
@@ -429,10 +496,10 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 			if (result) {
 				updateComplimentPuzzle(CountState);
 	        	if(CountState==0) {
-	        		setNewImage(); // 새로운 이미지를 지정해준다.
+	        		completeBravo(); 
 	        	}
 			} else {
-				Toast.makeText(context, "에러났습니다", Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, "네트워크가 원할하지 않아 칭찬을 보내는데 실패했습니다. ", Toast.LENGTH_SHORT).show();
 			}
 		}
 	}

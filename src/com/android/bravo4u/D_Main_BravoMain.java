@@ -41,7 +41,8 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 	
 	final int ADD_BUTTON_CLICK =0;
 	final int LIST_ITEM_CLICK=1;
-	int codestate=2;
+	final int SETGOAL_BUTTON_CLICK =2;
+	int codestate=3;
 	
 	int listItemPosition;
 	
@@ -85,7 +86,7 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
         {
         	dbhandler.insert("나",phone_num);
         	
-        }else 	Toast.makeText(this, "회원님은 이미 db에추가 되있습니다.", Toast.LENGTH_LONG).show();
+        }//else Toast.makeText(this, "회원님은 이미 db에추가 되있습니다.", Toast.LENGTH_LONG).show();
  
 
         dbhandler.close();
@@ -195,7 +196,7 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 				
 				if (isMobieConn || isWifiConn) 
 				{
-					showDialog(1);
+					//showDialog(1);
 			    	X_BravoDBHandler dbhandler = X_BravoDBHandler.open(this);
 	
 					Intent get_intent =getIntent();
@@ -203,12 +204,10 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 			        int cursorCount = dbhandler.select(phone_num);
 			        if(cursorCount!= 0)
 			        {
-						Intent get_intent01 =getIntent();
-				    	String phone_numstr = get_intent01.getExtras().get("phone_num").toString();
-				    	
-						Intent intent =new Intent(D_Main_BravoMain.this,D_sub03_BravoSelectPhoto.class);
-						intent.putExtra("phone_num", phone_numstr);
-						startActivity(intent);
+						codestate = SETGOAL_BUTTON_CLICK;
+						MainAsyncTask loading = new MainAsyncTask(this);
+						loading.execute();
+						
 			        }else
 			        {
 			        	Toast.makeText(this, "회원이 아니셔서 선물을 선택할 수 없습니다.", Toast.LENGTH_LONG).show();
@@ -302,6 +301,24 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 	    		intent.putExtra("name", name);
 	    		intent.putExtra("my_phone_num", my_phone_num);
 	    		startActivity(intent);
+				
+				return true;
+			}catch(Exception e)
+			{
+				return false;
+			}
+		}
+		
+		if(codestate == SETGOAL_BUTTON_CLICK)
+		{
+			try
+			{
+				Intent get_intent01 =getIntent();
+		    	String phone_numstr = get_intent01.getExtras().get("phone_num").toString();
+		    	
+				Intent intent =new Intent(D_Main_BravoMain.this,D_sub03_BravoSelectPhoto.class);
+				intent.putExtra("phone_num", phone_numstr);
+				startActivity(intent);
 				
 				return true;
 			}catch(Exception e)

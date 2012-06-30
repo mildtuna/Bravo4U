@@ -95,7 +95,7 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 		
 		if(imgurl.contains(",")) imgurl = imgurl.replace(",", "");
 		
-		Toast.makeText(getApplicationContext(), imgurl, Toast.LENGTH_SHORT).show();
+		//Toast.makeText(getApplicationContext(), imgurl, Toast.LENGTH_SHORT).show();
 		
 		X_BravoImageDownloader imageDownloader = new X_BravoImageDownloader();
 		
@@ -265,7 +265,7 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 			X_BravoWebserver server = new X_BravoWebserver(this);
 			String result = server.ImgUpdateOnServer(phone_num,img_url);
 			
-	    	Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+//	    	Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
 			dos.close();
 			complete_Flag = true;
 			
@@ -321,10 +321,10 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 		protected void onPostExecute(Boolean result) {
 			progressDialog.dismiss();
 			if (result) {
-				Toast.makeText(context, "이미지 올라갔습니다.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, "이미지 잘 올라갔습니다.", Toast.LENGTH_SHORT).show();
 	        	
 			} else {
-				Toast.makeText(context, "이미지는 잘 올라갔지만 다른곳에서 에러났습니다", Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, "이미지가 업로드 됐습니다.", Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
