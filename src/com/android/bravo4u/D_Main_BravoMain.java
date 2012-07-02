@@ -3,9 +3,11 @@ package com.android.bravo4u;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -224,31 +226,23 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 
 				if (isMobieConn || isWifiConn) 
 				{
-				
-			    	X_BravoDBHandler dbhandler02 = X_BravoDBHandler.open(this);
-	
-					Intent get_intent02 =getIntent();
-			    	String phone_num02 = get_intent02.getExtras().get("phone_num").toString();
-			        int cursorCount02 = dbhandler02.select(phone_num02);
-			        if(cursorCount02!= 0)
-			        {
-			        	dbhandler02.deleteAll();
-						SharedPreferences pref = getSharedPreferences("LogIn",0);
-			        	SharedPreferences.Editor edit = pref.edit();
-			        	edit.putInt("LoginState", 0);
-			        	edit.commit();
-	
-			        	Toast.makeText(this, "회원님의 데이터가 db에서 삭제 되었습니다.", Toast.LENGTH_LONG).show();
-			        	
-			        }else 	Toast.makeText(this, "회원님은 db에없는 회원이십니다.", Toast.LENGTH_LONG).show();
-			        dbhandler02.close();
-			        
-			        //phone_num02 = phone_num02.substring(1);
-			        
-			        X_BravoWebserver server = new X_BravoWebserver(this);
-			        String str =server.deleteDataonServer(phone_num02);
-			        
-			        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+					
+			    	AlertDialog.Builder alertDlg = new AlertDialog.Builder(this);
+					alertDlg.setTitle("Bravo4U 회원 탈퇴");
+					alertDlg.setMessage("회원탈퇴를 하시겠습니까?");
+					alertDlg.setPositiveButton("네",new DialogInterface.OnClickListener() {
+
+						public void onClick(DialogInterface dialog, int which) 
+						{
+							memberCancellation();
+						}
+					});
+					alertDlg.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {//dialog.dismiss();
+						}
+					});
+					alertDlg.show();
+
 		        
 				}else
 				{
@@ -275,6 +269,37 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 				break;
 		}
 	}
+	
+	
+	public void memberCancellation()
+	{
+    	X_BravoDBHandler dbhandler02 = X_BravoDBHandler.open(this);
+    	
+		Intent get_intent02 =getIntent();
+    	String phone_num02 = get_intent02.getExtras().get("phone_num").toString();
+        int cursorCount02 = dbhandler02.select(phone_num02);
+        if(cursorCount02!= 0)
+        {
+        	dbhandler02.deleteAll();
+			SharedPreferences pref = getSharedPreferences("LogIn",0);
+        	SharedPreferences.Editor edit = pref.edit();
+        	edit.putInt("LoginState", 0);
+        	edit.commit();
+
+        	Toast.makeText(this, "회원탈퇴되셨습니다. 그동안 이용해주셔서 감사합니다.", Toast.LENGTH_LONG).show();
+        	
+        }else 	Toast.makeText(this, "회원님은 db에없는 회원이십니다.", Toast.LENGTH_LONG).show();
+        dbhandler02.close();
+        
+        //phone_num02 = phone_num02.substring(1);
+        
+        X_BravoWebserver server = new X_BravoWebserver(this);
+        String str =server.deleteDataonServer(phone_num02);
+        
+        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+	}
+	
+	
 	
 	public Boolean startActivitys()
 	{

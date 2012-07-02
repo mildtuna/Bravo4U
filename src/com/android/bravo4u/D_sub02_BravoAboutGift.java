@@ -13,6 +13,8 @@ import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Display;
@@ -31,12 +33,7 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 	private X_BravoWebserver server;
 	private ArrayList<Point> puzzleCellPoints;
 	private Bitmap giftBitmap;
-//	private Bitmap puzzleCellBitmap;
-//	private Bitmap puzzleBitmap0,puzzleBitmap1,puzzleBitmap2,puzzleBitmap3,puzzleBitmap4,
-//					puzzleBitmap5,puzzleBitmap6,puzzleBitmap7,puzzleBitmap8,puzzleBitmap9,
-//					puzzleBitmap10,puzzleBitmap11,puzzleBitmap12,puzzleBitmap13,puzzleBitmap14,
-//					puzzleBitmap15,puzzleBitmap16,puzzleBitmap17,puzzleBitmap18,puzzleBitmap19,
-//					puzzleBitmap20,puzzleBitmap21,puzzleBitmap22,puzzleBitmap23,puzzleBitmap24;
+
 	private Bitmap[] puzzleBitmaps;
 	
 	private Canvas canvas;
@@ -51,8 +48,12 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 	
 	private int CountState =0;
 	
-
+	ConnectivityManager connectManger;
+	NetworkInfo networkinfo;
+	boolean isMobieConn;
+	boolean isWifiConn;
 	
+
     public void onCreate(Bundle savedInstanceState)
 	{
 		setTheme(android.R.style.Theme_NoTitleBar);
@@ -104,7 +105,7 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 		String name= intent.getExtras().get("name").toString();
 		whoseGiftText=(TextView)findViewById(R.id.whoseGiftText);
 		if(name.equals("나")) whoseGiftText.setText(name+"의 칭찬퍼즐상태");
-		else whoseGiftText.setText(name+"님의 칭찬퍼즐상태");
+		else whoseGiftText.setText(name+"의 칭찬퍼즐상태");
     }
     
     private void promisePersonText()
@@ -135,7 +136,7 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
     			//Toast.makeText(getApplicationContext(), promise_person_name, Toast.LENGTH_SHORT).show();
     			
     			if(promise_person_name.equals("내"))pormiseText.setText(promise_person_name+"가 선물을  사주기로 했습니다.");
-    			else pormiseText.setText(promise_person_name+"님께서 선물을 약속하셨습니다.");
+    			else pormiseText.setText(promise_person_name+"께서 선물을 약속하셨습니다.");
     			return;
 
     		}else if(promisePersonData.equals("nobody"))
@@ -156,12 +157,12 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
     
     private void visibleSetting()
     {
-//		String name= getIntent().getExtras().get("name").toString();
-//		if(name.equals("나"))
-//		{
-//			sendbtn.setVisibility(sendbtn.GONE);
-//			promiseBtn.setVisibility(promiseBtn.GONE);
-//		}
+		String name= getIntent().getExtras().get("name").toString();
+		if(name.equals("나"))
+		{
+			sendbtn.setVisibility(sendbtn.GONE);
+			promiseBtn.setVisibility(promiseBtn.GONE);
+		}
     }
     
     private void initPuzzleCellPoints() 
@@ -254,7 +255,7 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 		puzzleBitmaps[18] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_18),
 				 puzzleWidth+23, puzzleHeight+11, false);
 		puzzleBitmaps[19] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_19),
-				 puzzleWidth+11, puzzleHeight+25, false);
+				 puzzleWidth+12, puzzleHeight+25, false);
 		
 		puzzleBitmaps[20] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_20),
 				 puzzleWidth+19, puzzleHeight+8, false);
@@ -273,23 +274,42 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 		// TODO 선물 사진의 크기가 제각기 일텐데 별로 좋은 해결책이 아닌거 같음
 		// TODO 300*300 으로 줄이면 정사각형이 아닌 사진은 많이 틀어져서 보임
 		
-		//-------------------- 목표사진 다운로드 ----------------------------------
+		networkState();
 		
-		Intent getintent = getIntent();
-		String phone_num = getintent.getExtras().get("group_phone_num").toString();
-
-		X_BravoWebserver server = new X_BravoWebserver(this);
-		String imgurl = server.getUrlOnServer(phone_num);
-		imgurl = imgurl.replace(" ", "%20");
+		if (isMobieConn || isWifiConn) 
+		{
+			//-------------------- 목표사진 다운로드 ----------------------------------
+			
+			Intent getintent = getIntent();
+			String phone_num = getintent.getExtras().get("group_phone_num").toString();
+	
+			X_BravoWebserver server = new X_BravoWebserver(this);
+			String imgurl = server.getUrlOnServer(phone_num);
+			imgurl = imgurl.replace(" ", "%20");
+			
+			if(imgurl.contains(",")) imgurl = imgurl.replace(",", "");
+			
+			//Toast.makeText(getApplicationContext(), imgurl, Toast.LENGTH_SHORT).show();
+			
+	
+			X_BravoImageDownloader imageDownloader = new X_BravoImageDownloader();
+			
+			Bitmap bitmap =imageDownloader.download(imgurl, null);
+			
+			if(bitmap!= null)
+			{
+				giftBitmap= bitmap;
+			}else if(bitmap ==null)
+			{
+				giftBitmap= BitmapFactory.decodeResource(getResources(), R.drawable.downloaderror);
+				Toast.makeText(getApplicationContext(), "네트워크상태가 원활하지 않아 이미지 다운로드를 실패했습니다.", Toast.LENGTH_SHORT).show();
+			}
+		}else
+		{
+			giftBitmap= BitmapFactory.decodeResource(getResources(), R.drawable.downloaderror);
+			Toast.makeText(getApplicationContext(), "네트워크상태가 원활하지 않아 이미지 다운로드를 실패했습니다.", Toast.LENGTH_SHORT).show();
+		}
 		
-		if(imgurl.contains(",")) imgurl = imgurl.replace(",", "");
-		
-		//Toast.makeText(getApplicationContext(), imgurl, Toast.LENGTH_SHORT).show();
-		
-
-		X_BravoImageDownloader imageDownloader = new X_BravoImageDownloader();
-		
-		giftBitmap= imageDownloader.download(imgurl, null);
 		giftBitmap = Bitmap.createScaledBitmap(giftBitmap, giftWidth, giftHeight, false);
         //puzzleCellBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.nemo), puzzleWidth, puzzleHeight, false);
         puzzleDecodeResource();
@@ -345,7 +365,7 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
     		String group_phone_num= getIntent().getExtras().get("group_phone_num").toString();
     		
     		server.promisePersonUpdateOnServer(group_phone_num, my_phone_num);
-    		Toast.makeText(getApplicationContext(),name +"님의 선물을 사주시기로 약속하셨습니다.", Toast.LENGTH_LONG).show();
+    		Toast.makeText(getApplicationContext(),name +"에게 선물을 사주기로 약속하셨습니다.", Toast.LENGTH_LONG).show();
     		break;
     	}
 
@@ -448,8 +468,8 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
     	String name= getIntent().getExtras().get("name").toString();
     	
     	AlertDialog.Builder alertDlg = new AlertDialog.Builder(this);
-		alertDlg.setTitle(name+"님께서 칭찬목표를 달성하셨습니다.");
-		alertDlg.setMessage(name+"님께서 아직 새로운 목표선물을 지정하지 않으셨습니다.\n" +
+		alertDlg.setTitle(name+"~ 칭찬달성!");
+		alertDlg.setMessage(name+"께서 아직 새로운 목표선물을 지정하지 않으셨습니다.\n" +
 							"목표선물이 지정된 뒤 칭찬을 해주세요.");
 		alertDlg.setNegativeButton("확인", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) 
@@ -459,6 +479,15 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 		});
 		alertDlg.show();
     }
+    
+	public void networkState()
+	{
+		connectManger = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		networkinfo = connectManger.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		isMobieConn = networkinfo.isConnected();
+		networkinfo = connectManger.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		isWifiConn = networkinfo.isConnected();
+	}
     
     
 
@@ -497,7 +526,7 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 	        		completeBravo(); 
 	        	}
 			} else {
-				Toast.makeText(context, "네트워크가 원할하지 않아 칭찬을 보내는데 실패했습니다. ", Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, "네트워크가 원활하지 않아 칭찬을 보내는데 실패했습니다. ", Toast.LENGTH_SHORT).show();
 			}
 		}
 	}

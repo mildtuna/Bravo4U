@@ -45,7 +45,7 @@ public class X_BravoDBHandler
         values.put("name", name); 
         values.put("phone_num", phone_num);
         
-        Toast.makeText(mContext, name+phone_num, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(mContext, name+phone_num, Toast.LENGTH_SHORT).show();
         return db.insert("bravo_table", null, values);
     } 
     

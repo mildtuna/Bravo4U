@@ -67,8 +67,9 @@ public class D_sub01_BravoAddressbook extends Activity implements AdapterView.On
         if(cursorCount== 0)
         {
         	cnt = dbhandler.insert(name,phone_num);
+        	Toast.makeText(this, name + "를 칭찬목록에 추가했습니다.", Toast.LENGTH_LONG).show();
         	
-        }else 	Toast.makeText(this, name + "님은 이미 추가 되있습니다.", Toast.LENGTH_LONG).show();
+        }else 	Toast.makeText(this, name + "는 이미 목록에 추가 되있습니다.", Toast.LENGTH_LONG).show();
          
         if (cnt == -1) Toast.makeText(this, name + "님이 db에 추가되지 않았습니다.", Toast.LENGTH_LONG).show();
 

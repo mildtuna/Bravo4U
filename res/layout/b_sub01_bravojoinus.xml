@@ -4,132 +4,150 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <View
+    <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/login_join_titlebar" />
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content" >
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="7"
-            android:background="@drawable/join_titlebelt"
             android:orientation="vertical" >
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="4"
-            android:background="@drawable/login_join_bg"
-            android:gravity="center_vertical"
-            android:orientation="vertical" >
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/login_join_titlebar" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_width="fill_parent"
+                android:layout_height="455dp"
                 android:orientation="vertical" >
 
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="11dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_weight="3"
-                        android:background="@drawable/name_txt" />
-
-                    <EditText
-                        android:id="@+id/name_EditText"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/custom_edit_text"
-                        android:hint=" 영문자로 입력"
-                        android:maxLength="10"
-                        android:singleLine="true" />
+                    android:layout_height="fill_parent"
+                    android:layout_weight="7"
+                    android:background="@drawable/join_titlebelt"
+                    android:orientation="vertical" >
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal" >
+                    android:layout_height="fill_parent"
+                    android:layout_weight="4"
+                    android:background="@drawable/login_join_bg"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical" >
 
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="25dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_weight="3"
-                        android:background="@drawable/phonenum_txt" />
-
-                    <EditText
-                        android:id="@+id/phone_num_EditText"
-                        android:layout_width="fill_parent"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/custom_edit_text"
-                        android:hint=" -없이  적어주세요."
-                        android:maxLength="12"
-                        android:singleLine="true" />
+                        android:layout_gravity="center"
+                        android:orientation="vertical" >
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" >
+
+                            <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="11dp"
+                                android:layout_marginLeft="20dp"
+                                android:layout_weight="3"
+                                android:background="@drawable/name_txt" />
+
+                            <EditText
+                                android:id="@+id/name_EditText"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/custom_edit_text"
+                                android:hint=" 영문자로 입력"
+                                android:maxLength="10"
+                                android:singleLine="true" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal" >
+
+                            <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="25dp"
+                                android:layout_marginLeft="20dp"
+                                android:layout_weight="3"
+                                android:background="@drawable/phonenum_txt" />
+
+                            <EditText
+                                android:id="@+id/phone_num_EditText"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/custom_edit_text"
+                                android:hint=" -없이  입력"
+                                android:maxLength="12"
+                                android:singleLine="true" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal" >
+
+                            <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_weight="3"
+                                android:background="@drawable/password_txt" />
+
+                            <EditText
+                                android:id="@+id/password_EditText"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/custom_edit_text"
+                                android:hint=" 영문자 및 숫자로 입력  "
+                                android:maxLength="20"
+                                android:singleLine="true" />
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal" >
+                    android:layout_height="fill_parent"
+                    android:layout_weight="7"
+                    android:background="@drawable/login_join_underbar"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical" >
 
-                    <TextView
-                        android:layout_width="fill_parent"
+                    <Button
+                        android:id="@+id/joinUsBtn"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_weight="3"
-                        android:background="@drawable/password_txt" />
-
-                    <EditText
-                        android:id="@+id/password_EditText"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/custom_edit_text"
-                        android:hint=" 영문자 및 숫자로  "
-                        android:maxLength="20"
-                        android:singleLine="true" />
+                        android:layout_gravity="center"
+                        android:background="@drawable/ok_button" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+    </ScrollView>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="7"
-            android:background="@drawable/login_join_underbar"
-            android:gravity="center_vertical"
-            android:orientation="vertical" >
-
-            <Button
-                android:id="@+id/joinUsBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/ok_button" />
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="bottom"
+        android:background="@drawable/underbar" >
     </LinearLayout>
 
 </LinearLayout>

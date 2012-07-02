@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.net.Uri;
@@ -98,8 +99,17 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 		//Toast.makeText(getApplicationContext(), imgurl, Toast.LENGTH_SHORT).show();
 		
 		X_BravoImageDownloader imageDownloader = new X_BravoImageDownloader();
+		Bitmap bitmap =imageDownloader.download(imgurl, null);
 		
-		giftBitmap =imageDownloader.download(imgurl, giftImg);
+		if(bitmap!= null)
+		{
+			giftBitmap= bitmap;
+		}else if(bitmap ==null)
+		{
+			giftBitmap= BitmapFactory.decodeResource(getResources(), R.drawable.downloaderror);
+			Toast.makeText(getApplicationContext(), "네트워크상태가 원활하지 않아 이미지 다운로드를 실패했습니다.", Toast.LENGTH_SHORT).show();
+		}
+		
 		giftBitmap = Bitmap.createScaledBitmap(giftBitmap, giftWidth, giftHeight, false);
         background = Bitmap.createBitmap(giftWidth, giftHeight, Config.ARGB_8888);
         canvas = new Canvas(background);

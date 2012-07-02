@@ -23,7 +23,7 @@
 			android:padding="20dp"
             android:background="#20ffffff"
             android:textColor="#ffffff"
-            android:text="		[버전정보]
+            android:text="		[ Version ]
             			  \n
             			  \n	Bravo4U version 0.6	" />
 
@@ -35,7 +35,7 @@
 			android:padding="20dp"
             android:textColor="#ffffff"
             android:layout_marginTop="20dp"
-            android:text="		[개발자정보]
+            android:text="		[ Programmer ]
             			  \n
             			  \n	Park Jae Seong
             			  \n	hotpjs1@gmail.com
@@ -46,7 +46,7 @@
             			  \n	Seo yu Jin
             			  \n	mildtuna222@gmail.com
             			  \n
-            			  \n	[디자이너정보]
+            			  \n	[ Designer ]
             			  \n
             			  \n	Yang Seon A
             			  \n	acena0512@gmail.com
