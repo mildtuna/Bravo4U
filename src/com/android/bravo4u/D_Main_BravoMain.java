@@ -269,6 +269,10 @@ public class D_Main_BravoMain extends Activity implements View.OnClickListener, 
 	        	
 	        	finish();
 				break;
+			case R.id.secondTabInfoBtn:
+				Intent intent01 = new Intent(D_Main_BravoMain.this,D_sub04_BravoInfo.class);
+	        	startActivity(intent01);
+				break;
 		}
 	}
 	

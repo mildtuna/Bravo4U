@@ -117,42 +117,42 @@
 
                     <FrameLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="470dp" >
+                        android:layout_height="380dp" >
 
                         <Button
                             android:id="@+id/secondTabSelectPhotoBtn"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
+                            android:layout_width="110dp"
+                            android:layout_height="110dp"
                             android:background="@drawable/second_tab_setgoal_button"
                             android:text="목표사진선택"
                             android:textColor="#00000000" />
 
                         <Button
                             android:id="@+id/secondTabInfoBtn"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
+                            android:layout_width="110dp"
+                            android:layout_height="110dp"
                             android:layout_gravity="top"
-                            android:layout_marginTop="100dp"
+                            android:layout_marginTop="90dp"
                             android:background="@drawable/second_tab_info_button"
                             android:text="정보"
                             android:textColor="#00000000" />
 
                         <Button
                             android:id="@+id/secondTabLogoutBtn"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
+                            android:layout_width="110dp"
+                            android:layout_height="110dp"
                             android:layout_gravity="top"
-                            android:layout_marginTop="200dp"
+                            android:layout_marginTop="180dp"
                             android:background="@drawable/second_tab_logout_button"
                             android:text="로그아웃"
                             android:textColor="#00000000" />
 
                         <Button
                             android:id="@+id/secondTabMemberCancellationBtn"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
+                            android:layout_width="110dp"
+                            android:layout_height="110dp"
                             android:layout_gravity="top"
-                            android:layout_marginTop="310dp"
+                            android:layout_marginTop="275dp"
                             android:background="@drawable/second_tab_membercancellation_button"
                             android:text="회원탈퇴"
                             android:textColor="#00000000" />

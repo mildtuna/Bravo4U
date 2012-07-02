@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/login_join_titlebar" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/default_bg"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+			android:padding="20dp"
+            android:background="#20ffffff"
+            android:textColor="#ffffff"
+            android:text="		[버전정보]
+            			  \n
+            			  \n	Bravo4U version 0.6	" />
+
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:background="#20ffffff"
+            android:layout_gravity="center"
+			android:padding="20dp"
+            android:textColor="#ffffff"
+            android:layout_marginTop="20dp"
+            android:text="		[개발자정보]
+            			  \n
+            			  \n	Park Jae Seong
+            			  \n	hotpjs1@gmail.com
+            			  \n	
+            			  \n	Choi Hak Gon
+            			  \n	websarang@gmail.com
+            			  \n
+            			  \n	Seo yu Jin
+            			  \n	mildtuna222@gmail.com
+            			  \n
+            			  \n	[디자이너정보]
+            			  \n
+            			  \n	Yang Seon A
+            			  \n	acena0512@gmail.com
+            			  
+            			  
+            			  " />
+    </LinearLayout>
+
+</LinearLayout>
