@@ -170,37 +170,104 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
 		puzzleCellPoints = new ArrayList<Point>();
     	puzzleCellPoints.add(new Point(0, 0));
     	puzzleCellPoints.add(new Point(puzzleWidth-4, 0));
-    	puzzleCellPoints.add(new Point(puzzleWidth*2-6, 0));
+    	puzzleCellPoints.add(new Point(puzzleWidth*2-8, 0));
     	puzzleCellPoints.add(new Point(puzzleWidth*3-8, 0));
     	puzzleCellPoints.add(new Point(puzzleWidth*4-12, 0));
     	
-    	puzzleCellPoints.add(new Point(0, puzzleHeight-6));
-    	puzzleCellPoints.add(new Point(puzzleWidth-4, puzzleHeight));
-    	puzzleCellPoints.add(new Point(puzzleWidth*2-6, puzzleHeight));
-    	puzzleCellPoints.add(new Point(puzzleWidth*3-8, puzzleHeight));
-    	puzzleCellPoints.add(new Point(puzzleWidth*4-12, puzzleHeight));
+    	puzzleCellPoints.add(new Point(0, puzzleHeight-8));
+    	puzzleCellPoints.add(new Point(puzzleWidth-11, puzzleHeight-1));
+    	puzzleCellPoints.add(new Point(puzzleWidth*2, puzzleHeight-8));
+    	puzzleCellPoints.add(new Point(puzzleWidth*3-14, puzzleHeight-2));
+    	puzzleCellPoints.add(new Point(puzzleWidth*4-6, puzzleHeight-8));
     	
-    	puzzleCellPoints.add(new Point(0, puzzleHeight*2-10));
-    	puzzleCellPoints.add(new Point(puzzleWidth, puzzleHeight*2));
-    	puzzleCellPoints.add(new Point(puzzleWidth*2, puzzleHeight*2));
-    	puzzleCellPoints.add(new Point(puzzleWidth*3, puzzleHeight*2));
-    	puzzleCellPoints.add(new Point(puzzleWidth*4, puzzleHeight*2));
+    	puzzleCellPoints.add(new Point(0, puzzleHeight*2-4));
+    	puzzleCellPoints.add(new Point(puzzleWidth-1, puzzleHeight*2-10));
+    	puzzleCellPoints.add(new Point(puzzleWidth*2-8, puzzleHeight*2-5));
+    	puzzleCellPoints.add(new Point(puzzleWidth*3-7, puzzleHeight*2-10));
+    	puzzleCellPoints.add(new Point(puzzleWidth*4-16, puzzleHeight*2-6));
     	
-    	puzzleCellPoints.add(new Point(0, puzzleHeight*3-14));
-    	puzzleCellPoints.add(new Point(puzzleWidth, puzzleHeight*3));
-    	puzzleCellPoints.add(new Point(puzzleWidth*2, puzzleHeight*3));
-    	puzzleCellPoints.add(new Point(puzzleWidth*3, puzzleHeight*3));
-    	puzzleCellPoints.add(new Point(puzzleWidth*4, puzzleHeight*3));
+    	puzzleCellPoints.add(new Point(0, puzzleHeight*3-12));
+    	puzzleCellPoints.add(new Point(puzzleWidth-9, puzzleHeight*3-5));
+    	puzzleCellPoints.add(new Point(puzzleWidth*2-2, puzzleHeight*3-10));
+    	puzzleCellPoints.add(new Point(puzzleWidth*3-12, puzzleHeight*3-6));
+    	puzzleCellPoints.add(new Point(puzzleWidth*4-8, puzzleHeight*3-13));
     	
-    	puzzleCellPoints.add(new Point(0, puzzleHeight*4-16));
-    	puzzleCellPoints.add(new Point(puzzleWidth, puzzleHeight*4));
-    	puzzleCellPoints.add(new Point(puzzleWidth*2, puzzleHeight*4));
-    	puzzleCellPoints.add(new Point(puzzleWidth*3, puzzleHeight*4));
-    	puzzleCellPoints.add(new Point(puzzleWidth*4, puzzleHeight*4));
+    	puzzleCellPoints.add(new Point(0, puzzleHeight*4-8));
+    	puzzleCellPoints.add(new Point(puzzleWidth, puzzleHeight*4-15));
+    	puzzleCellPoints.add(new Point(puzzleWidth*2-9, puzzleHeight*4-7));
+    	puzzleCellPoints.add(new Point(puzzleWidth*3-6, puzzleHeight*4-15));
+    	puzzleCellPoints.add(new Point(puzzleWidth*4-16, puzzleHeight*4-9));
     	
     	
 	}
     
+	public void puzzleDecodeResource()
+	{
+		puzzleBitmaps = new Bitmap[25];
+		
+//		for(int i=0; i< puzzleBitmaps.length; i++)
+//		{
+//			int resID = getResources().getIdentifier("puzzle_"+i, "drawable", "com.android.bravo4u");
+//			puzzleBitmaps[i] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), resID),
+//					 puzzleWidth+20, puzzleHeight+20, false);
+//		}
+
+		puzzleBitmaps[0] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_0),
+				 puzzleWidth+16, puzzleHeight+15, false);
+		puzzleBitmaps[1] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_1),
+				 puzzleWidth+16, puzzleHeight+22, false);
+		puzzleBitmaps[2] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_2),
+				 puzzleWidth+18, puzzleHeight+15, false);
+		puzzleBitmaps[3] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_3),
+				 puzzleWidth+16, puzzleHeight+22, false);
+		puzzleBitmaps[4] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_4),
+				 puzzleWidth+16, puzzleHeight+15, false);
+		
+		puzzleBitmaps[5] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_5),
+				 puzzleWidth+8, puzzleHeight+25, false);
+		puzzleBitmaps[6] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_6),
+				 puzzleWidth+27, puzzleHeight+12, false);
+		puzzleBitmaps[7] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_7),
+				 puzzleWidth+4, puzzleHeight+24, false);
+		puzzleBitmaps[8] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_8),
+				 puzzleWidth+27, puzzleHeight+12, false);
+		puzzleBitmaps[9] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_9),
+				 puzzleWidth+10, puzzleHeight+24, false);
+		
+		puzzleBitmaps[10] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_10),
+				 puzzleWidth+18, puzzleHeight+15, false);
+		puzzleBitmaps[11] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_11),
+				 puzzleWidth+11, puzzleHeight+25, false);
+		puzzleBitmaps[12] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_12),
+				 puzzleWidth+19, puzzleHeight+15, false);
+		puzzleBitmaps[13] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_13),
+				 puzzleWidth+13, puzzleHeight+26, false);
+		puzzleBitmaps[14] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_14),
+				 puzzleWidth+20, puzzleHeight+15, false);
+		
+		puzzleBitmaps[15] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_15),
+				 puzzleWidth+11, puzzleHeight+25, false);
+		puzzleBitmaps[16] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_16),
+				 puzzleWidth+24, puzzleHeight+11, false);
+		puzzleBitmaps[17] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_17),
+				 puzzleWidth+8, puzzleHeight+24, false);
+		puzzleBitmaps[18] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_18),
+				 puzzleWidth+23, puzzleHeight+11, false);
+		puzzleBitmaps[19] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_19),
+				 puzzleWidth+11, puzzleHeight+25, false);
+		
+		puzzleBitmaps[20] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_20),
+				 puzzleWidth+19, puzzleHeight+8, false);
+		puzzleBitmaps[21] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_21),
+				 puzzleWidth+10, puzzleHeight+15, false);
+		puzzleBitmaps[22] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_22),
+				 puzzleWidth+21, puzzleHeight+7, false);
+		puzzleBitmaps[23] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_23),
+				 puzzleWidth+10, puzzleHeight+15, false);
+		puzzleBitmaps[24] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_24),
+				 puzzleWidth+20, puzzleHeight+9, false);
+		
+	}
 	private void initBitmaps() 
 	{
 		// TODO 선물 사진의 크기가 제각기 일텐데 별로 좋은 해결책이 아닌거 같음
@@ -232,76 +299,7 @@ public class D_sub02_BravoAboutGift extends Activity implements View.OnClickList
           
 	}
 	
-	public void puzzleDecodeResource()
-	{
-		puzzleBitmaps = new Bitmap[25];
-		
-//		for(int i=0; i< puzzleBitmaps.length; i++)
-//		{
-//			int resID = getResources().getIdentifier("puzzle_"+i, "drawable", "com.android.bravo4u");
-//			puzzleBitmaps[i] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), resID),
-//					 puzzleWidth+20, puzzleHeight+20, false);
-//		}
 
-		puzzleBitmaps[0] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_0),
-				 puzzleWidth+16, puzzleHeight+15, false);
-		puzzleBitmaps[1] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_1),
-				 puzzleWidth+16, puzzleHeight+20, false);
-		puzzleBitmaps[2] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_2),
-				 puzzleWidth+16, puzzleHeight+15, false);
-		puzzleBitmaps[3] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_3),
-				 puzzleWidth+16, puzzleHeight+20, false);
-		puzzleBitmaps[4] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_4),
-				 puzzleWidth+16, puzzleHeight+15, false);
-		
-		puzzleBitmaps[5] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_5),
-				 puzzleWidth+10, puzzleHeight+15, false);
-		puzzleBitmaps[6] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_6),
-				 puzzleWidth+16, puzzleHeight+20, false);
-		puzzleBitmaps[7] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_7),
-				 puzzleWidth+16, puzzleHeight+20, false);
-		puzzleBitmaps[8] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_8),
-				 puzzleWidth+16, puzzleHeight+20, false);
-		puzzleBitmaps[9] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_9),
-				 puzzleWidth+16, puzzleHeight+20, false);
-		
-		puzzleBitmaps[10] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_10),
-				 puzzleWidth+20, puzzleHeight+15, false);
-		puzzleBitmaps[11] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_11),
-				 puzzleWidth+20, puzzleHeight+20, false);
-		puzzleBitmaps[12] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_12),
-				 puzzleWidth+20, puzzleHeight+20, false);
-		puzzleBitmaps[13] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_13),
-				 puzzleWidth+20, puzzleHeight+20, false);
-		puzzleBitmaps[14] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_14),
-				 puzzleWidth+20, puzzleHeight+20, false);
-		
-		puzzleBitmaps[15] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_15),
-				 puzzleWidth+20, puzzleHeight+15, false);
-		puzzleBitmaps[16] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_16),
-				 puzzleWidth+20, puzzleHeight+20, false);
-		puzzleBitmaps[17] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_17),
-				 puzzleWidth+20, puzzleHeight+20, false);
-		puzzleBitmaps[18] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_18),
-				 puzzleWidth+20, puzzleHeight+20, false);
-		puzzleBitmaps[19] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_19),
-				 puzzleWidth+20, puzzleHeight+20, false);
-		
-		puzzleBitmaps[20] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_20),
-				 puzzleWidth+20, puzzleHeight+15, false);
-		puzzleBitmaps[21] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_21),
-				 puzzleWidth+20, puzzleHeight+20, false);
-		puzzleBitmaps[22] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_22),
-				 puzzleWidth+20, puzzleHeight+20, false);
-		puzzleBitmaps[23] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_23),
-				 puzzleWidth+20, puzzleHeight+20, false);
-		puzzleBitmaps[24] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.puzzle_24),
-				 puzzleWidth+20, puzzleHeight+20, false);
-		
-		
-		
-	 
-	}
 	
 	private void updateComplimentPuzzle(int ComplimentCount)
 	{

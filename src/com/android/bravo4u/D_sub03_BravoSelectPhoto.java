@@ -254,7 +254,7 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 				b.append( (char)ch );
 			}
 			String s=b.toString().trim(); 
-			String img_url = "http://210.115.58.140" +s;
+			String img_url = "http://14.63.225.38" +s;
 
 			//Log.e("Test", "result = " + img_url);
 			
@@ -305,7 +305,7 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 			Uri selPhotoUri = getdataIntent.getData();
 		
 			//업로드할 서버의 url 주소
-		    String urlString = "http://210.115.58.140/test7.php";
+		    String urlString = "http://14.63.225.38/test7.php";
 		    //절대경로를 획득한다!!! 중요~
 		    Cursor c = getContentResolver().query(Uri.parse(selPhotoUri.toString()), null,null,null,null);
 		    c.moveToNext();
@@ -321,7 +321,7 @@ public class D_sub03_BravoSelectPhoto extends Activity implements View.OnClickLi
 		protected void onPostExecute(Boolean result) {
 			progressDialog.dismiss();
 			if (result) {
-				Toast.makeText(context, "이미지 잘 올라갔습니다.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, "이미지 업로드가 완료됐습니다 .", Toast.LENGTH_SHORT).show();
 	        	
 			} else {
 				Toast.makeText(context, "이미지가 업로드 됐습니다.", Toast.LENGTH_SHORT).show();
