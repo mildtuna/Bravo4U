@@ -25,7 +25,7 @@
             android:textColor="#ffffff"
             android:text="		[ Version ]
             			  \n
-            			  \n	Bravo4U version 0.6	" />
+            			  \n	Bravo4U version 1.0.0 Beta	" />
 
         <TextView
             android:layout_width="250dp"
